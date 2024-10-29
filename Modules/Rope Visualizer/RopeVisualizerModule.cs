@@ -20,8 +20,8 @@ public class RopeVisualizerModule : ModuleBase
     [Tooltip("Значение насколько меторов можно растянуть веревку, после порвется")]
     [SerializeField] private float _maxTension = 5f; // Максимальное напряжение веревки
 
-    [Tooltip("Сила, с которой веревка отлетает после того как оторвется")]
-    [SerializeField] private float _detachForce = 1f; // Сила, с которой веревка отрывается
+    // [Tooltip("Сила, с которой веревка отлетает после того как оторвется")]
+    // [SerializeField] private float _detachForce = 1f; // Сила, с которой веревка отрывается
 
     [Tooltip("Префаб объекта, который будет появляться при разрыве на концах оторваных веревок")]
     [SerializeField] private GameObject _splitObjectPrefab; // Префаб объекта, который будет появляться при разрыве

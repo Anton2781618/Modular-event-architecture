@@ -3,4 +3,5 @@
     <ui:VisualElement name="Panel" class="Selector" style="flex-grow: 1;">
         <ui:Label tabindex="-1" text="Модуль" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Name" />
     </ui:VisualElement>
+    <ui:VisualElement name="ButtonsContainer" class="Selector" style="flex-grow: 1;" />
 </ui:UXML>

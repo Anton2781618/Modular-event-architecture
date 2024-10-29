@@ -7,7 +7,7 @@ using System;
 public class HpPart : MonoBehaviour
 {
     public BodyPart BodyPart;
-    [SerializeField] private BodyPartsSettings bodyPartsSettings;
+    [SerializeField] private BodyPartsModule BodyPartsModule;
     [Space(10)]
     
     public int Half = 0; //номер части тела
@@ -73,7 +73,7 @@ public class HpPart : MonoBehaviour
     public void DestroyPart()
     {
 
-        bodyPartsSettings.DestroyPart(BodyPart, Half, transform);
+        BodyPartsModule.DestroyPart(BodyPart, Half, transform);
     }
 
     public void CreateBloodSplashes(Vector3 point)
@@ -103,7 +103,7 @@ public class HpPart : MonoBehaviour
         
         // Destroy(attachBloodInstance, 30);
     }
-
+    
     private Transform GetNearestObject(Transform hit, Vector3 hitPos)
     {
         var closestPos = 100f;

@@ -24,8 +24,7 @@ public class GameEntityEditor : Editor
         var targetUnit = target as GameEntity;
 
         // Получаем все типы модулей
-        var allModuleTypes = Assembly.GetAssembly(typeof(IModule)).GetTypes()
-            .Where(t => typeof(IModule).IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract);
+        var allModuleTypes = Assembly.GetAssembly(typeof(IModule)).GetTypes().Where(t => typeof(IModule).IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract);
 
         // Фильтруем модули с учетом обоих атрибутов
         availableModules = allModuleTypes.Where(moduleType =>

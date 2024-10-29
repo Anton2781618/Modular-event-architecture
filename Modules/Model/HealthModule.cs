@@ -6,8 +6,8 @@ using UnityEngine.AI;
 [IncompatibleUnit(typeof(LevelManager))]
 public sealed class HealthModule : ModuleBase, IStatus
 {
-    [Tools.Information("Этот модуль представляет из себя систему здоровья персонажа",Tools.InformationAttribute.InformationType.Info,false)]
 
+    [Tools.Information("Этот модуль представляет из себя систему здоровья персонажа",Tools.InformationAttribute.InformationType.Info,false)]
     [Tooltip("Максимальное здоровье")]
     [SerializeField] private float _maxHealth = 100;
 

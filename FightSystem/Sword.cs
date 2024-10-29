@@ -6,7 +6,7 @@ using UnityEngine;
 public class Sword : Weapon
 {
 
-    [SerializeField] private bool сanСut = false; 
+    // [SerializeField] private bool сanСut = false; 
     [SerializeField] private int damage = 60; 
     [SerializeField] private LayerMask triggerMask;
     // [SerializeField] private PlaneBehaviour planeBehaviour;

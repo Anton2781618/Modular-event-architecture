@@ -2,10 +2,10 @@ VisualElement {
 }
 
 .Selector {
-    margin-top: 6px;
-    margin-right: 6px;
+    margin-top: 2px;
+    margin-right: 0;
     margin-bottom: 6px;
-    margin-left: 6px;
+    margin-left: 0;
     padding-top: 6px;
     padding-right: 6px;
     padding-bottom: 6px;
@@ -18,8 +18,18 @@ VisualElement {
     border-right-width: 0;
     border-bottom-width: 0;
     border-left-width: 0;
-    border-top-left-radius: 6px;
-    border-top-right-radius: 6px;
-    border-bottom-right-radius: 6px;
-    border-bottom-left-radius: 6px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+    -unity-font-style: normal;
+    -unity-background-scale-mode: stretch-to-fill;
+    -unity-slice-left: 0;
+    -unity-slice-top: 0;
+    -unity-slice-right: 0;
+    -unity-slice-bottom: 0;
+    border-left-color: rgb(0, 60, 91);
+    border-top-color: rgb(0, 60, 91);
+    border-right-color: rgb(0, 60, 91);
+    border-bottom-color: rgb(0, 60, 91);
 }
