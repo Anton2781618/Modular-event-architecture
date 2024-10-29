@@ -1,0 +1,33 @@
+# Unity generated
+*.meta
+*.pidb.meta
+*.pdb.meta
+*.mdb.meta
+
+# VS/Rider/MD/Consulo
+.vs/
+.idea/
+.consulo/
+*.csproj
+*.unityproj
+*.sln
+*.suo
+*.tmp
+*.user
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+
+# Builds
+*.apk
+*.aab
+*.unitypackage
+*.app
+
+# Crashlytics generated file
+crashlytics-build.properties

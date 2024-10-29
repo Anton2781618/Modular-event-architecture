@@ -1,0 +1,54 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55157bfd3d244a449896694125fb5b1f, type: 3}
+  m_Name: "\u042D\u0444\u0444\u0435\u043A\u0442"
+  m_EditorClassIdentifier: 
+  Effects:
+    icon: {fileID: 0}
+    description: 
+    Name: 0
+    Duration: 5
+    TickRate: 1
+    ElapsedTime: 75.99078
+    IsPermanent: 1
+    Magnitude: 0
+    OnApplyEvents:
+    - eventType: 22
+      eventData:
+        rid: 2746008918064627717
+    OnTickEvents:
+    - eventType: 5
+      eventData:
+        rid: 2746008886077292655
+    OnRemoveEvents:
+    - eventType: 22
+      eventData:
+        rid: 2746008886077292658
+    tickTimer: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: 2746008886077292655
+      type: {class: DamageEvent, ns: , asm: Assembly-CSharp}
+      data:
+        damage: 1
+        hitDirection: {x: 0, y: 0, z: 0}
+    - rid: 2746008886077292658
+      type: {class: BaseEvent, ns: , asm: Assembly-CSharp}
+      data:
+        sprite: {fileID: 0}
+        Enabled: 0
+    - rid: 2746008918064627717
+      type: {class: BaseEvent, ns: , asm: Assembly-CSharp}
+      data:
+        sprite: {fileID: 21300000, guid: 6fd0b649401ca5b419a5ebf5df170c0f, type: 3}
+        Enabled: 1
