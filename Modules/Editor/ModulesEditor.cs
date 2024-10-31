@@ -5,6 +5,7 @@ using UnityEngine.UIElements;
 using System.Linq;
 using Tools;
 using System.Drawing;
+using System.Reflection;
 
 [CustomEditor(typeof(ModuleBase), true)]
 public class ModulesEditor : Editor
@@ -20,17 +21,18 @@ public class ModulesEditor : Editor
 
         _buttonsContainer = root.Q<VisualElement>("ButtonsContainer");
 
-        // Add default inspector properties
+        // Добавить свойства инспектора по умолчанию
         InspectorElement.FillDefaultInspector(root, serializedObject, this);
 
-        // Add buttons for methods with ButtonAttribute
-        var methods = target.GetType().GetMethods().Where(m => m.GetParameters().Length == 0 && m.GetCustomAttributes(typeof(ButtonAttribute), true).Length > 0);
+        // Добавить кнопки для методов с атрибутом ButtonAttribute
+        var flags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
+        var methods = target.GetType().GetMethods(flags).Where(m => m.GetParameters().Length == 0 && m.GetCustomAttributes(typeof(ButtonAttribute), true).Length > 0);
 
         foreach (var method in methods)
         {
             var buttonAttribute = (ButtonAttribute)method.GetCustomAttributes(typeof(ButtonAttribute), true)[0];
 
-            // Create button
+            // создать кнопку
             var button = new Button(() =>
             {
                 foreach (var targetObject in targets)

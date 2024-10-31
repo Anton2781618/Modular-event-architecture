@@ -65,7 +65,7 @@ public abstract class EventBus
 
     public void Unsubscribe<T>(int eventId, Action<T> handler) where T : IEventData
     {
-        Debug.Log("Отписаться от события " + Enum.GetName(typeof(ActionsType), eventId));
+        // Debug.Log("Отписаться от события " + Enum.GetName(typeof(ActionsType), eventId));
         
         if (eventId < 0 || eventId >= events.Length) return;
 
@@ -88,7 +88,7 @@ public abstract class EventBus
 
     public void Publish<T>(int eventId, T data) where T : IEventData
     {
-        Debug.Log("Publish " + Enum.GetName(typeof(ActionsType), eventId));
+        // Debug.Log("Publish " + Enum.GetName(typeof(ActionsType), eventId));
         if (eventId < 0 || eventId >= events.Length) return;
 
         events[eventId]?.Invoke(data);

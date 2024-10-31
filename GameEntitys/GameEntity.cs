@@ -77,7 +77,7 @@ public abstract class MonoEventBus : MonoBehaviour
     protected abstract void Initialize();
     private void SubscribeToEvents()
     {
-        Debug.Log ( GetType().Name + " Подписался на глобальные события / Имя объекта" + transform.name );
+        // Debug.Log ( GetType().Name + " Подписался на глобальные события / Имя объекта" + transform.name );
         foreach (var item in Globalevents)
         {
             GlobalEventBus.Instance.Subscribe(item.id, item.action);

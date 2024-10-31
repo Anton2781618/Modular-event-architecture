@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class RopeController : GameEntity
 {
-    public RopeSpawnerModule RopeSpawnerModule { get; set; }
+    public RopeSpawnerModule RopeSpawnerModule ;
     [SerializeField] private Rope rope;
     [SerializeField] private RopeConnection firstConnection;
     [SerializeField] private RopeConnection lastConnection;
@@ -13,6 +13,7 @@ public class RopeController : GameEntity
     private float initialRopeLength;
     private Material ropeMaterial;
     [SerializeField] Color originalColor;
+    public HpPart part;
 
 
     protected override void Initialize()
@@ -64,11 +65,14 @@ public class RopeController : GameEntity
         rope.ResetToSpawnCurve();
 
         rope.material.color = originalColor;
+        
+        lastRigidbody.TryGetComponent(out part);
     }
 
     //просто подключить веревку
     public void Connect2(Rigidbody firstRigidbody, Rigidbody lastRigidbody, int destroyTime = 5)
     {
+        Debug.Log(firstRigidbody + " ! " + lastRigidbody);
         var start = firstRigidbody.transform.TransformPoint(Vector3.zero);
         var end = lastRigidbody.transform.TransformPoint(Vector3.zero);
 
@@ -81,6 +85,7 @@ public class RopeController : GameEntity
         
         lastConnection.rigidbodySettings.body = lastRigidbody;
         lastConnection.transformSettings.transform = lastRigidbody.transform;
+
     }
 
     public float CalculateRopeTension() => rope.GetCurrentLength();

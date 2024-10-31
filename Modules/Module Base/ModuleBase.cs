@@ -6,7 +6,7 @@ public abstract class ModuleBase : MonoEventBus, IModule
 
     protected override void Initialize()
     {
-        Debug.Log("ModuleBase Initialize " + transform.name);
+        // Debug.Log("ModuleBase Initialize " + transform.name);
         if (!Character) Character = GetComponent<GameEntity>();
 
         Character.AddModule(this);

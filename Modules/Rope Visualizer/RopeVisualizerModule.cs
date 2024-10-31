@@ -76,6 +76,21 @@ public class RopeVisualizerModule : ModuleBase
 
             AnimateGap();
         }
+
+        if(ropeController.part != null)
+        {
+            if (ropeController.part.CheckSeparation())
+            {
+                RopeSpawnerModule ropeSpawner = ropeController.RopeSpawnerModule;
+
+                ropeSpawner.Detach();
+                
+                _splitObject1 = Instantiate(ropeController.part.HeadPrefab, ropeController.part.transform.position, ropeController.part.transform.rotation);
+
+                ropeSpawner.Attach(ropeSpawner.FerstTarget, _splitObject1.GetComponent<Rigidbody>());
+
+            }
+        }
     }
 
     //метод производит разрыв веревки
