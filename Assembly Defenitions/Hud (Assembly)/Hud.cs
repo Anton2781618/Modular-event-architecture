@@ -17,9 +17,9 @@ public class Hud : MonoBehaviour
 
     public void SetStatus(string name) => _name.text = name;
 
-    public void UpdateStamina(StaminaChangedEvent data) => _staminaBar.fillAmount = data.CurrentStamina / data.MaxStamina;
+    public void UpdateStamina(float value) => _staminaBar.fillAmount = value;
 
-    public void UpdateHealth(HealthChangedEvent data) => _hpBar.fillAmount = data.CurrentHealth / data.MaxHealth;
+    public void UpdateHealth(float value) => _hpBar.fillAmount = value;
 
     public void SetColorHpBar(Color color) => _hpBar.color = color;
     public void ResetColorHpBar() => _hpBar.color = _originalColorHpBar;

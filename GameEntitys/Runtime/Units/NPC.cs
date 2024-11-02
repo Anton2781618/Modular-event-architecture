@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.AI;
 
 [RequireComponent(typeof(NavMeshAgent))] 
-public class NPC : Unit
+public class NPC : UnitEntity
 {
     public int ModulesCount { get => modules.Count; }
     

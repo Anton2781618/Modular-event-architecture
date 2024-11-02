@@ -1,7 +1,5 @@
-using System;
 using UnityEngine;
-using UnityEngine.PlayerLoop;
-public class Player : Unit
+public class Player : UnitEntity
 {
     public override void Use()
     {

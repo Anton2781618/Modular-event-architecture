@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CompatibleUnit(typeof(Unit))]
+[CompatibleUnit(typeof(UnitEntity))]
 public class RopeSpawnerModule : ModuleBase
 {
     [SerializeField] private RopeController ropePrefab;

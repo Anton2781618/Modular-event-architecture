@@ -79,9 +79,9 @@ public class UIHudModule : ModuleBase
         canvas.transform.rotation = Quaternion.LookRotation(canvas.transform.position - _camera.transform.position);
     }
 
-    private void UpdateStamina(StaminaChangedEvent data) => hud.UpdateStamina(data);
+    private void UpdateStamina(StaminaChangedEvent data) => hud.UpdateStamina(data.CurrentStamina / data.MaxStamina);
 
-    private void UpdateHealth(HealthChangedEvent data) => hud.UpdateHealth(data);
+    private void UpdateHealth(HealthChangedEvent data) => hud.UpdateHealth(data.CurrentHealth / data.MaxHealth);
 
     private void CreateHud()
     {

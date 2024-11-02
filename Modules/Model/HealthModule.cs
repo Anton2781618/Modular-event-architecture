@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.AI;
 
 
-[CompatibleUnit(typeof(Unit))]
+[CompatibleUnit(typeof(UnitEntity))]
 public sealed class HealthModule : ModuleBase, IStatus
 {
 

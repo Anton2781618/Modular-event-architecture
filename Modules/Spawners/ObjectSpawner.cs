@@ -3,8 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 
-[Serializable]
-public class ObjectSpawner 
+[CompatibleUnit(typeof(LevelManager))]
+public class ObjectSpawner : ModuleBase
 {
     [Serializable]
     public class SpawnableUnit
@@ -20,19 +20,29 @@ public class ObjectSpawner
     public Vector3 spawnAreaSize = new Vector3(10f, 0f, 10f);
 
     private float nextSpawnTime;
-    private ObjectPool objectPool;
+    public ObjectPool objectPool;
 
-    private void Start()
+    protected override void Initialize()
     {
+        base.Initialize();
+
         // objectPool = GetComponent<ObjectPool>();
 
         // if (objectPool == null)
         // {
         //     objectPool = gameObject.AddComponent<ObjectPool>();
         // }
-        
+
         nextSpawnTime = Time.time + spawnInterval;
+
+        Globalevents.Add((GlobalEventBus.События.Команды.Заспавнить_моба, (data) => SpawnUnit((SpawnEvent)data)));
     }
+
+    public override void UpdateMe()
+    {
+        
+    }
+
 
     //заспавнить юнитов
     private IEnumerator SpawnUnits(int count)
@@ -43,7 +53,10 @@ public class ObjectSpawner
             yield return new WaitForSeconds(spawnInterval);
         }
     }
+
+    private void SpawnUnit(SpawnEvent data) => SpawnUnit();
     
+    [Tools.Button("Заспавнить юнитов")]
     private void SpawnUnit()
     {
         SpawnableUnit unitToSpawn = ChooseUnitToSpawn();
@@ -80,7 +93,7 @@ public class ObjectSpawner
 
     private Vector3 CalculateSpawnPosition()
     {
-        // return transform.position + new Vector3( UnityEngine.Random.Range(-spawnAreaSize.x / 2, spawnAreaSize.x / 2), 0, UnityEngine.Random.Range(-spawnAreaSize.z / 2, spawnAreaSize.z / 2));
+        return transform.position + new Vector3( UnityEngine.Random.Range(-spawnAreaSize.x / 2, spawnAreaSize.x / 2), 0, UnityEngine.Random.Range(-spawnAreaSize.z / 2, spawnAreaSize.z / 2));
         return Vector3.zero;
     }
 

@@ -1,7 +1,7 @@
 using UnityEngine;
 using static BodyPartsSettings;
 
-[CompatibleUnit(typeof(Unit))]
+[CompatibleUnit(typeof(UnitEntity))]
 public class BodyPartsModule : ModuleBase
 {
     [Tools.Information("Этот модуль представляет из себя систему частей тела персонажа, он отвечает за создание и уничтожение частей тела", Tools.InformationAttribute.InformationType.Info, false)]

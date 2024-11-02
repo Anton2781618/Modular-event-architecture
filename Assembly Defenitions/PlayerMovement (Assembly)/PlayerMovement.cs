@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class PlayerMovementSystem
 {
-        // public RopeController ropeController; 
         private Transform _bodyTransform;
         private Transform _cameraTransform;
         private Animator _animator;
@@ -99,14 +98,6 @@ public class PlayerMovementSystem
     //обновление аниматора
     private void UpdateAnimator()
     {
-        // float ropeTension = ropeController ? ropeController.CalculateRopeTension() : 1f;
-        // float tensionFactor = Mathf.Clamp01(ropeTension / maxTension);
-        // float speedMultiplier = Mathf.Lerp(1f, minSpeedMultiplier, tensionFactor);
-
-        // if(ropeController) _animator.SetBool("HardWalk", ropeTension > trr);
-
-        // float adjustedForwardAmount = _forwardAmount * speedMultiplier;
-
         _animator.SetFloat("Forward", Sprint ? _forwardAmount * 2 : _forwardAmount, 0.1f, Time.deltaTime);
 
         _animator.SetFloat("Turn", _turnAmount, 0.1f, Time.deltaTime);

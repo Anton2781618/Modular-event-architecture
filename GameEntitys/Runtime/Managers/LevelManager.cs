@@ -5,16 +5,43 @@ using System;
 [DefaultExecutionOrder(-150)]
 public class LevelManager : ManagerEntity
 {
+    /* LevelManager в событийно-ориентированной архитектуре должен отвечать за:
+
+    1)Управление состоянием уровня:
+        Инициализация уровня
+        Управление игровым циклом (старт, пауза, завершение)
+        Отслеживание целей/условий уровня
+        Управление состоянием игрового мира
+    
+    2)Спавн и управление сущностями:
+        Создание начальных сущностей
+        Управление точками спавна
+        Отслеживание активных сущностей
+        Очистка/сброс уровня
+    
+    3)Игровые события уровня:
+        Триггеры событий уровня
+        Контрольные точки
+        Условия победы/поражения
+        Переходы между состояниями уровня
+        Взаимодействие с другими менеджерами:
+        Уведомление UIManager о событиях уровня
+        Координация с другими системами
+
+    LevelManager НЕ должен:
+        Управлять UI
+        Заниматься конкретной игровой логикой сущностей
+        Обрабатывать ввод игрока */
+        
     private Dictionary<GameObject, GameEntity> DictEntities = new Dictionary<GameObject, GameEntity>();
     private List<GameEntity> entities = new List<GameEntity>(); 
-    [SerializeField] private ObjectSpawner objectSpawner;
     [SerializeField] private GameObject text;
     
     protected override void Initialize()
     {
         Globalevents.Add((GlobalEventBus.События.Юнит_создан, (data) => AddEntity((CreateUnitEvent)data)));
 
-        Globalevents.Add((GlobalEventBus.Команды.Показать_текст_в_точке, (data) => ShowText((ShowTextEvent)data)));
+        Globalevents.Add((GlobalEventBus.События.Команды.Показать_текст_в_точке, (data) => ShowText((ShowTextEvent)data)));
 
         Globalevents.Add((GlobalEventBus.События.Юнит_погиб, (data) => RemoveEntity((DieEvent)data)));
     }
@@ -29,7 +56,7 @@ public class LevelManager : ManagerEntity
 
     private void AddEntity(CreateUnitEvent obj)
     {
-        Debug.Log("Сущность добавлена в Список " + obj.Unit.transform.name);
+        // Debug.Log("Сущность добавлена в Список " + obj.Unit.transform.name);
         GameEntity entity = obj.Unit;
 
         if (entity != null && !DictEntities.ContainsKey(entity.gameObject))

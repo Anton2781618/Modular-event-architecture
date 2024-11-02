@@ -44,11 +44,11 @@ public abstract class MonoEventBus : MonoBehaviour
     
     public void SetLocalEventBus(LocalEventBus localEventBus)
     {
-        // if (localEventBus == null)
-        // {
-        //     Debug.LogError($"Попытка установить null LocalEventBus в {gameObject.name}");
-        //     return;
-        // }
+        if (localEventBus == null)
+        {
+            Debug.LogError($"Попытка установить null LocalEventBus в {gameObject.name}");
+            return;
+        }
 
         _localEvents = localEventBus;
         

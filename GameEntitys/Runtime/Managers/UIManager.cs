@@ -3,21 +3,42 @@ using UnityEngine;
 using UnityEngine.UIElements.Experimental;
 
 [DefaultExecutionOrder(-149)]
-public class UIManager : GameEntity
+public class UIManager : ManagerEntity
 {
+    /* UIManager в событийно-ориентированной архитектуре должен отвечать за:
+
+    1)Управление состоянием UI:
+        Какие окна открыты/закрыты
+        Какое окно активно
+        Предотвращение конфликтов между окнами
+
+    2)Навигация по UI:
+        хранить ссылки на все UI окна
+        Открытие/закрытие основных окон
+        Управление стеком окон (например, для вложенных меню)
+        Возврат к предыдущему окну
+
+    3)Глобальные UI события:
+        Пауза игры при открытии важных окон
+        Блокировка ввода при открытых окнах
+        Уведомление других систем о состоянии UI
+
+    4)Инициализация UI:
+        Создание необходимых UI сущностей
+        Настройка начального состояния
+        Подписка на глобальные события
+
+    UIManager НЕ должен:
+        Управлять конкретной логикой UI элементов
+        Обновлять данные в UI */
 
     [SerializeField] private Canvas canvas;
-    [SerializeField] private PlayerUI PlayerHud;
 
     [Space(10)]
     [SerializeField] private QuestUI questUI;
     [SerializeField] private DialogueUI dialogueUI;
     // Добавьте здесь ссылки на другие UI компоненты
     
-    [Space(10)]
-    [SerializeField] private GameObject mainMenuPanel;
-    [SerializeField] private GameObject gameplayUI;
-    [SerializeField] private GameObject pauseMenuPanel;
 
     protected override void Initialize()
     {
@@ -28,9 +49,6 @@ public class UIManager : GameEntity
     {
         if (obj.Unit is Player) 
         {
-            PlayerHud.SetLocalEventBus(obj.Unit.LocalEvents);
-            
-            PlayerHud.SetTarget(obj.Unit.gameObject);
         }
 
         if (obj.Unit is not Player)
@@ -47,8 +65,6 @@ public class UIManager : GameEntity
         dialogueUI.Initialize();
         // Инициализация других UI компонентов
 
-        // Установка начального состояния UI
-        SetActivePanel(mainMenuPanel);
     }
 
     public bool AnySindowIsOpen()
@@ -59,20 +75,6 @@ public class UIManager : GameEntity
         return false;
     }
 
-    public void ShowMainMenu()
-    {
-        SetActivePanel(mainMenuPanel);
-    }
-
-    public void ShowGameplayUI()
-    {
-        SetActivePanel(gameplayUI);
-    }
-
-    public void TogglePauseMenu()
-    {
-        pauseMenuPanel.SetActive(!pauseMenuPanel.activeSelf);
-    }
 
     public void ShowQuestLog()
     {
@@ -90,22 +92,5 @@ public class UIManager : GameEntity
         dialogueUI.HideDialogue();
     }
 
-    private void SetActivePanel(GameObject panel)
-    {
-        // mainMenuPanel.SetActive(panel == mainMenuPanel);
-        // gameplayUI.SetActive(panel == gameplayUI);
-        // pauseMenuPanel.SetActive(panel == pauseMenuPanel);
-    }
-
-    // Методы для обновления различных элементов UI
-    public void UpdateHealthUI(int currentHealth, int maxHealth)
-    {
-        // Обновление отображения здоровья игрока
-    }
-
-    public void UpdateInventoryUI()
-    {
-        // Обновление отображения инвентаря
-    }
 
 }

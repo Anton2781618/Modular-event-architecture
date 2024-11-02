@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Animator))]
-public abstract class Unit : GameEntity
+public abstract class UnitEntity : GameEntity
 {
     public Inventory inventory;
     

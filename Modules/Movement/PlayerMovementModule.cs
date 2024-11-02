@@ -50,7 +50,6 @@ public sealed class PlayerMovementModule : ModuleBase
     public void RopeConnected(BaseEvent data) => _isRopeConnect = true;
     public void RopeDisconnected(BaseEvent data) => _isRopeConnect = false;
 
-
     public override void UpdateMe()
     {
         if (_isRopeConnect && playerMovementSystem.MoveVector.magnitude > 0 && _isRopeTired == true)
@@ -69,8 +68,6 @@ public sealed class PlayerMovementModule : ModuleBase
         {
             StopSprint();
         }
-
-        Debug.Log("PlayerMovementModule UpdateMe!!!!!!!!!!!!!!!!!!!!");
         
         playerMovementSystem.UpdateMe();
     }

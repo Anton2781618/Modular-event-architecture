@@ -23,12 +23,19 @@ public class GlobalEventBus : EventBus
         {
             public const int UI_Состояние_Изменилось = (int)ActionsType.IsUIOpen;
 
+            public static int Показать_Окно_Помощи = (int)ActionsType.ShowHelpWindow;
+
+        }
+
+        public static class Системные
+        {
+            public const int Перезапуск_Сцены = (int)ActionsType.System_RestartScene;
+        }
+        public static class Команды
+        {
+            public const int Показать_текст_в_точке = (int)ActionsType.ShowText_ToPoint;
+            public const int Заспавнить_моба = (int)ActionsType.SpawnMob;
         }
     }
-    public static class Команды
-    {
-        public const int Показать_текст_в_точке = (int)ActionsType.ShowText_ToPoint;
-        
-    }
-
+    
 }

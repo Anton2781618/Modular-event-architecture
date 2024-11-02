@@ -28,6 +28,7 @@ public abstract class GameEntity : MonoEventBus
     protected override void OnDisable()
     {
         base.OnDisable();
+        
         GlobalEventBus.Instance.Publish(GlobalEventBus.События.Юнит_погиб, new DieEvent { Unit = this });
     }
 

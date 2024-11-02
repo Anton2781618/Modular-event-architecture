@@ -16,11 +16,5 @@ public abstract class ModuleBase : MonoEventBus, IModule
         Character.AddModule(this);
     }
 
-    [ContextMenu("Проверить")]
-    private void CheckCgaracter()
-    {
-        Debug.Log(Character == null);
-    }
-
     public abstract void UpdateMe();
 }
