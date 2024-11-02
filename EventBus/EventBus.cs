@@ -6,7 +6,7 @@ public interface IEventData { }
 
 public abstract class EventBus
 {
-    private Action<IEventData>[] events;
+    private Action<IEventData>[] _events;
     private Dictionary<Delegate, Action<IEventData>> _handlerWrappers = new Dictionary<Delegate, Action<IEventData>>();
 
     public enum ActionsType
@@ -38,18 +38,22 @@ public abstract class EventBus
 
     protected EventBus()
     {
+        
         Initialize();
     }
 
     protected void Initialize()
     {
+        Debug.Log("!!!!!!!!!!!!!!!!Initialize!!!!!!!!!!!!!!");
         int count = Enum.GetValues(typeof(ActionsType)).Length;
-        events = new Action<IEventData>[count];
+
+        _events = new Action<IEventData>[count];
     }
 
     public void Subscribe<T>(int eventId, Action<T> handler) where T : IEventData
     {
-        if (eventId < 0 || eventId >= events.Length) return;
+        // Debug.Log("Создана подписка на событие " + Enum.GetName(typeof(ActionsType), eventId));
+        if (eventId < 0 || eventId >= _events.Length) return;
 
         // Создаем замыкание один раз и сохраняем его
         Action<IEventData> wrapper = (data) => handler((T)data);
@@ -60,47 +64,51 @@ public abstract class EventBus
             _handlerWrappers[handler] = wrapper;
         }
         
-        events[eventId] += wrapper;
+        _events[eventId] += wrapper;
+
+        Debug.Log("проверКА !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        ShowAllEvents();
     }
 
     public void Unsubscribe<T>(int eventId, Action<T> handler) where T : IEventData
     {
-        // Debug.Log("Отписаться от события " + Enum.GetName(typeof(ActionsType), eventId));
+        Debug.Log("Отписаться от события " + Enum.GetName(typeof(ActionsType), eventId));
         
-        if (eventId < 0 || eventId >= events.Length) return;
+        if (eventId < 0 || eventId >= _events.Length) return;
 
         // Получаем сохраненное замыкание
         if (_handlerWrappers.TryGetValue(handler, out var wrapper))
         {
-            events[eventId] -= wrapper;
+            _events[eventId] -= wrapper;
             _handlerWrappers.Remove(handler);
         }
     }
 
     public void UnsubscribeAll()
     {
-        for (int i = 0; i < events.Length; i++)
+        Debug.Log("Отписаться от всех");
+        for (int i = 0; i < _events.Length; i++)
         {
-            events[i] = null;
+            _events[i] = null;
         }
         _handlerWrappers.Clear();
     }
 
     public void Publish<T>(int eventId, T data) where T : IEventData
     {
-        // Debug.Log("Publish " + Enum.GetName(typeof(ActionsType), eventId));
-        if (eventId < 0 || eventId >= events.Length) return;
+        if (eventId < 0 || eventId >= _events.Length) return;
 
-        events[eventId]?.Invoke(data);
+        Debug.Log("Publish " + Enum.GetName(typeof(ActionsType), eventId));
+        _events[eventId]?.Invoke(data);
     }
 
     public void ShowAllEvents()
     {
-        for (int i = 0; i < events.Length; i++)
+        for (int i = 0; i < _events.Length; i++)
         {
-            if (events[i] != null)
+            if (_events[i] != null)
             {
-                Debug.Log($"Event {Enum.GetName(typeof(ActionsType), i)} has {events[i].GetInvocationList().Length} subscribers");
+                Debug.Log($"Event {Enum.GetName(typeof(ActionsType), i)} has {_events[i].GetInvocationList().Length} subscribers");
             }
         }
     }

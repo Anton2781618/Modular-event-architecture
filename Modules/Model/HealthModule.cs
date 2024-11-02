@@ -2,8 +2,8 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
-[CompatibleUnit(typeof(GameEntity))]
-[IncompatibleUnit(typeof(LevelManager))]
+
+[CompatibleUnit(typeof(Unit))]
 public sealed class HealthModule : ModuleBase, IStatus
 {
 

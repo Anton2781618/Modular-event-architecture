@@ -16,22 +16,23 @@ public class GameEntityEditor : Editor
     private Button _ADDModule;
     private VisualElement _modulesContainer;
     private bool _isMenuOpen = false;
+    private GameEntity _targetEntity;
 
     private List<Type> availableModules;
 
     private void OnEnable()
     {
-        var targetUnit = target as GameEntity;
+        _targetEntity = target as GameEntity;
 
         // Получаем все типы модулей
-        var allModuleTypes = Assembly.GetAssembly(typeof(IModule)).GetTypes().Where(t => typeof(IModule).IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract);
+        var allModuleTypes = Assembly.GetAssembly(typeof(ModuleBase)).GetTypes().Where(t => typeof(ModuleBase).IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract);
 
         // Фильтруем модули с учетом обоих атрибутов
         availableModules = allModuleTypes.Where(moduleType =>
         {
             // Проверяем исключения
             var incompatibleAttributes = moduleType.GetCustomAttributes<IncompatibleUnitAttribute>();
-            if (incompatibleAttributes.Any(attr => attr.UnitType.IsAssignableFrom(targetUnit.GetType())))
+            if (incompatibleAttributes.Any(attr => attr.UnitType.IsAssignableFrom(_targetEntity.GetType())))
             {
                 return false; // Модуль исключен для данного типа
             }
@@ -45,7 +46,7 @@ public class GameEntityEditor : Editor
                 return true;
             }
 
-            return compatibleAttributes.Any(attr => attr.UnitType.IsAssignableFrom(targetUnit.GetType()));
+            return compatibleAttributes.Any(attr => attr.UnitType.IsAssignableFrom(_targetEntity.GetType()));
         }).ToList();
     }
 
@@ -89,12 +90,11 @@ public class GameEntityEditor : Editor
 
     private void CreateModuleButtons()
     {
-        var gameEntity = target as GameEntity;
         _modulesContainer.Clear();
 
         foreach (var moduleType in availableModules)
         {
-            if (gameEntity.GetComponent(moduleType) != null) continue;
+            if (_targetEntity.GetComponent(moduleType) != null) continue;
             
             string moduleName = moduleType.Name;
             
@@ -106,10 +106,11 @@ public class GameEntityEditor : Editor
 
     private void AddModule(Type moduleType)
     {
-        var gameEntity = target as GameEntity;
+        var newModule = _targetEntity.gameObject.AddComponent(moduleType) as ModuleBase;
 
-        var newModule = gameEntity.gameObject.AddComponent(moduleType) as IModule;
-        gameEntity.AddModule(newModule);
+        newModule.SetCharacter(_targetEntity);
+
+        _targetEntity.AddModule(newModule);
 
         // После добавления модуля, закрываем меню
         ToggleModuleMenu();

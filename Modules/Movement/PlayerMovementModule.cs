@@ -9,11 +9,7 @@ public sealed class PlayerMovementModule : ModuleBase
     private PlayerMovementSystem playerMovementSystem;
     private bool _isTiredEffect = false;
     private bool _isRopeConnect = false;
-    public bool _isRopeTired = false;
-
-    public LocalEventBus _localEventBus {get;}
-
-    public List<Action> UnsubscribeGloblActions { get; } = new List<Action>();
+    private bool _isRopeTired = false;
 
     protected override void Initialize()
     {
@@ -31,7 +27,6 @@ public sealed class PlayerMovementModule : ModuleBase
         LocalEvents.Subscribe<BaseEvent>(LocalEventBus.События.Команды.Веревка.Веревка_натянулась, RopeTiredOn);
         LocalEvents.Subscribe<BaseEvent>(LocalEventBus.События.Команды.Веревка.Веревка_раслабилась, RopeTiredOff);
     }
-
     
     private void RopeTiredOn(BaseEvent empty)
     {
@@ -74,6 +69,8 @@ public sealed class PlayerMovementModule : ModuleBase
         {
             StopSprint();
         }
+
+        Debug.Log("PlayerMovementModule UpdateMe!!!!!!!!!!!!!!!!!!!!");
         
         playerMovementSystem.UpdateMe();
     }

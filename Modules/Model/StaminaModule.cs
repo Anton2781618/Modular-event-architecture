@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[IncompatibleUnit(typeof(LevelManager))]
+[CompatibleUnit(typeof(Unit))]
 public class StaminaModule : ModuleBase
 {
     [Tooltip("Максимальная выносливость")]
@@ -24,11 +24,9 @@ public class StaminaModule : ModuleBase
     protected override void Initialize()
     {
         base.Initialize();
-
         LocalEvents.Subscribe<BaseEvent>(LocalEventBus.События.Команды.Движение.Начать_спринт, StartSprint);
         LocalEvents.Subscribe<BaseEvent>(LocalEventBus.События.Команды.Движение.Закончить_спринт, StopSprint);
         LocalEvents.Subscribe<BaseEvent>(LocalEventBus.События.Состояния.Усталость, CheckEffect);
-        
     }
 
 

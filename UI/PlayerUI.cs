@@ -2,7 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerUI : MonoEventBus, IUI
+public class PlayerUI : MonoEventBus
 {
     protected override void Initialize()
     {
@@ -36,9 +36,4 @@ public class PlayerUI : MonoEventBus, IUI
     {
         HpBar.fillAmount = data.CurrentHealth / data.MaxHealth;        
     }
-}
-
-public interface IUI
-{
-    public void SetLocalEventBus(LocalEventBus localEventBus);
 }

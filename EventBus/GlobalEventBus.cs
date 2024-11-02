@@ -14,11 +14,6 @@ public class GlobalEventBus : EventBus
         }
     }  
 
-    public GlobalEventBus()
-    {
-        Initialize();
-    }
-
     public static class События
     {
         public const int Юнит_погиб = (int)ActionsType.Unit_Die;

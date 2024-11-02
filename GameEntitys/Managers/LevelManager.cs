@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System;
 
 [DefaultExecutionOrder(-150)]
-public class LevelManager : GameEntity
+public class LevelManager : ManagerEntity
 {
-
     private Dictionary<GameObject, GameEntity> DictEntities = new Dictionary<GameObject, GameEntity>();
     private List<GameEntity> entities = new List<GameEntity>(); 
     [SerializeField] private ObjectSpawner objectSpawner;
@@ -30,7 +29,7 @@ public class LevelManager : GameEntity
 
     private void AddEntity(CreateUnitEvent obj)
     {
-        // Debug.Log("AddEntity " + obj.Unit.transform.name);
+        Debug.Log("Сущность добавлена в Список " + obj.Unit.transform.name);
         GameEntity entity = obj.Unit;
 
         if (entity != null && !DictEntities.ContainsKey(entity.gameObject))
@@ -54,7 +53,7 @@ public class LevelManager : GameEntity
 
     public void RemoveEntity(DieEvent obj)
     {
-        Debug.Log("RemoveEntity " + obj.Unit.transform.name);
+        Debug.Log("Сущность удалина " + obj.Unit.transform.name);
 
         GameEntity entity = obj.Unit;
 

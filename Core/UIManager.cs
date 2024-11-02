@@ -21,7 +21,7 @@ public class UIManager : GameEntity
 
     protected override void Initialize()
     {
-        Globalevents.Add((GlobalEventBus.События.Юнит_создан, (data) => AddEntity((CreateUnitEvent)data)));
+        // Globalevents.Add((GlobalEventBus.События.Юнит_создан, (data) => AddEntity((CreateUnitEvent)data)));
     }
 
     private void AddEntity(CreateUnitEvent obj)

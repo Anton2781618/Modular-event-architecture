@@ -5,19 +5,44 @@ using UnityEngine;
 public abstract class GameEntity : MonoEventBus
 {
     public List<IModule> modules = new List<IModule>();
+    // Кэшируем часто используемые компоненты
+    private Dictionary<Type, Component> cachedComponents;
+
     public virtual void UpdateMe()
     {
         foreach (var module in modules)
         {
+            if (module == null) throw new NullReferenceException($"Обнаружена пустая ячейка в списке модульей! На объекте {transform.name}");
+                
             module.UpdateMe();
         }
     }
+
+    protected override void OnEnable()
+    {
+        base.OnEnable();
+
+        GlobalEventBus.Instance.Publish(GlobalEventBus.События.Юнит_создан, new CreateUnitEvent {Unit = this});
+    }
+
+    protected override void OnDisable()
+    {
+        base.OnDisable();
+        GlobalEventBus.Instance.Publish(GlobalEventBus.События.Юнит_погиб, new DieEvent { Unit = this });
+    }
+
     public virtual void Deactivate() => gameObject.SetActive(false);
     public virtual void Reactivate() => gameObject.SetActive(true);
     public virtual void Use(){}
 
     public void AddModule(IModule module)
     {
+        if (module == null)
+        {
+            Debug.LogError($"Попытка добавить null модуль в {transform.name}");
+            return;
+        }
+
         if (modules.Contains(module)) return;
 
         modules.Add(module);
@@ -25,7 +50,7 @@ public abstract class GameEntity : MonoEventBus
         module.SetLocalEventBus(LocalEvents);
     }
 
-    public void RemoveModule(IModule module) => modules.Remove(module);
+    public void RemoveModule(ModuleBase module) => modules.Remove(module);
 
     public T GetModule<T>() where T : class
     {
@@ -35,72 +60,44 @@ public abstract class GameEntity : MonoEventBus
         }
         // Добавьте другие проверки для других типов модулей по необходимости
         
-        
         return new NotImplementedException($"такого модуля нет в списке модулей у {transform.name}") as T;
     }
 
-    [ContextMenu("Показать подули")]
+    public T GetCachedComponent<T>() where T : Component
+    {
+        if(cachedComponents == null) cachedComponents = new Dictionary<Type, Component>();
+
+        if (cachedComponents.TryGetValue(typeof(T), out var component))
+        {
+            return component as T;
+        }
+        
+        // Если компонент еще не кэширован, получаем и кэшируем
+        var newComponent = GetComponent<T>();
+        if (newComponent != null)
+        {
+            cachedComponents[typeof(T)] = newComponent;
+        }
+        return newComponent;
+    }
+
+    [ContextMenu("Показать подули в консоле")]
     public void LogModules()
     {
+        // Удаляем пустые модули из списка
+        modules.RemoveAll(module => module == null);
+        
         Debug.Log($"У объектка {transform.name} {modules.Count} модулей");
         foreach (var item in modules)
         {
             Debug.Log(item.GetType().Name);
         }
     }
-}
-
-public abstract class MonoEventBus : MonoBehaviour
-{
-    //Инициализировать себя при запуске или ждать пока кто нибудь другой проинициализирует объект
-    [Tooltip("Инициализировать себя при запуске или ждать пока кто нибудь другой проинициализирует объект")]
-    public bool InitializeSelf = true;
-    public List<(int id, Action<IEventData> action)> Globalevents {get; private set;} = new List<(int, Action<IEventData>)>();
-    public LocalEventBus LocalEvents {get; private set;} = new LocalEventBus();
-
-    public void SetLocalEventBus(LocalEventBus localEventBus)
-    {
-        LocalEvents = localEventBus;
-        
-        if (InitializeSelf) return;
-        
-        Initialize();
-
-        SubscribeToEvents();
-    }
-
-
-    protected virtual void Awake() => Initialize();
-    protected virtual void OnEnable() => SubscribeToEvents();
-    protected virtual void OnDisable() => UnsubscribeFromAllEvents();
-    protected virtual void OnDestroy() => UnsubscribeFromLocalEvents();
-    protected abstract void Initialize();
-    private void SubscribeToEvents()
-    {
-        // Debug.Log ( GetType().Name + " Подписался на глобальные события / Имя объекта" + transform.name );
-        foreach (var item in Globalevents)
-        {
-            GlobalEventBus.Instance.Subscribe(item.id, item.action);
-        }
-    }
     
-    private void UnsubscribeFromAllEvents()
+    [ContextMenu("Вывести в консоль локальные события")]
+    public void LogLocalEvents()
     {
-        LocalEvents.UnsubscribeAll();
-
-        Debug.Log($"{GetType().Name} отписался от ГЛОБАЛЬНЫХ событи");
-
-        foreach (var item in Globalevents)
-        {
-            GlobalEventBus.Instance.Unsubscribe(item.id, item.action);
-        }
+        Debug.Log($"У объектка {transform.name} локальных событий ");
+        LocalEvents?.ShowAllEvents();
     }
-
-    private void UnsubscribeFromLocalEvents()
-    {
-        Debug.Log($"{GetType().Name} отписался от ЛОКАЛЬНЫХ событи");
-
-        LocalEvents.UnsubscribeAll();
-    }
-
 }

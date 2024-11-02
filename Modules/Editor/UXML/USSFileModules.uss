@@ -18,10 +18,10 @@ VisualElement {
     border-right-width: 0;
     border-bottom-width: 0;
     border-left-width: 0;
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-    border-bottom-left-radius: 0;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+    border-bottom-left-radius: 6px;
     -unity-font-style: normal;
     -unity-background-scale-mode: stretch-to-fill;
     -unity-slice-left: 0;
@@ -32,4 +32,8 @@ VisualElement {
     border-top-color: rgb(0, 60, 91);
     border-right-color: rgb(0, 60, 91);
     border-bottom-color: rgb(0, 60, 91);
+}
+
+.button:hover {
+    scale: 1.02 1.1;
 }

@@ -6,12 +6,21 @@ using System.Linq;
 using Tools;
 using System.Drawing;
 using System.Reflection;
+using log4net.Util;
+using UnityEngine;
 
 [CustomEditor(typeof(ModuleBase), true)]
 public class ModulesEditor : Editor
 {
+    private ModuleBase _targetModule;
     public VisualTreeAsset treeAsset;
     private VisualElement _buttonsContainer;
+    private Button _buttonDeleteModule;
+
+    private void OnEnable()
+    {
+        _targetModule = target as ModuleBase;
+    }
     
     public override VisualElement CreateInspectorGUI()
     {
@@ -20,6 +29,9 @@ public class ModulesEditor : Editor
         treeAsset.CloneTree(root);
 
         _buttonsContainer = root.Q<VisualElement>("ButtonsContainer");
+        _buttonDeleteModule = root.Q<Button>("ButtonDeletModule");
+
+        _buttonDeleteModule.clicked += DeleteModule;
 
         // Добавить свойства инспектора по умолчанию
         InspectorElement.FillDefaultInspector(root, serializedObject, this);
@@ -60,6 +72,17 @@ public class ModulesEditor : Editor
         }
 
         return root;
+    }
+
+    private void DeleteModule()
+    {
+        GameEntity _targetEntity = _targetModule.gameObject.GetComponent<GameEntity>();
+
+        _targetEntity.RemoveModule(_targetModule);
+
+        DestroyImmediate(_targetModule);
+
+        EditorUtility.SetDirty(_targetEntity);
     }
 }
 #endif

@@ -15,15 +15,4 @@ public abstract class Unit : GameEntity
         }
     }
 
-    protected override void OnEnable()
-    {
-        base.OnEnable();
-
-        GlobalEventBus.Instance.Publish(GlobalEventBus.События.Юнит_создан, new CreateUnitEvent {Unit = this});
-    }
-
-    protected override void OnDisable()
-    {
-        GlobalEventBus.Instance.Publish(GlobalEventBus.События.Юнит_погиб, new DieEvent { Unit = this });
-    }
 }
