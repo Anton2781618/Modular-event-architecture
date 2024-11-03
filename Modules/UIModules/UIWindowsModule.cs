@@ -3,7 +3,11 @@ using UnityEngine;
 [CompatibleUnit(typeof(UIManager))]
 public class UIWindowsModule : ModuleBase
 {
-    [SerializeField] private UIHelpMenu helpMenu;
+    /// модуль создаст окна и установит их в нужный канвас
+    [Tools.Information("Этот модуль представляет из себя систему окон в игре, он отвечает за отображение и управление окнами. Модуль произведет (Instantiate) окон и установит их в нужный канвас", Tools.InformationAttribute.InformationType.Info, false)]
+    [SerializeField] private Canvas canvas;
+    [SerializeField] private UIHelpMenu helpMenuPrefab;
+    private UIHelpMenu helpMenu;
     // Добавьте другие окна по мере необходимости
 
     protected override void Initialize()
@@ -13,18 +17,21 @@ public class UIWindowsModule : ModuleBase
         // Подписываемся на события показа окон
         Globalevents.Add((GlobalEventBus.События.UI.Показать_Окно_Помощи, (data) => OnShowHelpMenuRequested((UIStateChangedEvent)data)));
 
-        // Изначально скрываем все окна
-        if (helpMenu) helpMenu.gameObject.SetActive(false);
+        CreateWindow();
     }
+
+    private void CreateWindow()
+    {
+        helpMenu = Instantiate(helpMenuPrefab, canvas.transform);
+
+        helpMenu.gameObject.SetActive(false);
+    }
+
+
 
     private void OnShowHelpMenuRequested(UIStateChangedEvent data)
     {
-        if (!helpMenu) return;
-
-        // Переключаем состояние окна помощи
-        bool newState = !helpMenu.gameObject.activeSelf;
-
-        helpMenu.gameObject.SetActive(newState);
+        helpMenu.gameObject.SetActive(!helpMenu.gameObject.activeSelf);
 
         // Публикуем событие об изменении состояния UI
         Character.LocalEvents.Publish(GlobalEventBus.События.UI.UI_Состояние_Изменилось,new UIStateChangedEvent { IsAnyWindowOpen = IsAnyWindowOpen() });

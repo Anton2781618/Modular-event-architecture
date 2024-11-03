@@ -69,6 +69,8 @@ public class RopeSpawnerModule : ModuleBase
     public void Attach(Rigidbody fers, Rigidbody last)
     {
         RopeController rope = Instantiate(ropePrefab, transform.position, Quaternion.identity);
+
+        rope.RopeSpawnerModule = this;
         
         rope.Connect2(fers, last);
 

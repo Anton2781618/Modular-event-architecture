@@ -94,7 +94,6 @@ public class ObjectSpawner : ModuleBase
     private Vector3 CalculateSpawnPosition()
     {
         return transform.position + new Vector3( UnityEngine.Random.Range(-spawnAreaSize.x / 2, spawnAreaSize.x / 2), 0, UnityEngine.Random.Range(-spawnAreaSize.z / 2, spawnAreaSize.z / 2));
-        return Vector3.zero;
     }
 
     public void ReturnUnitToPool(GameEntity unit, string prefabName)

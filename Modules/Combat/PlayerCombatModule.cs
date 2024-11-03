@@ -4,14 +4,14 @@ using UnityEngine;
 public class PlayerCombatModule : ModuleBase
 {
     private bool isUIOpen = false;
-    [SerializeField] private Animator _animator;
+    private Animator _animator;
     [SerializeField] private Weapon weapon;
 
     protected override void Initialize()
     {
         base.Initialize();
         
-        if (!_animator) _animator = GetComponent<Animator>();
+        if (!_animator) _animator = Character.GetCachedComponent<Animator>();
         
         weapon.Init(_animator);
     }

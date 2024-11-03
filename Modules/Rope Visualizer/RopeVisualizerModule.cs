@@ -85,7 +85,7 @@ public class RopeVisualizerModule : ModuleBase
 
                 ropeSpawner.Detach();
                 
-                _splitObject1 = Instantiate(ropeController.part.HeadPrefab, ropeController.part.transform.position, ropeController.part.transform.rotation);
+                _splitObject1 = Instantiate(ropeController.part.partPerfab, ropeController.part.transform.position, ropeController.part.transform.rotation);
 
                 ropeSpawner.Attach(ropeSpawner.FerstTarget, _splitObject1.GetComponent<Rigidbody>());
 

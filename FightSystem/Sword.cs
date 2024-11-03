@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class Sword : Weapon
 {
-
     // [SerializeField] private bool сanСut = false; 
     [SerializeField] private int damage = 60; 
     [SerializeField] private LayerMask triggerMask;
@@ -16,8 +15,8 @@ public class Sword : Weapon
     //оглушеающий удар
     public bool Stun = false;
     public bool hit = false;
-    
-    private void OnTriggerEnter(Collider other)
+
+    private void OnTriggerStay(Collider other)
     {
         if (!hit || (triggerMask.value & (1 << other.gameObject.layer)) == 0) return;
         

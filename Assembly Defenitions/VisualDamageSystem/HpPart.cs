@@ -53,7 +53,7 @@ public class HpPart : MonoBehaviour
         CheckDamage(other);
     }
 
-    public GameObject HeadPrefab;
+    public GameObject partPerfab;
 
     [ContextMenu("проверить натяжение в суставе")]
     public bool CheckSeparation()
