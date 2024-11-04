@@ -1,8 +1,11 @@
 using System;
 
-public interface IModule  
+namespace ModularEventArchitecture
 {
-    public GameEntity Character {get; }
-    public void SetLocalEventBus(LocalEventBus localEventBus);
-    public void UpdateMe();
+    public interface IModule  
+    {
+        public GameEntity Character {get; }
+        public void SetLocalEventBus(LocalEventBus localEventBus);
+        public void UpdateMe();
+    }
 }

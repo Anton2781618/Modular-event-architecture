@@ -1,18 +1,22 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Animator))]
-public abstract class UnitEntity : GameEntity
+namespace ModularEventArchitecture
 {
-    public Inventory inventory;
-    
-    protected override void Initialize()
+
+    [RequireComponent(typeof(Animator))]
+    public abstract class UnitEntity : GameEntity
     {
-        inventory = GetComponent<Inventory>();
-
-        if (inventory == null)
+        public Inventory inventory;
+        
+        protected override void Initialize()
         {
-            inventory = gameObject.AddComponent<Inventory>();
-        }
-    }
+            inventory = GetComponent<Inventory>();
 
+            if (inventory == null)
+            {
+                inventory = gameObject.AddComponent<Inventory>();
+            }
+        }
+
+    }
 }

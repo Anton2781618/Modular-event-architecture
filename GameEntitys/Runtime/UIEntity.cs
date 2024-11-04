@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class UIEntity : GameEntity
+namespace ModularEventArchitecture
 {
+    public abstract class UIEntity : GameEntity
+    {
+    }
 }

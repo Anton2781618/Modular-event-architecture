@@ -2,11 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UIHelpMenu : UIEntity
+namespace ModularEventArchitecture
 {
-    protected override void Initialize()
+    public class UIHelpMenu : UIEntity
     {
-        
-    }
+        protected override void Initialize()
+        {
+            
+        }
 
+    }
 }

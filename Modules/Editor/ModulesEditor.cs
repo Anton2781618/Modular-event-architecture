@@ -9,80 +9,83 @@ using System.Reflection;
 using log4net.Util;
 using UnityEngine;
 
-[CustomEditor(typeof(ModuleBase), true)]
-public class ModulesEditor : Editor
+namespace ModularEventArchitecture
 {
-    private ModuleBase _targetModule;
-    public VisualTreeAsset treeAsset;
-    private VisualElement _buttonsContainer;
-    private Button _buttonDeleteModule;
-
-    private void OnEnable()
+    [CustomEditor(typeof(ModuleBase), true)]
+    public class ModulesEditor : Editor
     {
-        _targetModule = target as ModuleBase;
-    }
-    
-    public override VisualElement CreateInspectorGUI()
-    {
-        VisualElement root = new VisualElement();
+        private ModuleBase _targetModule;
+        public VisualTreeAsset treeAsset;
+        private VisualElement _buttonsContainer;
+        private Button _buttonDeleteModule;
 
-        treeAsset.CloneTree(root);
-
-        _buttonsContainer = root.Q<VisualElement>("ButtonsContainer");
-        _buttonDeleteModule = root.Q<Button>("ButtonDeletModule");
-
-        _buttonDeleteModule.clicked += DeleteModule;
-
-        // Добавить свойства инспектора по умолчанию
-        InspectorElement.FillDefaultInspector(root, serializedObject, this);
-
-        // Добавить кнопки для методов с атрибутом ButtonAttribute
-        var flags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
-        var methods = target.GetType().GetMethods(flags).Where(m => m.GetParameters().Length == 0 && m.GetCustomAttributes(typeof(ButtonAttribute), true).Length > 0);
-
-        foreach (var method in methods)
+        private void OnEnable()
         {
-            var buttonAttribute = (ButtonAttribute)method.GetCustomAttributes(typeof(ButtonAttribute), true)[0];
+            _targetModule = target as ModuleBase;
+        }
+        
+        public override VisualElement CreateInspectorGUI()
+        {
+            VisualElement root = new VisualElement();
 
-            // создать кнопку
-            var button = new Button(() =>
+            treeAsset.CloneTree(root);
+
+            _buttonsContainer = root.Q<VisualElement>("ButtonsContainer");
+            _buttonDeleteModule = root.Q<Button>("ButtonDeletModule");
+
+            _buttonDeleteModule.clicked += DeleteModule;
+
+            // Добавить свойства инспектора по умолчанию
+            InspectorElement.FillDefaultInspector(root, serializedObject, this);
+
+            // Добавить кнопки для методов с атрибутом ButtonAttribute
+            var flags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
+            var methods = target.GetType().GetMethods(flags).Where(m => m.GetParameters().Length == 0 && m.GetCustomAttributes(typeof(ButtonAttribute), true).Length > 0);
+
+            foreach (var method in methods)
             {
-                foreach (var targetObject in targets)
+                var buttonAttribute = (ButtonAttribute)method.GetCustomAttributes(typeof(ButtonAttribute), true)[0];
+
+                // создать кнопку
+                var button = new Button(() =>
                 {
-                    method.Invoke(targetObject, null);
-                }
-            })
-            {
-                // Use custom button name if provided, otherwise use method name
-                text = buttonAttribute.buttonName ?? ObjectNames.NicifyVariableName(method.Name)
-            };
+                    foreach (var targetObject in targets)
+                    {
+                        method.Invoke(targetObject, null);
+                    }
+                })
+                {
+                    // Use custom button name if provided, otherwise use method name
+                    text = buttonAttribute.buttonName ?? ObjectNames.NicifyVariableName(method.Name)
+                };
 
-            // Set button enabled state
-            bool isEnabled = buttonAttribute.mode == ButtonMode.AlwaysEnabled || 
-            (EditorApplication.isPlaying ? buttonAttribute.mode == ButtonMode.EnabledInPlayMode : buttonAttribute.mode == ButtonMode.DisabledInPlayMode);
-            
-            button.SetEnabled(isEnabled);
+                // Set button enabled state
+                bool isEnabled = buttonAttribute.mode == ButtonMode.AlwaysEnabled || 
+                (EditorApplication.isPlaying ? buttonAttribute.mode == ButtonMode.EnabledInPlayMode : buttonAttribute.mode == ButtonMode.DisabledInPlayMode);
+                
+                button.SetEnabled(isEnabled);
 
-            // Add some margin
-            button.style.marginTop = 5;
-            button.style.marginBottom = 5;
+                // Add some margin
+                button.style.marginTop = 5;
+                button.style.marginBottom = 5;
 
-            _buttonsContainer.Add(button);
-            // root.Add(button);
+                _buttonsContainer.Add(button);
+                // root.Add(button);
+            }
+
+            return root;
         }
 
-        return root;
-    }
+        private void DeleteModule()
+        {
+            GameEntity _targetEntity = _targetModule.gameObject.GetComponent<GameEntity>();
 
-    private void DeleteModule()
-    {
-        GameEntity _targetEntity = _targetModule.gameObject.GetComponent<GameEntity>();
+            _targetEntity.RemoveModule(_targetModule);
 
-        _targetEntity.RemoveModule(_targetModule);
+            DestroyImmediate(_targetModule);
 
-        DestroyImmediate(_targetModule);
-
-        EditorUtility.SetDirty(_targetEntity);
+            EditorUtility.SetDirty(_targetEntity);
+        }
     }
 }
 #endif

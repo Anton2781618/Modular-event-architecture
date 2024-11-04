@@ -1,130 +1,133 @@
 using UnityEngine;
-using static BodyPartsSettings;
 
-[CompatibleUnit(typeof(UnitEntity))]
-public class BodyPartsModule : ModuleBase
+namespace ModularEventArchitecture
 {
-    [Tools.Information("Этот модуль представляет из себя систему частей тела персонажа, он отвечает за создание и уничтожение частей тела", Tools.InformationAttribute.InformationType.Info, false)]
-
-    public BodyPartsSettings BodyPartsSettings;
-    private Animator _animator;
-
-    protected override void Initialize()
+    using static BodyPartsSettings;
+    [CompatibleUnit(typeof(UnitEntity))]
+    public class BodyPartsModule : ModuleBase
     {
-        base.Initialize();
+        [Tools.Information("Этот модуль представляет из себя систему частей тела персонажа, он отвечает за создание и уничтожение частей тела", Tools.InformationAttribute.InformationType.Info, false)]
 
-        if (!_animator) _animator = GetComponent<Animator>();
-    }
+        public BodyPartsSettings BodyPartsSettings;
+        private Animator _animator;
 
-
-    public override void UpdateMe()
-    {
-    }
-
-
-    public void DestroyPart(HumanBodyBones bodyPart, int index, Transform partTransform, bool isCreteCut = true)
-    {
-        if (bodyPart == HumanBodyBones.Head)
+        protected override void Initialize()
         {
-            if (isCreteCut) Instantiate(BodyPartsSettings.HeadPrefab, partTransform.position, partTransform.rotation);
+            base.Initialize();
 
-            BodyPartsSettings._bodyPartsMeshes.Head.SetActive(false);
-        } 
-
-        if (bodyPart == HumanBodyBones.LeftUpperArm) 
-        {
-            DestroyMassivePart(BodyPartsSettings._bodyPartsMeshes.LeftArm, index);
-
-            if (isCreteCut) Instantiate(BodyPartsSettings.LeftArmPrefab, partTransform.position, partTransform.rotation);
+            if (!_animator) _animator = GetComponent<Animator>();
         }
 
-        if (bodyPart == HumanBodyBones.RightUpperArm) 
-        {
-            DestroyMassivePart(BodyPartsSettings._bodyPartsMeshes.RightArm, index);
 
-            if (isCreteCut) Instantiate(BodyPartsSettings.RightArmPrefab, partTransform.position, partTransform.rotation);
+        public override void UpdateMe()
+        {
         }
 
-        if (bodyPart == HumanBodyBones.LeftLowerLeg) 
-        {
-            DestroyMassivePart(BodyPartsSettings._bodyPartsMeshes.LeftLeg, index);
 
-            if (isCreteCut) Instantiate(BodyPartsSettings.LeftLegPrefab, partTransform.position, partTransform.rotation);
+        public void DestroyPart(HumanBodyBones bodyPart, int index, Transform partTransform, bool isCreteCut = true)
+        {
+            if (bodyPart == HumanBodyBones.Head)
+            {
+                if (isCreteCut) Instantiate(BodyPartsSettings.HeadPrefab, partTransform.position, partTransform.rotation);
+
+                BodyPartsSettings._bodyPartsMeshes.Head.SetActive(false);
+            } 
+
+            if (bodyPart == HumanBodyBones.LeftUpperArm) 
+            {
+                DestroyMassivePart(BodyPartsSettings._bodyPartsMeshes.LeftArm, index);
+
+                if (isCreteCut) Instantiate(BodyPartsSettings.LeftArmPrefab, partTransform.position, partTransform.rotation);
+            }
+
+            if (bodyPart == HumanBodyBones.RightUpperArm) 
+            {
+                DestroyMassivePart(BodyPartsSettings._bodyPartsMeshes.RightArm, index);
+
+                if (isCreteCut) Instantiate(BodyPartsSettings.RightArmPrefab, partTransform.position, partTransform.rotation);
+            }
+
+            if (bodyPart == HumanBodyBones.LeftLowerLeg) 
+            {
+                DestroyMassivePart(BodyPartsSettings._bodyPartsMeshes.LeftLeg, index);
+
+                if (isCreteCut) Instantiate(BodyPartsSettings.LeftLegPrefab, partTransform.position, partTransform.rotation);
+            }
+
+            if (bodyPart == HumanBodyBones.RightLowerLeg) 
+            {
+                DestroyMassivePart(BodyPartsSettings._bodyPartsMeshes.RightLeg, index);
+
+                if (isCreteCut) Instantiate(BodyPartsSettings.RightLegPrefab, partTransform.position, partTransform.rotation);
+            }
+
+            if (bodyPart == HumanBodyBones.Hips)
+            {
+                BodyPartsSettings._bodyPartsMeshes.Hips.SetActive(false);
+
+                DestroyMassivePart(BodyPartsSettings._bodyPartsMeshes.LeftLeg, 0);
+
+                DestroyMassivePart(BodyPartsSettings._bodyPartsMeshes.RightLeg, 0);
+
+                if (isCreteCut) Instantiate(BodyPartsSettings.HipsPrefab, partTransform.position, partTransform.rotation);
+            } 
         }
 
-        if (bodyPart == HumanBodyBones.RightLowerLeg) 
+        private void DestroyMassivePart(GameObject[] arr, int index)
         {
-            DestroyMassivePart(BodyPartsSettings._bodyPartsMeshes.RightLeg, index);
-
-            if (isCreteCut) Instantiate(BodyPartsSettings.RightLegPrefab, partTransform.position, partTransform.rotation);
+            for (int i = index; i < arr.Length; i++)
+            {
+                arr[i].SetActive(false);
+            }
         }
 
-        if (bodyPart == HumanBodyBones.Hips)
+        [Tools.Button("Удалить компоненты HpPart")]
+        private void DeletVisualDemages()
         {
-            BodyPartsSettings._bodyPartsMeshes.Hips.SetActive(false);
+            foreach (HpPart part in BodyPartsSettings.VisualDemageComponents)
+            {
+                //вызвать remove component
+                DestroyImmediate(part);
+                
+        
+            }
 
-            DestroyMassivePart(BodyPartsSettings._bodyPartsMeshes.LeftLeg, 0);
-
-            DestroyMassivePart(BodyPartsSettings._bodyPartsMeshes.RightLeg, 0);
-
-            if (isCreteCut) Instantiate(BodyPartsSettings.HipsPrefab, partTransform.position, partTransform.rotation);
-        } 
-    }
-
-    private void DestroyMassivePart(GameObject[] arr, int index)
-    {
-        for (int i = index; i < arr.Length; i++)
-        {
-            arr[i].SetActive(false);
+            BodyPartsSettings.VisualDemageComponents = null;
         }
-    }
 
-    [Tools.Button("Удалить компоненты HpPart")]
-    private void DeletVisualDemages()
-    {
-        foreach (HpPart part in BodyPartsSettings.VisualDemageComponents)
+        [Tools.Button("Установить BodyPart на все части тела персонажа")]
+        private void FindBodyPartsPlaces()
         {
-            //вызвать remove component
-            DestroyImmediate(part);
+            if (!_animator) _animator = GetComponent<Animator>();
+
+            SetVisualDemageOnPlace(HumanBodyBones.Head);
+            SetVisualDemageOnPlace(HumanBodyBones.Chest);
+
+            SetVisualDemageOnPlace(HumanBodyBones.LeftUpperArm);
+            SetVisualDemageOnPlace(HumanBodyBones.LeftLowerArm);
+
+            SetVisualDemageOnPlace(HumanBodyBones.RightUpperArm);
+            SetVisualDemageOnPlace(HumanBodyBones.RightLowerArm);
             
-    
+            SetVisualDemageOnPlace(HumanBodyBones.LeftUpperLeg);
+            SetVisualDemageOnPlace(HumanBodyBones.LeftLowerLeg);
+
+            SetVisualDemageOnPlace(HumanBodyBones.RightUpperLeg);
+            SetVisualDemageOnPlace(HumanBodyBones.RightLowerLeg);
+
+            BodyPartsSettings.VisualDemageComponents = GetComponentsInChildren<HpPart>();
         }
 
-        BodyPartsSettings.VisualDemageComponents = null;
-    }
+        // Устанавливаем HpPart на место части тела
+        private void SetVisualDemageOnPlace(HumanBodyBones partType)
+        {
+            Transform place = _animator.GetBoneTransform(partType);
+            
+            HpPart part = place.GetComponent<HpPart>();
 
-    [Tools.Button("Установить BodyPart на все части тела персонажа")]
-    private void FindBodyPartsPlaces()
-    {
-        if (!_animator) _animator = GetComponent<Animator>();
-
-        SetVisualDemageOnPlace(HumanBodyBones.Head);
-        SetVisualDemageOnPlace(HumanBodyBones.Chest);
-
-        SetVisualDemageOnPlace(HumanBodyBones.LeftUpperArm);
-        SetVisualDemageOnPlace(HumanBodyBones.LeftLowerArm);
-
-        SetVisualDemageOnPlace(HumanBodyBones.RightUpperArm);
-        SetVisualDemageOnPlace(HumanBodyBones.RightLowerArm);
-        
-        SetVisualDemageOnPlace(HumanBodyBones.LeftUpperLeg);
-        SetVisualDemageOnPlace(HumanBodyBones.LeftLowerLeg);
-
-        SetVisualDemageOnPlace(HumanBodyBones.RightUpperLeg);
-        SetVisualDemageOnPlace(HumanBodyBones.RightLowerLeg);
-
-        BodyPartsSettings.VisualDemageComponents = GetComponentsInChildren<HpPart>();
-    }
-
-    // Устанавливаем HpPart на место части тела
-    private void SetVisualDemageOnPlace(HumanBodyBones partType)
-    {
-        Transform place = _animator.GetBoneTransform(partType);
-        
-        HpPart part = place.GetComponent<HpPart>();
-
-        if (part == null) part = place.gameObject.AddComponent<HpPart>();
-        
-        part.Setup(partType, this);
+            if (part == null) part = place.gameObject.AddComponent<HpPart>();
+            
+            part.Setup(partType, this);
+        }
     }
 }

@@ -1,13 +1,16 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New Health Potion", menuName = "Inventory/Health Potion")]
-public class HealthPotion : Item
+namespace ModularEventArchitecture
 {
-    public int healAmount;
-
-    public override void Use(Player player)
+    [CreateAssetMenu(fileName = "New Health Potion", menuName = "Inventory/Health Potion")]
+    public class HealthPotion : Item
     {
-        // player.Heal(healAmount);
-        Debug.Log($"Player used {itemName} and healed for {healAmount}.");
+        public int healAmount;
+
+        public override void Use(Player player)
+        {
+            // player.Heal(healAmount);
+            Debug.Log($"Player used {itemName} and healed for {healAmount}.");
+        }
     }
 }

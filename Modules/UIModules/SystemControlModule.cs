@@ -1,26 +1,29 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-/// <summary>
-/// Модуль для обработки системных команд (перезапуск сцены и т.д.)
-/// </summary>
-[CompatibleUnit(typeof(UIHelpMenu))]
-public class SystemControlModule : ModuleBase
+namespace ModularEventArchitecture
 {
-    protected override void Initialize()
+    /// <summary>
+    /// Модуль для обработки системных команд (перезапуск сцены и т.д.)
+    /// </summary>
+    [CompatibleUnit(typeof(UIHelpMenu))]
+    public class SystemControlModule : ModuleBase
     {
-        base.Initialize();
-    }
-    
-    [Tools.Button("Перезапустить сцену")]
-    public void RestartCurrentScene()
-    {
-        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
-        SceneManager.LoadScene(currentSceneIndex);
-    }
-
-    public override void UpdateMe()
-    {
+        protected override void Initialize()
+        {
+            base.Initialize();
+        }
         
+        [Tools.Button("Перезапустить сцену")]
+        public void RestartCurrentScene()
+        {
+            int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+            SceneManager.LoadScene(currentSceneIndex);
+        }
+
+        public override void UpdateMe()
+        {
+            
+        }
     }
 }

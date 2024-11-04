@@ -1,15 +1,19 @@
 using System;
 using UnityEngine;
 
-[Serializable]
-public struct EffectEventData
+namespace ModularEventArchitecture
 {
-    [Tooltip("Тип события")]
-    [SerializeField] public LocalEventType eventType;
-    [SerializeReference] private IEventData eventData;
-    public int EventId => (int)eventType;
-    public IEventData GetEventData() => eventData;
-    public LocalEventType EventType => eventType;
+
+    [Serializable]
+    public struct EffectEventData
+    {
+        [Tooltip("Тип события")]
+        [SerializeField] public LocalEventType eventType;
+        [SerializeReference] private IEventData eventData;
+        public int EventId => (int)eventType;
+        public IEventData GetEventData() => eventData;
+        public LocalEventType EventType => eventType;
+    }
 }
 
 // Структура, напрямую связанная с LocalEventBus.События

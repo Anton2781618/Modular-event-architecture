@@ -1,66 +1,69 @@
 using UnityEngine;
 
-public class DialogueManager : MonoBehaviour
+namespace ModularEventArchitecture
 {
-    public static DialogueManager Instance { get; private set; }
-
-    private DialogueNode currentNode;
-    private NPC currentNPC;
-    private Player currentPlayer;
-
-    public delegate void DialogueChangedHandler(DialogueNode node);
-    public event DialogueChangedHandler OnDialogueChanged;
-
-    private void Awake()
+    public class DialogueManager : MonoBehaviour
     {
-        if (Instance == null)
+        public static DialogueManager Instance { get; private set; }
+
+        private DialogueNode currentNode;
+        private NPC currentNPC;
+        private Player currentPlayer;
+
+        public delegate void DialogueChangedHandler(DialogueNode node);
+        public event DialogueChangedHandler OnDialogueChanged;
+
+        private void Awake()
         {
-            Instance = this;
-        }
-    }
-
-    public void StartDialogue(NPC npc, DialogueNode startNode)
-    {
-        currentNPC = npc;
-        currentNode = startNode;
-        currentPlayer = FindObjectOfType<Player>(); // Предполагается, что в сцене есть только один игрок
-        OnDialogueChanged?.Invoke(currentNode);
-    }
-
-    public void MakeChoice(int choiceIndex)
-    {
-        if (currentNode != null && choiceIndex >= 0 && choiceIndex < currentNode.Choices.Count)
-        {
-            if (currentNode.AssociatedQuest != null)
+            if (Instance == null)
             {
-                OfferQuest(currentNode.AssociatedQuest);
-            }
-
-            currentNode = currentNode.Choices[choiceIndex].NextNode;
-            if (currentNode != null)
-            {
-                OnDialogueChanged?.Invoke(currentNode);
-            }
-            else
-            {
-                EndDialogue();
+                Instance = this;
             }
         }
-    }
 
-    private void OfferQuest(Quest quest)
-    {
-        if (currentPlayer != null)
+        public void StartDialogue(NPC npc, DialogueNode startNode)
         {
-            currentPlayer.ReceiveQuest(quest);
+            currentNPC = npc;
+            currentNode = startNode;
+            currentPlayer = FindObjectOfType<Player>(); // Предполагается, что в сцене есть только один игрок
+            OnDialogueChanged?.Invoke(currentNode);
         }
-    }
 
-    private void EndDialogue()
-    {
-        currentNode = null;
-        currentNPC = null;
-        currentPlayer = null;
-        OnDialogueChanged?.Invoke(null);
+        public void MakeChoice(int choiceIndex)
+        {
+            if (currentNode != null && choiceIndex >= 0 && choiceIndex < currentNode.Choices.Count)
+            {
+                if (currentNode.AssociatedQuest != null)
+                {
+                    OfferQuest(currentNode.AssociatedQuest);
+                }
+
+                currentNode = currentNode.Choices[choiceIndex].NextNode;
+                if (currentNode != null)
+                {
+                    OnDialogueChanged?.Invoke(currentNode);
+                }
+                else
+                {
+                    EndDialogue();
+                }
+            }
+        }
+
+        private void OfferQuest(Quest quest)
+        {
+            if (currentPlayer != null)
+            {
+                currentPlayer.ReceiveQuest(quest);
+            }
+        }
+
+        private void EndDialogue()
+        {
+            currentNode = null;
+            currentNPC = null;
+            currentPlayer = null;
+            OnDialogueChanged?.Invoke(null);
+        }
     }
 }

@@ -1,29 +1,32 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class Inventory : MonoBehaviour
+namespace ModularEventArchitecture
 {
-    public List<Item> items = new List<Item>();
-    public int maxSize = 10;
-
-    public bool AddItem(Item item)
+    public class Inventory : MonoBehaviour
     {
-        if (items.Count < maxSize)
+        public List<Item> items = new List<Item>();
+        public int maxSize = 10;
+
+        public bool AddItem(Item item)
         {
-            items.Add(item);
-            return true;
+            if (items.Count < maxSize)
+            {
+                items.Add(item);
+                return true;
+            }
+            return false;
         }
-        return false;
-    }
 
-    public bool RemoveItem(Item item)
-    {
-        return items.Remove(item);
-    }
+        public bool RemoveItem(Item item)
+        {
+            return items.Remove(item);
+        }
 
-    public void UseItem(Item item, Player player)
-    {
-        item.Use(player);
-        RemoveItem(item);
+        public void UseItem(Item item, Player player)
+        {
+            item.Use(player);
+            RemoveItem(item);
+        }
     }
 }

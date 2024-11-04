@@ -2,7 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class ManagerEntity : GameEntity
+namespace ModularEventArchitecture
 {
- 
+    public abstract class ManagerEntity : GameEntity
+    {
+    
+    }
 }
