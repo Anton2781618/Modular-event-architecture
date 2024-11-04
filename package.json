@@ -1,5 +1,5 @@
 {
-  "name": "ModularEventArchitecture",
+  "name": "com.caer.core", 
   "version": "1.0.0",
   "displayName": "Modular-event-architecture",
   "description": "Core systems and utilities for Caer games",
