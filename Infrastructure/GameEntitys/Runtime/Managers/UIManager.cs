@@ -33,65 +33,9 @@ namespace ModularEventArchitecture
         UIManager НЕ должен:
             Управлять конкретной логикой UI элементов
             Обновлять данные в UI */
-
-        [SerializeField] private Canvas canvas;
-
-        [Space(10)]
-        [SerializeField] private QuestUI questUI;
-        [SerializeField] private DialogueUI dialogueUI;
-        // Добавьте здесь ссылки на другие UI компоненты
-        
-
         protected override void Initialize()
         {
-            // Globalevents.Add((GlobalEventBus.События.Юнит_создан, (data) => AddEntity((CreateUnitEvent)data)));
-        }
-
-        private void AddEntity(CreateUnitEvent obj)
-        {
-            if (obj.Unit is Player) 
-            {
-            }
-
-            if (obj.Unit is not Player)
-            {
-
-            } 
-        }
-
-        private void Start()
-        {
-            // Инициализация UI компонентов
-            questUI.Initialize();
             
-            dialogueUI.Initialize();
-            // Инициализация других UI компонентов
-
-        }
-
-        public bool AnySindowIsOpen()
-        {
-            if (questUI.IsOpen) return true;
-            if (dialogueUI.IsOpen) return true;
-
-            return false;
-        }
-
-
-        public void ShowQuestLog()
-        {
-            questUI.ToggleQuestLog();
-        }
-
-        public void ShowDialogue(DialogueNode dialogueNode)
-        {
-
-            dialogueUI.ShowDialogue(dialogueNode);
-        }
-
-        public void HideDialogue()
-        {
-            dialogueUI.HideDialogue();
         }
     }
 }

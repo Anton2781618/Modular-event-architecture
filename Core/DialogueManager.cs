@@ -54,7 +54,7 @@ namespace ModularEventArchitecture
         {
             if (currentPlayer != null)
             {
-                currentPlayer.ReceiveQuest(quest);
+                // currentPlayer.ReceiveQuest(quest);
             }
         }
 

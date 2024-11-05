@@ -167,3 +167,9 @@ namespace ModularEventArchitecture
         }
     }
 }
+
+[Serializable]
+    public class EffectEvent : ModularEventArchitecture.BaseEvent
+    {
+        public ModularEventArchitecture.Effect Effect;
+    }

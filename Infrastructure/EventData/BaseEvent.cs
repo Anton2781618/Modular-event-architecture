@@ -14,11 +14,7 @@ namespace ModularEventArchitecture
     }
 
 
-    [Serializable]
-    public class EffectEvent : BaseEvent
-    {
-        public Effect Effect;
-    }
+    
 
     [Serializable]
     public struct DieEvent : IEventData
