@@ -100,8 +100,15 @@ namespace ModularEventArchitecture
         [ContextMenu("Вывести в консоль локальные события")]
         public void LogLocalEvents()
         {
-            Debug.Log($"У объектка {transform.name} локальных событий ");
+            Debug.Log($"У объектка {transform.name} локальные события ");
             LocalEvents?.ShowAllEvents();
+        }
+
+        [ContextMenu("Вывести в консоль Глобальные события")]
+        public void LogGlobalEvents()
+        {
+            Debug.Log($"У объектка {transform.name} глобальные события ");
+            GlobalEventBus.Instance.ShowAllEvents();
         }
     }
 }

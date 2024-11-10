@@ -30,14 +30,14 @@ public abstract class MonoEventBus : MonoBehaviour
             if (_localEvents == null)
             {
                 _localEvents = new LocalEventBus();
-                Debug.Log($"Создан новый <color=green>LocalEventBus</color> для {gameObject.name}");
+                // Debug.Log($"Создан новый <color=green>LocalEventBus</color> для {gameObject.name}");
             }
             return _localEvents;
         }
         private set
         {
             _localEvents = value;
-            Debug.Log($"Установлен <color=red>LocalEventBus</color> для {gameObject.name}");
+            // Debug.Log($"Установлен <color=red>LocalEventBus</color> для {gameObject.name}");
 
         } 
     }
@@ -67,11 +67,10 @@ public abstract class MonoEventBus : MonoBehaviour
 
     private void SubscribeToEvents()
     {
-        if (Globalevents == null || LocalEvents == null) return;
-
+        // Debug.Log($"Подписка на события для {gameObject.name}");
         foreach (var item in Globalevents)
         {
-            GlobalEventBus.Instance?.Subscribe(item.id, item.action);
+            GlobalEventBus.Instance.Subscribe(item.id, item.action);
         }
     }
     
@@ -83,7 +82,7 @@ public abstract class MonoEventBus : MonoBehaviour
         {
             foreach (var item in Globalevents)
             {
-                GlobalEventBus.Instance?.Unsubscribe(item.id, item.action);
+                GlobalEventBus.Instance.Unsubscribe(item.id, item.action);
             }
         }
     }

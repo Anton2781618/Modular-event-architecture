@@ -34,9 +34,16 @@ public abstract class EventBus
         Rope_Disconnected,
         Rope_Relaxed,
         Tired,
-        System_RestartScene, // Добавляем новый тип события
+        System_RestartScene,
         SpawnMob,
         ShowHelpWindow,
+        // События для игры 2048
+        Game2048_Move,
+        Game2048_TileSpawned,
+        Game2048_TileMove,
+        Game2048_ScoreChanged,
+        Game2048_GameOver,
+        Game2048_RestartGame
     }
 
     protected EventBus()
@@ -46,21 +53,16 @@ public abstract class EventBus
 
     protected void Initialize()
     {
-        Debug.Log("!!!!!!!!!!!!!!!!Initialize!!!!!!!!!!!!!!");
         int count = Enum.GetValues(typeof(ActionsType)).Length;
-
         _events = new Action<IEventData>[count];
     }
 
     public void Subscribe<T>(int eventId, Action<T> handler) where T : IEventData
     {
-        // Debug.Log("Создана подписка на событие " + Enum.GetName(typeof(ActionsType), eventId));
         if (eventId < 0 || eventId >= _events.Length) return;
 
-        // Создаем замыкание один раз и сохраняем его
         Action<IEventData> wrapper = (data) => handler((T)data);
         
-        // Сохраняем wrapper в словаре для последующей отписки
         if (!_handlerWrappers.ContainsKey(handler))
         {
             _handlerWrappers[handler] = wrapper;
@@ -75,7 +77,6 @@ public abstract class EventBus
         
         if (eventId < 0 || eventId >= _events.Length) return;
 
-        // Получаем сохраненное замыкание
         if (_handlerWrappers.TryGetValue(handler, out var wrapper))
         {
             _events[eventId] -= wrapper;
@@ -97,7 +98,7 @@ public abstract class EventBus
     {
         if (eventId < 0 || eventId >= _events.Length) return;
 
-        Debug.Log("Publish " + Enum.GetName(typeof(ActionsType), eventId));
+        // Debug.Log("Publish " + Enum.GetName(typeof(ActionsType), eventId));
         _events[eventId]?.Invoke(data);
     }
 
@@ -112,6 +113,3 @@ public abstract class EventBus
         }
     }
 }
-
-// Сериализуемые структуры событий
-
