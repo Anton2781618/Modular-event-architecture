@@ -15,7 +15,7 @@ namespace ModularEventArchitecture
         {
             base.Initialize();
 
-            if (!_animator) _animator = GetComponent<Animator>();
+            if (!_animator) _animator = Entity.GetCachedComponent<Animator>();
         }
 
 

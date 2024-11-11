@@ -36,7 +36,7 @@ namespace ModularEventArchitecture
             helpMenu.gameObject.SetActive(!helpMenu.gameObject.activeSelf);
 
             // Публикуем событие об изменении состояния UI
-            Character.LocalEvents.Publish(GlobalEventBus.События.UI.UI_Состояние_Изменилось,new UIStateChangedEvent { IsAnyWindowOpen = IsAnyWindowOpen() });
+            Entity.LocalEvents.Publish(GlobalEventBus.События.UI.UI_Состояние_Изменилось,new UIStateChangedEvent { IsAnyWindowOpen = IsAnyWindowOpen() });
         }
 
         public bool IsAnyWindowOpen()

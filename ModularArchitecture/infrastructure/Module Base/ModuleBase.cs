@@ -5,17 +5,17 @@ namespace ModularEventArchitecture
     public abstract class ModuleBase : MonoEventBus, IModule
     {
 
-        [SerializeField, HideInInspector] public GameEntity Character{get; set;}
+        [SerializeField, HideInInspector] public GameEntity Entity{get; set;}
 
-        public void SetCharacter(GameEntity character) => Character = character;
+        public void SetCharacter(GameEntity character) => Entity = character;
 
         protected override void Initialize()
         {
             // Debug.Log("ModuleBase Initialize " + transform.name);
             
-            if (!Character) Character = GetComponent<GameEntity>();
+            if (!Entity) Entity = GetComponent<GameEntity>();
 
-            Character.AddModule(this);
+            Entity.AddModule(this);
         }
 
         public abstract void UpdateMe();

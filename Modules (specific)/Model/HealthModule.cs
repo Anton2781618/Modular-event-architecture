@@ -16,13 +16,13 @@ namespace ModularEventArchitecture
         [SerializeField] private float _currentHealth = 100;
 
         [Tooltip("Части тела")]
-        [SerializeField] private Rigidbody[] bodyParts;
+        [SerializeField] private Rigidbody[] _bodyParts;
         
         [Tooltip("Вектор удара")]
-        private Vector3 vectorHit = Vector3.zero;
+        private Vector3 _vectorHit = Vector3.zero;
 
         [Tooltip("Сила отталкивания при смерти")]
-        private float force = 100;
+        private float _force = 100;
 
         private bool _isDead = false;
         private NavMeshAgent _agent;
@@ -32,13 +32,9 @@ namespace ModularEventArchitecture
         {
             base.Initialize();
             
-            if (!_agent) TryGetComponent(out _agent);
+            if (!_agent) Entity.GetCachedComponent<NavMeshAgent>();
             
-            if (!_agent) _agent = GetComponent<NavMeshAgent>();
-            
-            if (!_animator) _animator = GetComponent<Animator>();
-
-            if (bodyParts.Length == 0) FindBodyParts();        
+            if (!_animator) _animator = Entity.GetCachedComponent<Animator>();
             
             LocalEvents.Subscribe<DamageEvent>(LocalEventBus.События.Получить_урон , TakeDamage);
 
@@ -68,8 +64,8 @@ namespace ModularEventArchitecture
 
         private void TakeDamage(DamageEvent data)
         {
-            vectorHit = data.HitDirection;
-            Debug.Log(vectorHit);
+            _vectorHit = data.HitDirection;
+            Debug.Log(_vectorHit);
 
             ChangeHealth(-data.Damage);
         }
@@ -98,20 +94,21 @@ namespace ModularEventArchitecture
 
             SetOffKinematicBody();
 
-            _animator.GetBoneTransform(HumanBodyBones.Head).GetComponent<Rigidbody>().AddForce(vectorHit * force, ForceMode.Impulse);
+            _animator.GetBoneTransform(HumanBodyBones.Head).GetComponent<Rigidbody>().AddForce(_vectorHit * _force, ForceMode.Impulse);
 
-            GlobalEventBus.Instance.Publish(GlobalEventBus.События.Юнит_погиб, new DieEvent{ Unit = Character });
+            GlobalEventBus.Instance.Publish(GlobalEventBus.События.Юнит_погиб, new DieEvent{ Unit = Entity });
         }
 
         public bool IsDead() => _isDead;
 
         [ContextMenu("Найти все части тела")]
-        public void FindBodyParts() => bodyParts = GetComponentsInChildren<Rigidbody>();
+        [Tools.Button("Найти все части тела")]
+        public void FindBodyParts() => _bodyParts = GetComponentsInChildren<Rigidbody>();
 
         [ContextMenu("Включить кинематику на всех частях тела")]
         public void SetOnKinematicBody() 
         {
-            foreach (var item in bodyParts)
+            foreach (var item in _bodyParts)
             {
                 item.isKinematic = true;
             }
@@ -120,7 +117,9 @@ namespace ModularEventArchitecture
         [ContextMenu("Выключить кинематику на всех частях тела")]
         public void SetOffKinematicBody()
         {
-            foreach (var item in bodyParts)
+            if(_bodyParts == null || _bodyParts.Length == 0) FindBodyParts();
+            
+            foreach (var item in _bodyParts)
             {
                 item.isKinematic = false;
                 item.useGravity = true;

@@ -6,13 +6,12 @@ namespace ModularEventArchitecture
     [CompatibleUnit(typeof(NPC))]
     public class AI : ModuleBase
     {
-        [SerializeField] private bool agressive = true;
-        public Transform MyTransform {get; set;}
-        public NavMeshAgent Agent {get; set;}
-        [SerializeField] private Transform target;
-        [SerializeField] private State currentState = State.Idle;
-
-        public float detectionRange = 10f;
+        [SerializeField] private bool _agressive = true;
+        private Transform _myTransform {get; set;}
+        private NavMeshAgent _agent {get; set;}
+        private Transform _target;
+        [SerializeField] private State _currentState = State.Idle;
+        [SerializeField] private float _detectionRange = 10f;
 
         public enum State
         {
@@ -26,19 +25,20 @@ namespace ModularEventArchitecture
         {
             base.Initialize();
             
-            if (!Agent) Agent = GetComponent<NavMeshAgent>();
-            if (!MyTransform) MyTransform = transform;
+            if (!_agent) _agent = Entity.GetCachedComponent<NavMeshAgent>();
             
-            MyTransform = transform;
+            if (!_myTransform) _myTransform = transform;
+            
+            _myTransform = transform;
 
-            target = GameObject.FindGameObjectWithTag("Player").transform;
+            _target = GameObject.FindGameObjectWithTag("Player").transform;
         }
 
         public override void UpdateMe()
         {
             // Debug.Log("UpdateMe");
             
-            switch (currentState)
+            switch (_currentState)
             {
                 case State.Idle:
                     Idle();
@@ -58,11 +58,11 @@ namespace ModularEventArchitecture
         private void Idle()
         {
             // Debug.Log("Idle " + agressive + " ! " + DetectPlayer());
-            if (DetectPlayer() && agressive)
+            if (DetectPlayer() && _agressive)
             {
-                LocalEvents.Publish<MoveToTargetEvent>(LocalEventBus.События.Команды.Движение.Двигаться_к_таргету, new MoveToTargetEvent { target = target });
+                LocalEvents.Publish<MoveToTargetEvent>(LocalEventBus.События.Команды.Движение.Двигаться_к_таргету, new MoveToTargetEvent { target = _target });
 
-                currentState = State.Chase;
+                _currentState = State.Chase;
             }
         }
 
@@ -70,16 +70,16 @@ namespace ModularEventArchitecture
         {
             Vector3 randomDirection = Random.insideUnitSphere * 5f;
             randomDirection.y = 0;
-            Vector3 targetPosition = MyTransform.transform.position + randomDirection;
+            Vector3 targetPosition = _myTransform.transform.position + randomDirection;
 
 
-            if (DetectPlayer() && agressive)
+            if (DetectPlayer() && _agressive)
             {
-                currentState = State.Chase;
+                _currentState = State.Chase;
             }
             else if (Random.value < 0.02f)
             {
-                currentState = State.Idle;
+                _currentState = State.Idle;
             }
         }
 
@@ -87,10 +87,10 @@ namespace ModularEventArchitecture
         {
             // Debug.Log("Chase");
 
-            if (Vector3.Distance(MyTransform.position, target.position) <= Agent.stoppingDistance)
+            if (Vector3.Distance(_myTransform.position, _target.position) <= _agent.stoppingDistance)
             {
-                LocalEvents.Publish(LocalEventBus.События.Команды.Бой.Атакавать_цель, new AttackEvent { Unit = target.gameObject });
-                currentState = State.Attack;
+                LocalEvents.Publish(LocalEventBus.События.Команды.Бой.Атакавать_цель, new AttackEvent { Unit = _target.gameObject });
+                _currentState = State.Attack;
             }
             else 
             if (!DetectPlayer())
@@ -99,24 +99,24 @@ namespace ModularEventArchitecture
 
                 LocalEvents.Publish(LocalEventBus.События.Команды.Движение.Остановиться, new BaseEvent());
 
-                currentState = State.Idle;
+                _currentState = State.Idle;
             }
         }
 
 
         private void Attack()
         {
-            if (Vector3.Distance(MyTransform.position, target.position) > Agent.stoppingDistance)
+            if (Vector3.Distance(_myTransform.position, _target.position) > _agent.stoppingDistance)
             {
-                LocalEvents.Publish<MoveToTargetEvent>(LocalEventBus.События.Команды.Движение.Двигаться_к_таргету, new MoveToTargetEvent { target = target });
+                LocalEvents.Publish<MoveToTargetEvent>(LocalEventBus.События.Команды.Движение.Двигаться_к_таргету, new MoveToTargetEvent { target = _target });
 
-                currentState = State.Chase;
+                _currentState = State.Chase;
             }
         }
 
         private bool DetectPlayer()
         {
-            return Vector3.Distance(MyTransform.position, target.position) <= detectionRange;
+            return Vector3.Distance(_myTransform.position, _target.position) <= _detectionRange;
         }
     }
 }

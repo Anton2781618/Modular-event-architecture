@@ -4,11 +4,11 @@ using UnityEngine;
 namespace ModularEventArchitecture
 {
     using static Effect;
-    [CompatibleUnit(typeof(GameEntity))]
+    [CompatibleUnit(typeof(UnitEntity))]
     public class EffectsModule : ModuleBase
     {    
-        [SerializeField] private Effect[] effectsArray = new Effect[64]; // Фиксированный массив для эффектов
-        private int effectsCount = 0; // Текущее количество активных эффектов
+        [SerializeField] private Effect[] _effectsArray = new Effect[64]; // Фиксированный массив для эффектов
+        private int _effectsCount = 0; // Текущее количество активных эффектов
         
         protected override void Initialize()
         {
@@ -30,7 +30,7 @@ namespace ModularEventArchitecture
             if (index != -1)
             {
                 // Обновляем существующий эффект
-                ref Effect existingEffect = ref effectsArray[index];
+                ref Effect existingEffect = ref _effectsArray[index];
                 
                 if (effect.Duration > 0)
                 {
@@ -42,14 +42,14 @@ namespace ModularEventArchitecture
             else
             {
                 // Добавляем новый эффект
-                if (effectsCount < effectsArray.Length)
+                if (_effectsCount < _effectsArray.Length)
                 {
-                    effectsArray[effectsCount] = effect;
+                    _effectsArray[_effectsCount] = effect;
                     
                     // Вызываем события применения
                     ProcessEffectEvents(effect.OnApplyEvents);
                     
-                    effectsCount++;
+                    _effectsCount++;
                 }
             }
         }
@@ -70,9 +70,9 @@ namespace ModularEventArchitecture
 
         public override void UpdateMe()
         {
-            for (int i = effectsCount - 1; i >= 0; i--)
+            for (int i = _effectsCount - 1; i >= 0; i--)
             {
-                ref Effect effect = ref effectsArray[i];
+                ref Effect effect = ref _effectsArray[i];
                 
                 // Обновляем время действия эффекта
                 if (!effect.IsPermanent)
@@ -99,18 +99,18 @@ namespace ModularEventArchitecture
 
         private void RemoveEffectAt(int index)
         {
-            if (index < 0 || index >= effectsCount) return;
+            if (index < 0 || index >= _effectsCount) return;
 
             // Вызываем события удаления перед удалением эффекта
-            ProcessEffectEvents(effectsArray[index].OnRemoveEvents);
+            ProcessEffectEvents(_effectsArray[index].OnRemoveEvents);
             
             // Сдвигаем все последующие элементы на одну позицию влево
-            for (int i = index; i < effectsCount - 1; i++)
+            for (int i = index; i < _effectsCount - 1; i++)
             {
-                effectsArray[i] = effectsArray[i + 1];
+                _effectsArray[i] = _effectsArray[i + 1];
             }
             
-            effectsCount--;
+            _effectsCount--;
         }
 
         private void ProcessEffectEvents(EffectEventData[] events)
@@ -126,9 +126,9 @@ namespace ModularEventArchitecture
 
         private int FindEffectIndex(EffectName effectName)
         {
-            for (int i = 0; i < effectsCount; i++)
+            for (int i = 0; i < _effectsCount; i++)
             {
-                if (effectsArray[i].Name == effectName)
+                if (_effectsArray[i].Name == effectName)
                 {
                     return i;
                 }
@@ -147,14 +147,14 @@ namespace ModularEventArchitecture
             int index = FindEffectIndex(effectName);
             if (index != -1)
             {
-                return ref effectsArray[index];
+                return ref _effectsArray[index];
             }
             throw new InvalidOperationException($"Effect {effectName} not found");
         }
 
         public void RemoveAllEffects()
         {
-            for (int i = effectsCount - 1; i >= 0; i--)
+            for (int i = _effectsCount - 1; i >= 0; i--)
             {
                 RemoveEffectAt(i);
             }
@@ -163,7 +163,7 @@ namespace ModularEventArchitecture
         // Метод для доступа к эффектам как к коллекции
         public Span<Effect> GetActiveEffects()
         {
-            return new Span<Effect>(effectsArray, 0, effectsCount);
+            return new Span<Effect>(_effectsArray, 0, _effectsCount);
         }
     }
 }

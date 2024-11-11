@@ -7,8 +7,8 @@ namespace ModularEventArchitecture
     [CompatibleUnit(typeof(NPC))]
     public sealed class NpcMovementModule : ModuleBase
     {
-        [SerializeField] private NavMeshAgent _agent;
-        [SerializeField] private Animator _animator;
+        private NavMeshAgent _agent;
+        private Animator _animator;
         private NPCMovementSystem _nPCMovementSystem;
         private MovementTarget _currentTarget;
 
@@ -18,9 +18,9 @@ namespace ModularEventArchitecture
         {
             base.Initialize();
             
-            if (!_agent) _agent = GetComponent<NavMeshAgent>();
+            if (!_agent) _agent = Entity.GetCachedComponent<NavMeshAgent>();
             
-            if (!_animator) _animator = GetComponent<Animator>();
+            if (!_animator) _animator = Entity.GetCachedComponent<Animator>();
             
             
             _nPCMovementSystem = new NPCMovementSystem(_animator, _agent);

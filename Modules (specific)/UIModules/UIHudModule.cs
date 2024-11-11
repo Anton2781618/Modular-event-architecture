@@ -21,7 +21,7 @@ namespace ModularEventArchitecture
 
             _camera = Camera.main;
 
-            if (!_animator) _animator = GetComponent<Animator>();
+            if (!_animator) _animator = Entity.GetCachedComponent<Animator>();
 
             LocalEvents.Subscribe<StaminaChangedEvent>(LocalEventBus.События.Выносливость_изменилась , UpdateStamina);
 
@@ -37,7 +37,7 @@ namespace ModularEventArchitecture
 
             if (!hud) CreateHud();
 
-            hud.SetStatus($"{Character.name} <color=green>(в норме)</color>" );
+            hud.SetStatus($"{Entity.name} <color=green>(в норме)</color>" );
         }
 
         private void TiredProcess(BaseEvent data)
@@ -58,21 +58,21 @@ namespace ModularEventArchitecture
                 hud.ResetColorStaminaBar();
             } 
 
-            hud.SetStatus(data.Enabled ? $"{Character.name} <color=orange>(устал)</color>" : $"{Character.name} <color=green>(в норме)</color>");
+            hud.SetStatus(data.Enabled ? $"{Entity.name} <color=orange>(устал)</color>" : $"{Entity.name} <color=green>(в норме)</color>");
 
         }
 
-        private void Die(DieEvent @event) => hud.SetStatus($"{Character.name} <color=red>(мертв)</color>");
+        private void Die(DieEvent @event) => hud.SetStatus($"{Entity.name} <color=red>(мертв)</color>");
 
         private void Unconscious(StunEvent @event)
         {
             if (@event.isStun)
             {
-                hud.SetStatus($"{Character.name} <color=yellow>(оглушен)</color>" );
+                hud.SetStatus($"{Entity.name} <color=yellow>(оглушен)</color>" );
             } 
             else
             {
-                hud.SetStatus($"{Character.name} <color=green>(в норме)</color>" );
+                hud.SetStatus($"{Entity.name} <color=green>(в норме)</color>" );
             }
         }
 

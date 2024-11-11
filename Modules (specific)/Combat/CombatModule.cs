@@ -9,17 +9,20 @@ namespace ModularEventArchitecture
     [CompatibleUnit(typeof(NPC))]
     public sealed class CombatModule : ModuleBase
     {
-        [SerializeField] private NavMeshAgent _agent;
-        [SerializeField] private Animator _animator;
-        [SerializeField] private GameObject target;
-        [SerializeField] private Weapon weapon;
+        private NavMeshAgent _agent;
+        private Animator _animator;
+        [SerializeField] private GameObject _target;
+        [SerializeField] private Weapon _weapon;
 
         private CombatSystem combatSystem;
 
         protected override void Initialize()
         {
-            if (!_agent) _agent = GetComponent<NavMeshAgent>();
-            if (!_animator) _animator = GetComponent<Animator>();
+            base.Initialize();
+            
+            if (!_agent) _agent = Entity.GetCachedComponent<NavMeshAgent>();
+
+            if (!_animator) _animator = Entity.GetCachedComponent<Animator>();
 
             combatSystem = new CombatSystem(_animator, _agent);
 
@@ -28,21 +31,19 @@ namespace ModularEventArchitecture
             LocalEvents.Subscribe<StopFightEvent>(LocalEventBus.События.Команды.Бой.Перестать_сражаться, StopFight);
         }
 
-        private void AttackTrget() => combatSystem.Attack(target);
+        private void AttackTrget() => combatSystem.Attack(_target);
 
         public override void UpdateMe()
         {
-            Debug.Log("UpdateMe");
-            if (target) AttackTrget();
+            if (_target) AttackTrget();
         }
 
-        private void SetTarget(AttackEvent obj) => target = obj.Unit;
-        private void StopFight(StopFightEvent obj) => target = null;
+        private void SetTarget(AttackEvent obj) => _target = obj.Unit;
+        private void StopFight(StopFightEvent obj) => _target = null;
 
         public void SetHitBoolOFF()
         {
-            Debug.Log("SetHitBoolOFF");
-            if(weapon)weapon.SetHitBoolOFF();
+            if(_weapon)_weapon.SetHitBoolOFF();
         }
         
     }

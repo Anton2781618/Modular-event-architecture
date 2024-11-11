@@ -8,7 +8,7 @@ namespace ModularEventArchitecture
     public sealed class PlayerMovementModule : ModuleBase
     {
         private Animator _animator;
-        private PlayerMovementSystem playerMovementSystem;
+        private PlayerMovementSystem _playerMovementSystem;
         private bool _isTiredEffect = false;
         private bool _isRopeConnect = false;
         private bool _isRopeTired = false;
@@ -17,9 +17,9 @@ namespace ModularEventArchitecture
         {
             base.Initialize();
             
-            if (!_animator) _animator = GetComponent<Animator>();
+            if (!_animator) _animator = Entity.GetCachedComponent<Animator>();
 
-            if (playerMovementSystem == null) playerMovementSystem = new PlayerMovementSystem(_animator);
+            if (_playerMovementSystem == null) _playerMovementSystem = new PlayerMovementSystem(_animator);
 
             LocalEvents.Subscribe<BaseEvent>(LocalEventBus.События.Состояния.Усталость, ApplayTiredEffect);
 
@@ -54,30 +54,30 @@ namespace ModularEventArchitecture
 
         public override void UpdateMe()
         {
-            if (_isRopeConnect && playerMovementSystem.MoveVector.magnitude > 0 && _isRopeTired == true)
+            if (_isRopeConnect && _playerMovementSystem.MoveVector.magnitude > 0 && _isRopeTired == true)
             {
                 // LocalEvents.Publish(LocalEventBus.События.Состояния.Эффекты.Эффект_изменился, new EffectEvent{Effect = new Effect( name: Effect.EffectName.Rope, duration: 0)});
             }
             else
-            if (Input.GetKey(KeyCode.LeftShift) && playerMovementSystem.MoveVector.magnitude > 0)
+            if (Input.GetKey(KeyCode.LeftShift) && _playerMovementSystem.MoveVector.magnitude > 0)
             {
-                if (!_isTiredEffect) playerMovementSystem.Sprint = true;
+                if (!_isTiredEffect) _playerMovementSystem.Sprint = true;
 
                 LocalEvents.Publish(LocalEventBus.События.Команды.Движение.Начать_спринт, new BaseEvent());
             }
             else
-            if (playerMovementSystem.Sprint == true && (Input.GetKeyUp(KeyCode.LeftShift) || playerMovementSystem.MoveVector.magnitude == 0))
+            if (_playerMovementSystem.Sprint == true && (Input.GetKeyUp(KeyCode.LeftShift) || _playerMovementSystem.MoveVector.magnitude == 0))
             {
                 StopSprint();
             }
             
-            playerMovementSystem.UpdateMe();
+            _playerMovementSystem.UpdateMe();
         }
 
         //метод закончить спринт
         public void StopSprint()
         {
-            playerMovementSystem.Sprint = false;
+            _playerMovementSystem.Sprint = false;
 
             LocalEvents.Publish(LocalEventBus.События.Команды.Движение.Закончить_спринт, new BaseEvent());
         }

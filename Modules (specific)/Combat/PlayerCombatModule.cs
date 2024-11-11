@@ -5,33 +5,33 @@ namespace ModularEventArchitecture
     [CompatibleUnit(typeof(Player))]
     public class PlayerCombatModule : ModuleBase
     {
-        private bool isUIOpen = false;
+        private bool _isUIOpen = false;
         private Animator _animator;
-        [SerializeField] private Weapon weapon;
+        [SerializeField] private Weapon _weapon;
 
         protected override void Initialize()
         {
             base.Initialize();
             
-            if (!_animator) _animator = Character.GetCachedComponent<Animator>();
+            if (!_animator) _animator = Entity.GetCachedComponent<Animator>();
             
-            weapon.Init(_animator);
+            _weapon.Init(_animator);
         }
 
         public override void UpdateMe()
         {
-            if(Input.GetKeyDown(KeyCode.Mouse0) && !isUIOpen)
+            if(Input.GetKeyDown(KeyCode.Mouse0) && !_isUIOpen)
             {
 
                 Attack();
             }
             else
-            if(Input.GetKeyDown(KeyCode.Mouse1) && !isUIOpen)
+            if(Input.GetKeyDown(KeyCode.Mouse1) && !_isUIOpen)
             {
                 // Attack2();
             }
             else
-            if(Input.GetKeyDown(KeyCode.Mouse2) && !isUIOpen)
+            if(Input.GetKeyDown(KeyCode.Mouse2) && !_isUIOpen)
             {
                 JumpAttack();
             }
@@ -39,22 +39,22 @@ namespace ModularEventArchitecture
 
         public void SetHitBoolOFF()
         {
-            if(weapon)weapon.SetHitBoolOFF();
+            if(_weapon)_weapon.SetHitBoolOFF();
         }
 
         public void Attack()
         {
-            weapon.Attack("Attack");
+            _weapon.Attack("Attack");
         }
         
         public void Attack2()
         {
-            weapon.Attack("Attack2");
+            _weapon.Attack("Attack2");
         }
         
         public void JumpAttack()
         {
-            weapon.Attack("JumpAttack", true);
+            _weapon.Attack("JumpAttack", true);
         }
     }
 }
