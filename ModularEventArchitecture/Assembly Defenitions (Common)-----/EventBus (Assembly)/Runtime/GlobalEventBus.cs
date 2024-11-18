@@ -35,15 +35,5 @@ public class GlobalEventBus : EventBus
             public const int Показать_текст_в_точке = (int)ActionsType.ShowText_ToPoint;
             public const int Заспавнить_моба = (int)ActionsType.SpawnMob;
         }
-
-        public static class Game2048
-        {
-            public const int Move = (int)ActionsType.Game2048_Move;
-            public const int TileSpawned = (int)ActionsType.Game2048_TileSpawned;
-            public const int TileMove = (int)ActionsType.Game2048_TileMove;
-            public const int ScoreChanged = (int)ActionsType.Game2048_ScoreChanged;
-            public const int GameOver = (int)ActionsType.Game2048_GameOver;
-            public const int RestartGame = (int)ActionsType.Game2048_RestartGame;
-        }
     }
 }

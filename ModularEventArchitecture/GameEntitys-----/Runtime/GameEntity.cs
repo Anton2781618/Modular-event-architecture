@@ -57,11 +57,13 @@ namespace ModularEventArchitecture
 
         public T GetModule<T>() where T : class
         {
-            if (typeof(T) == typeof(IStatus))
+            foreach (var module in modules)
             {
-                return modules.Find(x => x is IStatus) as T;
+                if (module is T result)
+                {
+                    return result;
+                }
             }
-            // Добавьте другие проверки для других типов модулей по необходимости
             
             return new NotImplementedException($"такого модуля нет в списке модулей у {transform.name}") as T;
         }

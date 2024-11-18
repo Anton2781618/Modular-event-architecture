@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace ModularEventArchitecture
 {
-    [CompatibleUnit(typeof(LevelManager))]
+    [CompatibleUnit(typeof(LevelManager))] [DefaultExecutionOrder(-148)]
     public class EntityLifecycleModule : ModuleBase
     {
         private Dictionary<GameObject, GameEntity> _dictEntities = new Dictionary<GameObject, GameEntity>();
@@ -82,13 +82,22 @@ namespace ModularEventArchitecture
 
         public int GetEntityCount() => _dictEntities.Count;
 
-        [ContextMenu("ShowEntetys")]
+        [Tools.Button("Вывести списки в консоль")]
         public void ShowEntetys()
         {
-            Debug.Log(_dictEntities.Values.Count);
+            Debug.Log($"В словаре {_dictEntities.Values.Count}" );
+
             foreach (var entity in _dictEntities.Values)
             {
                 Debug.Log(entity.gameObject.name);
+            }
+
+            Debug.Log($"В списке {_entities.Count}" );
+
+            foreach (var item in _entities)
+            {
+                Debug.Log(item.gameObject.name);
+                
             }
         }
 
