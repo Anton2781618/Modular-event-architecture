@@ -36,7 +36,7 @@
 
 1. Window > Package Manager
 2. "+" > "Add package from git URL"
-3. Вставьте: `https://github.com/Anton2781618/caer-core.git`
+3. Вставьте: `https://github.com/Anton2781618/Modular-event-architecture.git`
 
 ## Примеры использования
 

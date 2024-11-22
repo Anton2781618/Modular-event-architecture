@@ -1,5 +1,5 @@
 {
-  "name": "com.caer.core",
+  "name": "com.gamedevlab.modular-event-architecture",
   "version": "1.0.0",
   "displayName": "Modular-event-architecture",
   "description": "Модульно-событийная архитектура для Unity проектов с поддержкой EventBus, GameEntity и системой модулей",
