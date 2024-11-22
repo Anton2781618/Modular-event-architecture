@@ -1,0 +1,18 @@
+{
+    "name": "ModularEventArchitecture.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:3d35026217a0d6d40b120ef114b003aa"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

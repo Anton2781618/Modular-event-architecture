@@ -1,18 +1,30 @@
 {
-  "name": "com.caer.core", 
+  "name": "com.caer.core",
   "version": "1.0.0",
   "displayName": "Modular-event-architecture",
-  "description": "Core systems and utilities for Caer games",
-  "unity": "2022.3",
+  "description": "Модульно-событийная архитектура для Unity проектов с поддержкой EventBus, GameEntity и системой модулей",
+  "unity": "2022.3.0",
   "author": {
-    "name": "Your Name"
+    "name": "GameDevLab",
+    "url": "https://github.com/Anton2781618"
   },
-  "dependencies": {},
+  "dependencies": {
+    "com.unity.textmeshpro": "3.0.6"
+  },
   "keywords": [
     "core",
     "utils",
     "gameentity",
     "modules",
-    "eventbus"
+    "eventbus",
+    "architecture",
+    "modular"
+  ],
+  "samples": [
+    {
+      "displayName": "Basic Usage",
+      "description": "Демонстрация базового использования архитектуры",
+      "path": "Samples~/BasicUsage"
+    }
   ]
 }
