@@ -2,7 +2,7 @@
   "name": "com.gamedevlab.modular-event-architecture",
   "version": "1.0.0",
   "displayName": "Modular-event-architecture",
-  "description": "Модульно-событийная архитектура для Unity проектов с поддержкой EventBus, GameEntity и системой модулей",
+  "description": "Модульно-событийная архитектура для Unity проектов с поддержкой EventBus, GameEntity и системой модулей. Простая интеграция - наследуйтесь от GameEntity и используйте готовые модули в любом месте проекта.",
   "unity": "2022.3",
   "author": {
     "name": "GameDevLab",
@@ -12,19 +12,15 @@
     "com.unity.textmeshpro": "3.0.6"
   },
   "keywords": [
-    "core",
-    "utils",
     "gameentity",
     "modules",
     "eventbus",
     "architecture",
-    "modular"
+    "modular",
+    "events",
+    "game-framework"
   ],
-  "samples": [
-    {
-      "displayName": "Basic Usage",
-      "description": "Демонстрация базового использования архитектуры",
-      "path": "Samples~/BasicUsage"
-    }
-  ]
+  "documentationUrl": "https://github.com/Anton2781618/Modular-event-architecture/blob/main/README.md",
+  "changelogUrl": "https://github.com/Anton2781618/Modular-event-architecture/blob/main/CHANGELOG.md",
+  "licensesUrl": "https://github.com/Anton2781618/Modular-event-architecture/blob/main/LICENSE"
 }

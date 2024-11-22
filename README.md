@@ -1,81 +1,67 @@
 # Модульно-событийная архитектура
 
-Базовый набор систем и утилит для Unity проектов, предоставляющий гибкую и расширяемую архитектуру.
+Простая и гибкая архитектура для Unity проектов с поддержкой модульности и событийной системы.
 
-## Основные компоненты
-
-### EventBus
-Система событий с поддержкой глобальных и локальных шин:
-- `GlobalEventBus` - для общих событий
-- `LocalEventBus` - для событий в рамках одной сущности
-- `MonoEventBus` - для MonoBehaviour компонентов
+## Основные возможности
 
 ### GameEntity
-Базовые классы для игровых объектов:
-- `GameEntity` - базовый класс для всех игровых сущностей
-- `ManagerEntity` - для менеджеров (GameManager, UIManager и т.д.)
-- `UIEntity` - для UI элементов
-- `UnitEntity` - для игровых юнитов (Player, NPC)
-
-### Модульная система
-Расширяемая система модулей:
-- `ModuleBase` - базовый класс для создания модулей
-- Готовые модули:
-  - `EntityLifecycleModule` - управление жизненным циклом
-  - `InputModule` - обработка ввода
-  - `UIModules` - набор UI модулей
-
-### Инструменты
-- Атрибуты для инспектора Unity
-- Активаторы событий
-- Редакторные расширения
-
-## Установка
-
-### Через Unity Package Manager
-
-1. Window > Package Manager
-2. "+" > "Add package from git URL"
-3. Вставьте: `https://github.com/Anton2781618/Modular-event-architecture.git`
-
-## Примеры использования
-
-### Создание игровой сущности
+Базовый класс для всех игровых объектов с поддержкой модульности:
 ```csharp
-public class Enemy : GameEntity 
+// Просто унаследуйтесь от GameEntity
+public class Player : GameEntity 
 {
     protected override void OnInit()
     {
-        // Инициализация
+        // Добавляйте любые модули
+        AddModule<InputModule>();
         AddModule<EntityLifecycleModule>();
     }
 }
 ```
 
-### Работа с событиями
+### Готовые модули
+- `EntityLifecycleModule` - управление жизненным циклом
+- `InputModule` - обработка ввода
+- `UIModules` - набор UI модулей
+- `SystemControlModule` - управление системными функциями
+- `FPSCounterModule` - счетчик FPS
+- И другие...
+
+### Система событий
+Глобальная и локальная шины событий:
 ```csharp
 // Подписка на событие
 GlobalEventBus.Subscribe<GameStartEvent>(OnGameStart);
 
 // Отправка события
 GlobalEventBus.Publish(new GameStartEvent());
-
-// Отписка
-GlobalEventBus.Unsubscribe<GameStartEvent>(OnGameStart);
 ```
 
-### Создание модуля
-```csharp
-public class CustomModule : ModuleBase
-{
-    public override void OnInit()
-    {
-        // Инициализация модуля
-    }
+### Менеджеры
+Готовые менеджеры для типовых задач:
+- `GameManager`
+- `UIManager`
+- `LevelManager`
+- `InputManager`
 
-    public override void OnUpdate()
+## Установка
+
+1. Window > Package Manager
+2. "+" > "Add package from git URL"
+3. Вставьте: `https://github.com/Anton2781618/Modular-event-architecture.git`
+
+## Быстрый старт
+
+1. Создайте новый скрипт
+2. Унаследуйтесь от GameEntity
+3. Добавляйте модули в OnInit()
+```csharp
+public class Enemy : GameEntity 
+{
+    protected override void OnInit()
     {
-        // Логика обновления
+        // Добавляем нужные модули
+        AddModule<EntityLifecycleModule>();
     }
 }
 ```
@@ -84,14 +70,29 @@ public class CustomModule : ModuleBase
 
 ```
 Assets/Scripts/Core/
-├── ModularEventArchitecture/    # Основной код
-│   ├── EventBus/               # Система событий
-│   ├── GameEntitys/            # Базовые сущности
-│   ├── Modules/                # Система модулей
-│   └── Tools/                  # Утилиты
-└── Editor/                     # Редакторные расширения
-    ├── GameEntityEditor/       # Редактор сущностей
-    └── ModulesEditor/          # Редактор модулей
+├── Runtime/                  # Основной код
+│   ├── EventBus/            # Система событий
+│   ├── GameEntitys/         # Базовые сущности
+│   ├── Modules/             # Готовые модули
+│   └── Tools/               # Утилиты
+└── Editor/                  # Редакторные расширения
+```
+
+## Создание своих модулей
+
+```csharp
+public class CustomModule : ModuleBase
+{
+    public override void OnInit()
+    {
+        // Инициализация
+    }
+
+    public override void OnUpdate()
+    {
+        // Логика обновления
+    }
+}
 ```
 
 ## Лицензия
