@@ -1,5 +1,5 @@
-<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <Style src="project://database/Assets/Scripts/Core/GameEntitys/Editor/NPC/UXML/NpcEditorStyle.uss?fileID=7433441132597879392&amp;guid=f9a72b8917288ef49a3adf363e76f141&amp;type=3#NpcEditorStyle" />
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <Style src="project://database/Assets/Scripts/Core/GameEntitys/Editor/GameEntityEditor/UXML/GameEntityEditorStyle.uss?fileID=7433441132597879392&amp;guid=034312b96ae1a804e99cdb5d32392157&amp;type=3#GameEntityEditorStyle" />
     <ui:VisualElement name="Plane1" class="Selector" style="flex-grow: 1;">
         <ui:Label tabindex="-1" text="Материнская часть" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Label" style="font-size: 24px; -unity-text-align: upper-center; -unity-font-style: bold; white-space: normal; -unity-text-outline-width: 0.5px; -unity-text-outline-color: rgb(0, 0, 0); letter-spacing: 10px;" />
     </ui:VisualElement>
