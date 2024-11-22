@@ -1,9 +1,3 @@
-# Unity generated
-*.meta
-*.pidb.meta
-*.pdb.meta
-*.mdb.meta
-
 # VS/Rider/MD/Consulo
 .vs/
 .idea/
