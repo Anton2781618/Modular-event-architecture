@@ -19,6 +19,5 @@
     "modular",
     "events",
     "game-framework"
-  ],
-  "type": "library"
+  ]
 }
