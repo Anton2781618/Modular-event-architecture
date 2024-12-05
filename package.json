@@ -19,5 +19,7 @@
     "modular",
     "events",
     "game-framework"
-  ]
+  ],
+  "type": "template",
+  "hideInEditor": false
 }
