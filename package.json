@@ -20,13 +20,8 @@
     "events",
     "game-framework"
   ],
-  "type": "template",
-  "hideInEditor": false,
-  "samples": [
-    {
-      "displayName": "Editor Tools",
-      "description": "Дополнительные инструменты редактора",
-      "path": "Editor"
-    }
-  ]
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Anton2781618/Modular-event-architecture.git"
+  }
 }
