@@ -21,5 +21,12 @@
     "game-framework"
   ],
   "type": "template",
-  "hideInEditor": false
+  "hideInEditor": false,
+  "samples": [
+    {
+      "displayName": "Editor Tools",
+      "description": "Дополнительные инструменты редактора",
+      "path": "Editor"
+    }
+  ]
 }
