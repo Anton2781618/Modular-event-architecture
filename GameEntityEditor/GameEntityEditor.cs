@@ -22,7 +22,7 @@ namespace ModularEventArchitecture
 
         private List<Type> availableModules;
 
-        private void OnEnable()
+        protected virtual  void OnEnable()
         {
             _targetEntity = target as GameEntity;
 
