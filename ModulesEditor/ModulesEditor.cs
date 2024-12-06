@@ -6,7 +6,6 @@ using System.Linq;
 using Tools;
 using System.Drawing;
 using System.Reflection;
-using log4net.Util;
 using UnityEngine;
 
 namespace ModularEventArchitecture
