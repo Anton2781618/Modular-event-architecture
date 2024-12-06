@@ -22,44 +22,53 @@ namespace ModularEventArchitecture
 
         private List<Type> availableModules;
 
-        protected virtual  void OnEnable()
+        protected virtual void OnEnable()
         {
             _targetEntity = target as GameEntity;
 
-            // Получаем все типы модулей
-            var allModuleTypes = Assembly.GetAssembly(typeof(ModuleBase)).GetTypes().Where(t => typeof(ModuleBase).IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract);
+            // Получаем Assembly-CSharp сборку
+            var assemblyCSharp = AppDomain.CurrentDomain.GetAssemblies()
+                .FirstOrDefault(assembly => assembly.GetName().Name == "Assembly-CSharp");
 
-            // Фильтруем модули с учетом обоих атрибутов
-            availableModules = allModuleTypes.Where(moduleType =>
+            if (assemblyCSharp != null)
             {
-                // Проверяем исключения
-                var incompatibleAttributes = moduleType.GetCustomAttributes<IncompatibleUnitAttribute>();
-                if (incompatibleAttributes.Any(attr => attr.UnitType.IsAssignableFrom(_targetEntity.GetType())))
-                {
-                    return false; // Модуль исключен для данного типа
-                }
+                // Получаем все типы модулей из Assembly-CSharp
+                var allModuleTypes = assemblyCSharp.GetTypes()
+                    .Where(t => typeof(ModuleBase).IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract)
+                    .ToList();
 
-                // Проверяем совместимость
-                var compatibleAttributes = moduleType.GetCustomAttributes<CompatibleUnitAttribute>();
-                
-                // Если нет атрибутов совместимости, считаем модуль совместимым
-                if (!compatibleAttributes.Any())
+                // Фильтруем модули с учетом обоих атрибутов
+                availableModules = allModuleTypes.Where(moduleType =>
                 {
-                    return true;
-                }
+                    // Проверяем исключения
+                    var incompatibleAttributes = moduleType.GetCustomAttributes<IncompatibleUnitAttribute>();
+                    if (incompatibleAttributes.Any(attr => attr.UnitType.IsAssignableFrom(_targetEntity.GetType())))
+                    {
+                        return false; // Модуль исключен для данного типа
+                    }
 
-                return compatibleAttributes.Any(attr => attr.UnitType.IsAssignableFrom(_targetEntity.GetType()));
-            }).ToList();
+                    // Проверяем совместимость
+                    var compatibleAttributes = moduleType.GetCustomAttributes<CompatibleUnitAttribute>();
+                    
+                    // Если нет атрибутов совместимости, считаем модуль совместимым
+                    if (!compatibleAttributes.Any())
+                    {
+                        return true;
+                    }
+
+                    return compatibleAttributes.Any(attr => attr.UnitType.IsAssignableFrom(_targetEntity.GetType()));
+                }).ToList();
+            }
+            else
+            {
+                Debug.LogError("Assembly-CSharp not found!");
+                availableModules = new List<Type>();
+            }
         }
 
         public override VisualElement CreateInspectorGUI()
         {
             VisualElement root = new VisualElement();
-
-            // Add the script field at the top
-            // var scriptField = new PropertyField(serializedObject.FindProperty("m_Script"));
-            // scriptField.SetEnabled(false);
-            // root.Add(scriptField);
 
             treeAsset.CloneTree(root);
 
