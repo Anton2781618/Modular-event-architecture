@@ -1,6 +1,6 @@
 {
   "name": "com.gamedevlab.modular-event-architecture",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "displayName": "Modular-event-architecture",
   "description": "Модульно-событийная архитектура для Unity проектов с поддержкой EventBus, GameEntity и системой модулей. Простая интеграция - используйте namespace ModularEventArchitecture и наследуйтесь от GameEntity для использования готовых модулей в любом месте проекта.",
   "unity": "2022.3",
@@ -23,5 +23,7 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/Anton2781618/Modular-event-architecture.git"
-  }
+  },
+  "samples": [],
+  "type": "library"
 }
