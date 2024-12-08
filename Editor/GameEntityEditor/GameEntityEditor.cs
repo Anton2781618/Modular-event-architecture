@@ -96,19 +96,37 @@ namespace ModularEventArchitecture
 
         public override VisualElement CreateInspectorGUI()
         {
-            VisualElement root = new VisualElement();
+            try
+            {
+                VisualElement root = new VisualElement();
 
-            treeAsset.CloneTree(root);
+                if (treeAsset != null)
+                {
+                    treeAsset.CloneTree(root);
 
-            _ADDModule = root.Q<Button>("Button_ADDMondule");
-            _modulesContainer = root.Q<VisualElement>("ModulesContainer");
+                    _ADDModule = root.Q<Button>("Button_ADDMondule");
+                    _modulesContainer = root.Q<VisualElement>("ModulesContainer");
 
-            _ADDModule.clicked += ToggleModuleMenu;
+                    if (_ADDModule != null)
+                    {
+                        _ADDModule.clicked += ToggleModuleMenu;
+                    }
+                }
+                else
+                {
+                    Debug.LogWarning("GameEntityEditor: treeAsset is null");
+                }
 
-            // Add default inspector properties
-            InspectorElement.FillDefaultInspector(root, serializedObject, this);
+                // Add default inspector properties
+                InspectorElement.FillDefaultInspector(root, serializedObject, this);
 
-            return root;
+                return root;
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"Error in GameEntityEditor.CreateInspectorGUI: {e}");
+                return new VisualElement();
+            }
         }
 
         private void ToggleModuleMenu()
@@ -117,18 +135,26 @@ namespace ModularEventArchitecture
             
             if (_isMenuOpen)
             {
-                _modulesContainer.style.display = DisplayStyle.Flex;
-                CreateModuleButtons();
+                if (_modulesContainer != null)
+                {
+                    _modulesContainer.style.display = DisplayStyle.Flex;
+                    CreateModuleButtons();
+                }
             }
             else
             {
-                _modulesContainer.style.display = DisplayStyle.None;
-                _modulesContainer.Clear();
+                if (_modulesContainer != null)
+                {
+                    _modulesContainer.style.display = DisplayStyle.None;
+                    _modulesContainer.Clear();
+                }
             }
         }
 
         private void CreateModuleButtons()
         {
+            if (_modulesContainer == null) return;
+
             _modulesContainer.Clear();
 
             foreach (var moduleType in availableModules)
