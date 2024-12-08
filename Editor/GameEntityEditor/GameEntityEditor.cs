@@ -24,63 +24,74 @@ namespace ModularEventArchitecture
 
         protected virtual void OnEnable()
         {
-            _targetEntity = target as GameEntity;
-
-            var moduleTypes = new HashSet<Type>();
-
-            // Поиск в Assembly-CSharp
-            var assemblyCSharp = AppDomain.CurrentDomain.GetAssemblies()
-                .FirstOrDefault(assembly => assembly.GetName().Name == "Assembly-CSharp");
-
-            if (assemblyCSharp != null)
+            try
             {
-                var csharpModules = assemblyCSharp.GetTypes()
-                    .Where(t => typeof(ModuleBase).IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract);
-                foreach (var type in csharpModules)
+                _targetEntity = target as GameEntity;
+
+                var moduleTypes = new HashSet<Type>();
+
+                // Поиск в Assembly-CSharp
+                var assemblyCSharp = AppDomain.CurrentDomain.GetAssemblies()
+                    .FirstOrDefault(assembly => assembly.GetName().Name == "Assembly-CSharp");
+
+                if (assemblyCSharp != null)
                 {
-                    moduleTypes.Add(type);
+                    var csharpModules = assemblyCSharp.GetTypes()
+                        .Where(t => typeof(ModuleBase).IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract);
+                    foreach (var type in csharpModules)
+                    {
+                        moduleTypes.Add(type);
+                    }
                 }
+
+                // Поиск в текущей сборке ModularEventArchitecture
+                var currentAssembly = Assembly.GetAssembly(typeof(ModuleBase));
+                if (currentAssembly != null)
+                {
+                    var assemblyModules = currentAssembly.GetTypes()
+                        .Where(t => typeof(ModuleBase).IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract);
+                    foreach (var type in assemblyModules)
+                    {
+                        moduleTypes.Add(type);
+                    }
+                }
+
+                // Фильтруем модули с учетом обоих атрибутов
+                availableModules = moduleTypes.Where(moduleType =>
+                {
+                    try
+                    {
+                        // Проверяем исключения
+                        var incompatibleAttributes = moduleType.GetCustomAttributes<IncompatibleUnitAttribute>();
+                        if (incompatibleAttributes == null || incompatibleAttributes.Any(attr => attr.UnitType.IsAssignableFrom(_targetEntity.GetType())))
+                        {
+                            return false; // Модуль исключен для данного типа
+                        }
+
+                        // Проверяем совместимость
+                        var compatibleAttributes = moduleType.GetCustomAttributes<CompatibleUnitAttribute>();
+                        
+                        // Если нет атрибутов совместимости, считаем модуль совместимым
+                        if (compatibleAttributes == null || !compatibleAttributes.Any())
+                        {
+                            return true;
+                        }
+
+                        return compatibleAttributes.Any(attr => attr.UnitType.IsAssignableFrom(_targetEntity.GetType()));
+                    }
+                    catch (NullReferenceException)
+                    {
+                        // Если произошла ошибка при проверке атрибутов, считаем модуль совместимым
+                        Debug.LogWarning($"Null reference while checking attributes for module {moduleType.Name}");
+                        return true;
+                    }
+                }).ToList();
             }
-
-            // Поиск в текущей сборке ModularEventArchitecture
-            var currentAssembly = Assembly.GetAssembly(typeof(ModuleBase));
-            if (currentAssembly != null)
+            catch (Exception e)
             {
-                var assemblyModules = currentAssembly.GetTypes()
-                    .Where(t => typeof(ModuleBase).IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract);
-                foreach (var type in assemblyModules)
-                {
-                    moduleTypes.Add(type);
-                }
+                Debug.LogError($"Error in GameEntityEditor.OnEnable: {e}");
+                availableModules = new List<Type>();
             }
-
-            // Фильтруем модули с учетом обоих атрибутов
-            availableModules = moduleTypes.Where(moduleType =>
-            {
-                // Проверяем исключения
-                var incompatibleAttributes = moduleType.GetCustomAttributes<IncompatibleUnitAttribute>();
-                if (incompatibleAttributes != null && incompatibleAttributes.Any(attr => 
-                    attr != null && 
-                    attr.UnitType != null && 
-                    attr.UnitType.IsAssignableFrom(_targetEntity.GetType())))
-                {
-                    return false; // Модуль исключен для данного типа
-                }
-
-                // Проверяем совместимость
-                var compatibleAttributes = moduleType.GetCustomAttributes<CompatibleUnitAttribute>();
-                
-                // Если нет атрибутов совместимости, считаем модуль совместимым
-                if (compatibleAttributes == null || !compatibleAttributes.Any())
-                {
-                    return true;
-                }
-
-                return compatibleAttributes.Any(attr => 
-                    attr != null && 
-                    attr.UnitType != null && 
-                    attr.UnitType.IsAssignableFrom(_targetEntity.GetType()));
-            }).ToList();
         }
 
         public override VisualElement CreateInspectorGUI()
