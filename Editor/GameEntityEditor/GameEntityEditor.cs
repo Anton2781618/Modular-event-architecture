@@ -59,7 +59,7 @@ namespace ModularEventArchitecture
             {
                 // Проверяем исключения
                 var incompatibleAttributes = moduleType.GetCustomAttributes<IncompatibleUnitAttribute>();
-                if (incompatibleAttributes.Any(attr => attr.UnitType.IsAssignableFrom(_targetEntity.GetType())))
+                if (incompatibleAttributes == null || incompatibleAttributes.Any(attr => attr.UnitType.IsAssignableFrom(_targetEntity.GetType())))
                 {
                     return false; // Модуль исключен для данного типа
                 }
@@ -68,7 +68,7 @@ namespace ModularEventArchitecture
                 var compatibleAttributes = moduleType.GetCustomAttributes<CompatibleUnitAttribute>();
                 
                 // Если нет атрибутов совместимости, считаем модуль совместимым
-                if (!compatibleAttributes.Any())
+                if (compatibleAttributes == null || !compatibleAttributes.Any())
                 {
                     return true;
                 }
