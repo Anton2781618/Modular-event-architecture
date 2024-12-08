@@ -59,7 +59,10 @@ namespace ModularEventArchitecture
             {
                 // Проверяем исключения
                 var incompatibleAttributes = moduleType.GetCustomAttributes<IncompatibleUnitAttribute>();
-                if (incompatibleAttributes == null || incompatibleAttributes.Any(attr => attr.UnitType.IsAssignableFrom(_targetEntity.GetType())))
+                if (incompatibleAttributes != null && incompatibleAttributes.Any(attr => 
+                    attr != null && 
+                    attr.UnitType != null && 
+                    attr.UnitType.IsAssignableFrom(_targetEntity.GetType())))
                 {
                     return false; // Модуль исключен для данного типа
                 }
@@ -73,7 +76,10 @@ namespace ModularEventArchitecture
                     return true;
                 }
 
-                return compatibleAttributes.Any(attr => attr.UnitType.IsAssignableFrom(_targetEntity.GetType()));
+                return compatibleAttributes.Any(attr => 
+                    attr != null && 
+                    attr.UnitType != null && 
+                    attr.UnitType.IsAssignableFrom(_targetEntity.GetType()));
             }).ToList();
         }
 
