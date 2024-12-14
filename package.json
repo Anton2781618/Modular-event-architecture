@@ -24,6 +24,17 @@
     "type": "git",
     "url": "https://github.com/Anton2781618/Modular-event-architecture.git"
   },
-  "samples": [],
+  "samples": [
+    {
+      "displayName": "Inventory Module",
+      "description": "Модуль инвентаря с базовым функционалом",
+      "path": "Samples~/InventoryModule"
+    },
+    {
+      "displayName": "Dialog System Module",
+      "description": "Модуль системы диалогов",
+      "path": "Samples~/DialogModule"
+    }
+  ],
   "type": "library"
 }

@@ -1,0 +1,16 @@
+{
+    "name": "ModularEventArchitecture.Samples.Inventory",
+    "rootNamespace": "ModularEventArchitecture.Samples.Inventory",
+    "references": [
+        "ModularEventArchitecture"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
