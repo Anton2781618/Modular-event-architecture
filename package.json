@@ -11,6 +11,10 @@
   "dependencies": {
     "com.unity.textmeshpro": "3.0.6"
   },
+  "optionalDependencies": {
+    "com.gamedevlab.modular-event-architecture.inventory": "1.0.0",
+    "com.gamedevlab.modular-event-architecture.dialog": "1.0.0"
+  },
   "keywords": [
     "gameentity",
     "modules",
@@ -24,17 +28,5 @@
     "type": "git",
     "url": "https://github.com/Anton2781618/Modular-event-architecture.git"
   },
-  "samples": [
-    {
-      "displayName": "Inventory Module",
-      "description": "Модуль инвентаря с базовым функционалом",
-      "path": "Samples~/InventoryModule"
-    },
-    {
-      "displayName": "Dialog System Module",
-      "description": "Модуль системы диалогов",
-      "path": "Samples~/DialogModule"
-    }
-  ],
   "type": "library"
 }

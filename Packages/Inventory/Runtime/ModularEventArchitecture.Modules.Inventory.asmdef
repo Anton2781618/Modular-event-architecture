@@ -1,8 +1,7 @@
 {
-    "name": "ModularEventArchitecture.Samples.Dialog",
-    "rootNamespace": "ModularEventArchitecture.Samples.Dialog",
+    "name": "ModularEventArchitecture.Modules.Inventory",
+    "rootNamespace": "ModularEventArchitecture.Modules.Inventory",
     "references": [
-        "GUID:6055be8ebefd69e48b49212b09b47b2f",
         "ModularEventArchitecture"
     ],
     "includePlatforms": [],

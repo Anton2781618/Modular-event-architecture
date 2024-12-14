@@ -1,0 +1,23 @@
+{
+  "name": "com.gamedevlab.modular-event-architecture.inventory",
+  "version": "1.0.0",
+  "displayName": "MEA Inventory Module",
+  "description": "Модуль инвентаря для Modular Event Architecture",
+  "unity": "2022.3",
+  "dependencies": {
+    "com.gamedevlab.modular-event-architecture": "1.0.1"
+  },
+  "keywords": [
+    "inventory",
+    "module",
+    "mea"
+  ],
+  "author": {
+    "name": "GameDevLab",
+    "url": "https://github.com/Anton2781618"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Anton2781618/Modular-event-architecture.git?path=/Packages/Inventory"
+  }
+}
