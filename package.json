@@ -28,12 +28,14 @@
     {
       "displayName": "Модуль инвентаря",
       "description": "Добавляет базовую систему инвентаря с настраиваемым количеством слотов",
-      "path": "Runtime/GameEntitys/Managers/InventoryManager"
+      "path": "Samples~/InventoryModule",
+      "packageFolder": "Packages/com.gamedevlab.modular-event-architecture.inventory"
     },
     {
       "displayName": "Модуль диалогов",
       "description": "Добавляет систему диалогов с поддержкой автопропуска",
-      "path": "Runtime/GameEntitys/Managers/DialogManager"
+      "path": "Samples~/DialogModule",
+      "packageFolder": "Packages/com.gamedevlab.modular-event-architecture.dialog"
     }
   ],
   "type": "library"
