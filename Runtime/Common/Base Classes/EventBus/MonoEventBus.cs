@@ -7,10 +7,6 @@ namespace ModularEventArchitecture
 
     public abstract class MonoEventBus : MonoBehaviour
     {
-        //Инициализировать себя при запуске или ждать пока кто нибудь другой проинициализирует объект
-        [Tooltip("Инициализировать себя при запуске или ждать пока кто нибудь другой проинициализирует объект")]
-        public bool InitializeSelf = true;
-        
         private List<(int id, Action<IEventData> action)> _globalEvents;
         public List<(int id, Action<IEventData> action)> Globalevents
         {
@@ -54,12 +50,6 @@ namespace ModularEventArchitecture
             }
 
             _localEvents = localEventBus;
-            
-            if (!InitializeSelf)
-            {
-                Initialize();
-                SubscribeToEvents();
-            }
         }
 
         protected virtual void Awake() => Initialize();
