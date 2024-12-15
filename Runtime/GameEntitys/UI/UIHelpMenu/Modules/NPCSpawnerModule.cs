@@ -7,9 +7,8 @@ namespace ModularEventArchitecture
     [CompatibleUnit(typeof(UIHelpMenu))]
     public class NPCSpawnerModule : ModuleBase
     {
-        protected override void Initialize()
+        public override void Initialize()
         {
-            base.Initialize();
         }
 
         public void SpawnNPC()

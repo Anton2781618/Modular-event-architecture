@@ -6,7 +6,7 @@ namespace ModularEventArchitecture
 {
     public abstract class GameEntity : MonoEventBus
     {
-        public List<IModule> modules = new List<IModule>();
+        public List<ModuleBase> modules = new List<ModuleBase>();
         // Кэшируем часто используемые компоненты
         private Dictionary<Type, Component> cachedComponents;
 
@@ -22,6 +22,8 @@ namespace ModularEventArchitecture
 
         protected override void OnEnable()
         {
+            InitializeModules();
+
             base.OnEnable();
 
             GlobalEventBus.Instance.Publish(GlobalEventBus.События.Юнит_создан, new CreateUnitEvent {Unit = this});
@@ -30,7 +32,7 @@ namespace ModularEventArchitecture
         protected override void OnDisable()
         {
             base.OnDisable();
-            
+
             GlobalEventBus.Instance.Publish(GlobalEventBus.События.Юнит_погиб, new DieEvent { Unit = this });
         }
 
@@ -38,7 +40,7 @@ namespace ModularEventArchitecture
         public virtual void Reactivate() => gameObject.SetActive(true);
         public virtual void Use(){}
 
-        public void AddModule(IModule module)
+        public void AddModule(ModuleBase module)
         {
             if (module == null)
             {
@@ -50,7 +52,17 @@ namespace ModularEventArchitecture
 
             modules.Add(module);
 
-            module.SetLocalEventBus(LocalEvents);
+            module.Setup(this);
+
+            // module.SetLocalEventBus(LocalEvents);
+        }
+
+        public void InitializeModules()
+        {
+            for (int i = 0; i < modules.Count; i++)
+            {
+                modules[i].Initialize();
+            }
         }
 
         public void RemoveModule(ModuleBase module) => modules.Remove(module);

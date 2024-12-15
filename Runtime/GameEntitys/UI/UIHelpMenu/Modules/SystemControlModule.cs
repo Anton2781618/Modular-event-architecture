@@ -9,9 +9,8 @@ namespace ModularEventArchitecture
     [CompatibleUnit(typeof(UIHelpMenu))]
     public class SystemControlModule : ModuleBase
     {
-        protected override void Initialize()
+        public override void Initialize()
         {
-            base.Initialize();
         }
         
         [Tools.Button("Перезапустить сцену")]

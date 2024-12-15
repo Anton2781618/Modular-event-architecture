@@ -7,9 +7,8 @@ namespace ModularEventArchitecture
     [CompatibleUnit(typeof(GameManager))] 
     public class TimeModule : ModuleBase
     {
-        protected override void Initialize()
+        public override void Initialize()
         {
-            base.Initialize();
         }
 
         public override void UpdateMe()

@@ -5,9 +5,8 @@ namespace ModularEventArchitecture
     [CompatibleUnit(typeof(GameManager))] 
     public class InputModule : ModuleBase
     {
-        protected override void Initialize()
+        public override void Initialize()
         {
-            base.Initialize();
         }
 
         public override void UpdateMe()
@@ -19,6 +18,11 @@ namespace ModularEventArchitecture
 
         private void CheckUIInput()
         {
+            if (Input.GetKeyDown(KeyCode.Tab))
+            {
+                Debug.Log("!!!!!!!!!!!!!!!!!!");
+            }
+
             if (Input.GetKeyDown(KeyCode.F1))
             {
                 // Публикуем через GlobalEventBus, так как это глобальное событие

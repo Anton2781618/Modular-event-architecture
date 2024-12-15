@@ -173,7 +173,7 @@ namespace ModularEventArchitecture
         {
             var newModule = _targetEntity.gameObject.AddComponent(moduleType) as ModuleBase;
 
-            newModule.SetCharacter(_targetEntity);
+            // newModule.Setup(_targetEntity);
 
             _targetEntity.AddModule(newModule);
 

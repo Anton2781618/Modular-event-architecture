@@ -66,10 +66,11 @@ namespace ModularEventArchitecture
                 GlobalEventBus.Instance.Subscribe(item.id, item.action);
             }
         }
-        
+
+        //отписаться от всех событий вообще
         private void UnsubscribeFromAllEvents()
         {
-            LocalEvents?.UnsubscribeAll();
+            UnsubscribeFromLocalEvents();
 
             if (Globalevents != null)
             {
@@ -77,9 +78,12 @@ namespace ModularEventArchitecture
                 {
                     GlobalEventBus.Instance.Unsubscribe(item.id, item.action);
                 }
+                
+                Globalevents.Clear();
             }
         }
         
+        //отписаться от всех локальных событий
         private void UnsubscribeFromLocalEvents()
         {
             LocalEvents?.UnsubscribeAll();

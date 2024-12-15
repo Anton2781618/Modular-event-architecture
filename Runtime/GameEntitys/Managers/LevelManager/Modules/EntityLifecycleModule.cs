@@ -9,13 +9,12 @@ namespace ModularEventArchitecture
         private Dictionary<GameObject, GameEntity> _dictEntities = new Dictionary<GameObject, GameEntity>();
         private List<GameEntity> _entities = new List<GameEntity>(); 
 
-        protected override void Initialize()
+        public override void Initialize()
         {
-            base.Initialize();
 
-            Globalevents.Add((GlobalEventBus.События.Юнит_создан, (data) => AddEntity((CreateUnitEvent)data)));
+            Entity.Globalevents.Add((GlobalEventBus.События.Юнит_создан, (data) => AddEntity((CreateUnitEvent)data)));
 
-            Globalevents.Add((GlobalEventBus.События.Юнит_погиб, (data) => RemoveEntity((DieEvent)data)));
+            Entity.Globalevents.Add((GlobalEventBus.События.Юнит_погиб, (data) => RemoveEntity((DieEvent)data)));
         }
 
         public override void UpdateMe()
@@ -85,21 +84,23 @@ namespace ModularEventArchitecture
         [Tools.Button("Вывести списки в консоль")]
         public void ShowEntetys()
         {
-            Debug.Log($"В словаре {_dictEntities.Values.Count}" );
+            Debug.Log($"В СЛОВАРЕ <color=green> {_dictEntities.Values.Count}</color>");
 
             foreach (var entity in _dictEntities.Values)
             {
-                Debug.Log(entity.gameObject.name);
+                Debug.Log($"<color=green>{entity.gameObject.name}</color>");
             }
 
-            Debug.Log($"В списке {_entities.Count}" );
+            Debug.Log("<color=green>====================================</color>");
+
+            Debug.Log($"В СПИСКЕ <color=red> {_entities.Count}</color>");
 
             foreach (var item in _entities)
             {
-                Debug.Log(item.gameObject.name);
-                
+                Debug.Log($"<color=red>{item.gameObject.name}</color>");
             }
-        }
 
+            Debug.Log("<color=red>====================================</color>");
+        }
     }
 }

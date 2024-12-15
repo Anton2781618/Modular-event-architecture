@@ -2,21 +2,16 @@ using UnityEngine;
 
 namespace ModularEventArchitecture
 {
-    public abstract class ModuleBase : MonoEventBus, IModule
+    public abstract class ModuleBase : MonoBehaviour
     {
+        [field: SerializeField] public GameEntity Entity{get; set;}
 
-        [SerializeField, HideInInspector] public GameEntity Entity{get; set;}
-
-        public void SetCharacter(GameEntity character) => Entity = character;
-
-        protected override void Initialize()
+        public void Setup(GameEntity character)
         {
-            // Debug.Log("ModuleBase Initialize " + transform.name);
-            
-            if (!Entity) Entity = GetComponent<GameEntity>();
-
-            Entity.AddModule(this);
+            Entity = character;
         }
+
+        public abstract void Initialize();
 
         public abstract void UpdateMe();
     }

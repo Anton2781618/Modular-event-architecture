@@ -22,10 +22,8 @@ namespace ModularEventArchitecture
         private float _averageFPS;
 
 
-        protected override void Initialize()
+        public override void Initialize()
         {
-            base.Initialize();
-
             _timeleft = _updateInterval;
 
             _fpsText.text = $"FPS: {_currentFPS:0.}"; // Отображаем текущий FPS

@@ -11,6 +11,7 @@ namespace ModularEventArchitecture
             public const int Оглушен = (int)ActionsType.Stunned;
             public const int Выносливость_изменилась = (int)ActionsType.Stamina_change;
             public const int Здоровье_изменилась = (int)ActionsType.Health_change;
+            public const int Тестовое_событие = (int)ActionsType.TestEvent;
 
             public static class Команды
             {

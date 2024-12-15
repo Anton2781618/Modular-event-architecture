@@ -40,6 +40,7 @@ namespace ModularEventArchitecture
             System_RestartScene,
             SpawnMob,
             ShowHelpWindow,
+            TestEvent,
         }
 
         // public static class EnumConverter 
@@ -91,7 +92,7 @@ namespace ModularEventArchitecture
 
         public void UnsubscribeAll()
         {
-            Debug.Log("Отписаться от всех");
+            Debug.Log("Отписаться от всех событий");
             for (int i = 0; i < _events.Length; i++)
             {
                 _events[i] = null;
@@ -113,7 +114,7 @@ namespace ModularEventArchitecture
             {
                 if (_events[i] != null)
                 {
-                    Debug.Log($"Event {Enum.GetName(typeof(ActionsType), i)} has {_events[i].GetInvocationList().Length} subscribers");
+                    Debug.Log($"Событие {Enum.GetName(typeof(ActionsType), i)} имеет {_events[i].GetInvocationList().Length} подписчиков");
                 }
             }
         }

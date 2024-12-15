@@ -12,12 +12,11 @@ namespace ModularEventArchitecture
         private UIHelpMenu helpMenu;
         // Добавьте другие окна по мере необходимости
 
-        protected override void Initialize()
+        public override void Initialize()
         {
-            base.Initialize();
 
             // Подписываемся на события показа окон
-            Globalevents.Add((GlobalEventBus.События.UI.Показать_Окно_Помощи, (data) => OnShowHelpMenuRequested((UIStateChangedEvent)data)));
+            Entity.Globalevents.Add((GlobalEventBus.События.UI.Показать_Окно_Помощи, (data) => OnShowHelpMenuRequested((UIStateChangedEvent)data)));
 
             CreateWindow();
         }
