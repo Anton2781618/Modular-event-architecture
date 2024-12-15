@@ -1,10 +1,13 @@
 {
-    "name": "ModularEventArchitecture.Modules.Dialog",
-    "rootNamespace": "ModularEventArchitecture.Modules.Dialog",
+    "name": "ModularEventArchitecture.Editor.SamplesEditor",
+    "rootNamespace": "ModularEventArchitecture.Editor",
     "references": [
-        "ModularEventArchitecture"
+        "ModularEventArchitecture",
+        "ModularEventArchitecture.Editor"
     ],
-    "includePlatforms": [],
+    "includePlatforms": [
+        "Editor"
+    ],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,
