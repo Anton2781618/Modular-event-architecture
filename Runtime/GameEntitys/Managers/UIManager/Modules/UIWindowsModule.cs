@@ -16,7 +16,7 @@ namespace ModularEventArchitecture
         {
 
             // Подписываемся на события показа окон
-            Entity.Globalevents.Add((GlobalEventBus.События.UI.Показать_Окно_Помощи, (data) => OnShowHelpMenuRequested((UIStateChangedEvent)data)));
+            Entity.Globalevents.Add((BasicActionsTypes.UI.Show_Help_Window, (data) => OnShowHelpMenuRequested((UIStateChangedEvent)data)));
 
             CreateWindow();
         }
@@ -35,7 +35,7 @@ namespace ModularEventArchitecture
             helpMenu.gameObject.SetActive(!helpMenu.gameObject.activeSelf);
 
             // Публикуем событие об изменении состояния UI
-            Entity.LocalEvents.Publish(GlobalEventBus.События.UI.UI_Состояние_Изменилось,new UIStateChangedEvent { IsAnyWindowOpen = IsAnyWindowOpen() });
+            Entity.LocalEvents.Publish(BasicActionsTypes.UI.Is_UI_Open ,new UIStateChangedEvent { IsAnyWindowOpen = IsAnyWindowOpen() });
         }
 
         public bool IsAnyWindowOpen()

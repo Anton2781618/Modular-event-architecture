@@ -8,7 +8,9 @@ namespace ModularEventArchitecture
     {
         public override void Initialize()
         {
-            Entity.LocalEvents.Subscribe<EventBase>(LocalEventBus.События.Тестовое_событие, Test);
+            Entity.LocalEvents.Subscribe<EventBase>(BasicActionsTypes.Test_Event, TestLocal);
+
+            Entity.Globalevents.Add((BasicActionsTypes.Test_Event, (data) => TestGlobal((EventBase)data)));
         }
 
         public override void UpdateMe()
@@ -16,9 +18,13 @@ namespace ModularEventArchitecture
             
         }
 
-        private void Test(EventBase eventBase)
+        private void TestLocal(EventBase eventBase)
         {
-            Debug.Log($"<color=green>Тестовое событие</color> на объекте {Entity.name}");
+            Debug.Log($"<color=green>Тестовое ЛОКАЛЬНОЕ событие</color> на объекте {Entity.name}");
+        }
+        private void TestGlobal(EventBase eventBase)
+        {
+            Debug.Log($"<color=red>Тестовое ГЛОБАЛЬНОЕ событие</color> на объекте {Entity.name}");
         }
     }
 }

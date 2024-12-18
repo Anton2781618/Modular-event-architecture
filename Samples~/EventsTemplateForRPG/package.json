@@ -1,0 +1,17 @@
+{
+  "name": "com.gamedevlab.modular-event-architecture.EventsTemplateForRPG",
+  "version": "1.0.0",
+  "displayName": "Events Template For RPG",
+  "description": "Шаблое событий для игры RPG",
+  "unity": "2022.3",
+  "dependencies": {
+    "com.gamedevlab.modular-event-architecture": "1.0.1"
+  },
+  "keywords": [
+    "RPG"
+  ],
+  "author": {
+    "name": "GameDevLab",
+    "url": "https://github.com/Anton2781618"
+  }
+}

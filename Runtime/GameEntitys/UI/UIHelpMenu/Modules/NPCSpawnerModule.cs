@@ -13,7 +13,7 @@ namespace ModularEventArchitecture
 
         public void SpawnNPC()
         {
-            GlobalEventBus.Instance.Publish(GlobalEventBus.События.Команды.Заспавнить_моба, new SpawnEvent());
+            GlobalEventBus.Instance.Publish(BasicActionsTypes.Commands.Spawn_Mob, new SpawnEvent());
         }
 
         public override void UpdateMe()

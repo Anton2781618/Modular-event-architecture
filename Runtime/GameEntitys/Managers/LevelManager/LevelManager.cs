@@ -39,14 +39,6 @@ namespace ModularEventArchitecture
         
         protected override void Initialize()
         {
-            Globalevents.Add((GlobalEventBus.События.Команды.Показать_текст_в_точке, (data) => ShowText((ShowTextEvent)data)));
-        }
-
-        internal void ShowText(ShowTextEvent obj)
-        {
-            text.transform.position = obj.Point;
-
-            text.SetActive(obj.Enabled);
         }
     }
 }

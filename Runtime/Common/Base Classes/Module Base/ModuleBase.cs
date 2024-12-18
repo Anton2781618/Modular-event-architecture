@@ -4,7 +4,7 @@ namespace ModularEventArchitecture
 {
     public abstract class ModuleBase : MonoBehaviour
     {
-        [field: SerializeField] public GameEntity Entity{get; set;}
+        [field: SerializeField, HideInInspector] public GameEntity Entity{get; set;}
 
         public void Setup(GameEntity character)
         {

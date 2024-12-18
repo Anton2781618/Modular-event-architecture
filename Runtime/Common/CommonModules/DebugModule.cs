@@ -28,10 +28,15 @@ namespace ModularEventArchitecture
             GlobalEventBus.Instance.ShowAllEvents();
         }
 
-        [Tools.Button("Вызвать тестовое событие")]
-        private void TestEvent()
+        [Tools.Button("Вызвать тестовое ЛОКАЛЬНОЕ событие")]
+        private void TestLocalEvent()
         {
-            Entity.LocalEvents.Publish(LocalEventBus.События.Тестовое_событие, new EventBase());
+            Entity.LocalEvents.Publish(BasicActionsTypes.Test_Event, new EventBase());
+        }
+        [Tools.Button("Вызвать тестовое ГЛОБАЛЬНОЕ событие")]
+        private void TestGlobalEvent()
+        {
+            GlobalEventBus.Instance.Publish(BasicActionsTypes.Test_Event, new EventBase());
         }
     }
 }

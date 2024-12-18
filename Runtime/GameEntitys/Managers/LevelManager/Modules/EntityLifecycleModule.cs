@@ -12,9 +12,9 @@ namespace ModularEventArchitecture
         public override void Initialize()
         {
 
-            Entity.Globalevents.Add((GlobalEventBus.События.Юнит_создан, (data) => AddEntity((CreateUnitEvent)data)));
+            Entity.Globalevents.Add((BasicActionsTypes.Commands.Unit_Created, (data) => AddEntity((CreateUnitEvent)data)));
 
-            Entity.Globalevents.Add((GlobalEventBus.События.Юнит_погиб, (data) => RemoveEntity((DieEvent)data)));
+            Entity.Globalevents.Add((BasicActionsTypes.Commands.Unit_Die, (data) => RemoveEntity((DieEvent)data)));
         }
 
         public override void UpdateMe()

@@ -26,7 +26,7 @@ namespace ModularEventArchitecture
             if (Input.GetKeyDown(KeyCode.F1))
             {
                 // Публикуем через GlobalEventBus, так как это глобальное событие
-                GlobalEventBus.Instance.Publish(GlobalEventBus.События.UI.Показать_Окно_Помощи, new UIStateChangedEvent { IsAnyWindowOpen = true });
+                GlobalEventBus.Instance.Publish(BasicActionsTypes.UI.Show_Help_Window, new UIStateChangedEvent { IsAnyWindowOpen = true });
             }
         }
 

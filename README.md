@@ -1,99 +1,102 @@
-# Модульно-событийная архитектура
+# Модульная событийная архитектура
 
-Простая и гибкая архитектура для Unity проектов с поддержкой модульности и событийной системы.
+Этот проект представляет собой модульную событийную архитектуру для Unity, которая позволяет создавать гибкие и расширяемые игровые системы.
 
-## Основные возможности
+## Основные компоненты
 
-### GameEntity
-Базовый класс для всех игровых объектов с поддержкой модульности:
+### Система событий (Event System)
+
+В проекте реализована гибкая система событий с двумя типами шин:
+- `GlobalEventBus` - для глобальных событий
+- `LocalEventBus` - для локальных событий внутри сущности
+
+#### Типы событий
+
+События определяются через интерфейс `IEventType`:
 ```csharp
-// Просто унаследуйтесь от GameEntity
-public class Player : GameEntity 
+public interface IEventType
 {
-    protected override void OnInit()
-    {
-        // Добавляйте любые модули
-        AddModule<InputModule>();
-        AddModule<EntityLifecycleModule>();
-    }
+    int GetEventId();
+    string GetEventName();
 }
 ```
 
-### Готовые модули
-- `EntityLifecycleModule` - управление жизненным циклом
-- `InputModule` - обработка ввода
-- `UIModules` - набор UI модулей
-- `SystemControlModule` - управление системными функциями
-- `FPSCounterModule` - счетчик FPS
-- И другие...
+#### Добавление новых типов событий
 
-### Система событий
-Глобальная и локальная шины событий:
+Чтобы добавить новые события в систему:
+
+1. Добавьте новые события в существующий `ActionsTypeEnum`:
+```csharp
+public enum ActionsTypeEnum
+{
+    // Существующие события
+    Unit_Die,
+    Unit_Created,
+    // Ваши новые события
+    YourNewEvent1,
+    YourNewEvent2
+}
+```
+
+2. Добавьте статические свойства в класс `ActionsType`:
+```csharp
+public static ActionsType YourNewEvent1 => new ActionsType(ActionsTypeEnum.YourNewEvent1);
+public static ActionsType YourNewEvent2 => new ActionsType(ActionsTypeEnum.YourNewEvent2);
+```
+
+#### Использование событий
+
 ```csharp
 // Подписка на событие
-GlobalEventBus.Subscribe<GameStartEvent>(OnGameStart);
+GlobalEventBus.Instance.Subscribe(ActionsType.Unit_Created, OnUnitCreated);
 
-// Отправка события
-GlobalEventBus.Publish(new GameStartEvent());
+// Публикация события
+GlobalEventBus.Instance.Publish(ActionsType.Unit_Created, new CreateUnitEvent { Unit = this });
+
+// Отписка от события
+GlobalEventBus.Instance.Unsubscribe(ActionsType.Unit_Created, OnUnitCreated);
 ```
 
-### Менеджеры
-Готовые менеджеры для типовых задач:
-- `GameManager`
-- `UIManager`
-- `LevelManager`
-- `InputManager`
+### MonoEventBus
 
-## Установка
+`MonoEventBus` - базовый класс для сущностей, которые работают с событиями. Он автоматически управляет подпиской и отпиской от событий в течение жизненного цикла объекта.
 
-1. Window > Package Manager
-2. "+" > "Add package from git URL"
-3. Вставьте: `https://github.com/Anton2781618/Modular-event-architecture.git`
-
-## Быстрый старт
-
-1. Создайте новый скрипт
-2. Унаследуйтесь от GameEntity
-3. Добавляйте модули в OnInit()
 ```csharp
-public class Enemy : GameEntity 
+public class YourEntity : MonoEventBus
 {
-    protected override void OnInit()
+    protected override void Initialize()
     {
-        // Добавляем нужные модули
-        AddModule<EntityLifecycleModule>();
+        // Добавляем подписки на глобальные события
+        Globalevents.Add((ActionsType.YourEvent, (data) => HandleEvent((YourEventData)data)));
     }
 }
 ```
 
-## Структура проекта
+### Модульная система
 
-```
-Assets/Scripts/Core/
-├── Runtime/                  # Основной код
-│   ├── EventBus/            # Система событий
-│   ├── GameEntitys/         # Базовые сущности
-│   ├── Modules/             # Готовые модули
-│   └── Tools/               # Утилиты
-└── Editor/                  # Редакторные расширения
-```
-
-## Создание своих модулей
+Проект использует модульную архитектуру, где каждая сущность может иметь множество модулей:
 
 ```csharp
-public class CustomModule : ModuleBase
+public class YourEntity : GameEntity
 {
-    public override void OnInit()
+    protected override void Initialize()
     {
-        // Инициализация
-    }
-
-    public override void OnUpdate()
-    {
-        // Логика обновления
+        // Добавляем модули
+        AddModule(new YourModule());
     }
 }
 ```
 
-## Лицензия
-MIT License
+## Лучшие практики
+
+1. Используйте `LocalEventBus` для событий, которые должны быть обработаны только внутри конкретной сущности
+2. Используйте `GlobalEventBus` для событий, которые должны быть доступны всей игре
+3. Всегда отписывайтесь от событий при уничтожении объекта (это делается автоматически в `MonoEventBus`)
+4. Создавайте отдельные классы данных событий, реализующие `IEventData`
+5. Группируйте связанные события в отдельные классы внутри `События` для лучшей организации
+
+## Примечания
+
+- Система автоматически управляет жизненным циклом подписок через `MonoEventBus`
+- Все события типобезопасны благодаря использованию интерфейса `IEventData`
+- Система поддерживает добавление новых типов событий без изменения существующего кода
