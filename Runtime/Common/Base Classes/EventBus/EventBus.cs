@@ -12,7 +12,7 @@ namespace ModularEventArchitecture
         string GetEventName();
     }
 
-    public abstract class EventBus
+    public abstract class EventBus : IDisposable
     {
         private Dictionary<int, Action<IEventData>> _events = new Dictionary<int, Action<IEventData>>();
         private Dictionary<Delegate, Action<IEventData>> _handlerWrappers = new Dictionary<Delegate, Action<IEventData>>();
@@ -84,5 +84,7 @@ namespace ModularEventArchitecture
                 }
             }
         }
+
+        public void Dispose() => UnsubscribeAll();
     }
 }

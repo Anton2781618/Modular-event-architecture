@@ -48,7 +48,6 @@ namespace ModularEventArchitecture
         protected virtual void Awake() => Initialize();
         protected virtual void OnEnable() => SubscribeToEvents();
         protected virtual void OnDisable() => UnsubscribeFromAllEvents();
-        protected virtual void OnDestroy() => UnsubscribeFromLocalEvents();
         protected abstract void Initialize();
 
         private void SubscribeToEvents()

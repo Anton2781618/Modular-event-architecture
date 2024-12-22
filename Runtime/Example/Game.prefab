@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea524c9bb7fcd084890054623c538de4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InitializeSelf: 1
+  modules: []
 --- !u!1 &3002872368544924609
 GameObject:
   m_ObjectHideFlags: 0
@@ -89,7 +89,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dbe80a6650b588a4886e7f699bca483a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InitializeSelf: 1
+  modules: []
 --- !u!1 &4826695876157179952
 GameObject:
   m_ObjectHideFlags: 0
@@ -172,7 +172,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e699f9026a36df24f9830b84f1eb8d73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InitializeSelf: 1
+  modules: []
 --- !u!114 &1822954021773251895
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -185,7 +185,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b74f531fe270a204ea7729a21f2e25f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InitializeSelf: 1
+  <Entity>k__BackingField: {fileID: 0}
 --- !u!114 &8595203147841356571
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -198,7 +198,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5292f2cd2364cf843b519f6b725ada34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InitializeSelf: 1
+  <Entity>k__BackingField: {fileID: 0}
 --- !u!114 &4983566887708756369
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -211,7 +211,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d6852c51255dc8439aada34a26a2eaf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InitializeSelf: 1
+  <Entity>k__BackingField: {fileID: 0}
 --- !u!1 &7036563581608996282
 GameObject:
   m_ObjectHideFlags: 0
@@ -223,7 +223,6 @@ GameObject:
   - component: {fileID: 7385447975067102611}
   - component: {fileID: 7195215934383867897}
   - component: {fileID: 3371851796641707303}
-  - component: {fileID: 2154720236662549919}
   m_Layer: 0
   m_Name: Level Manager
   m_TagString: Untagged
@@ -258,7 +257,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fcd04fc04c9d1e14099d4765ea242579, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InitializeSelf: 1
+  modules: []
   text: {fileID: 0}
 --- !u!114 &3371851796641707303
 MonoBehaviour:
@@ -272,19 +271,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4d001ef0a7303c48b1cb29ba90115a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InitializeSelf: 1
---- !u!114 &2154720236662549919
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7036563581608996282}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d79838d82af75764dab83b9edd2bcd63, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  InitializeSelf: 1
-  spawnableUnits: []
-  spawnAreaSize: {x: 10, y: 0, z: 10}
+  <Entity>k__BackingField: {fileID: 0}

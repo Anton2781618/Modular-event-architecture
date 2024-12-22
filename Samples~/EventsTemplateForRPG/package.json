@@ -8,7 +8,9 @@
     "com.gamedevlab.modular-event-architecture": "1.0.1"
   },
   "keywords": [
-    "RPG"
+    "RPG",
+    "module",
+    "mea"
   ],
   "author": {
     "name": "GameDevLab",
