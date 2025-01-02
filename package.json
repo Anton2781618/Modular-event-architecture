@@ -34,7 +34,13 @@
       "displayName": "Модуль диалогов",
       "description": "Добавляет систему диалогов с поддержкой автопропуска",
       "path": "Samples~/DialogModule"
+    },
+    {
+      "displayName": "События для RPG",
+      "description": "Добавляет список событий для RPG проекта",
+      "path": "Samples~/EventsTemplateForRPG"
     }
+    
   ],
   "type": "library"
 }
