@@ -4,18 +4,11 @@ using UnityEngine;
 
 namespace ModularEventArchitecture
 {
-    public class UIWindow : MonoBehaviour
+    public class UIWindow : UIEntity
     {
-        // Start is called before the first frame update
-        void Start()
+        protected override void Initialize()
         {
-        
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-        
+            
         }
     }
 }
