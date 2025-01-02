@@ -6,7 +6,7 @@ namespace ModularEventArchitecture
     /// <summary>
     /// Модуль для обработки системных команд (перезапуск сцены и т.д.)
     /// </summary>
-    [CompatibleUnit(typeof(UIHelpMenu))]
+    [CompatibleUnit(typeof(UIWindow))]
     public class SystemControlModule : ModuleBase
     {
         public override void Initialize()

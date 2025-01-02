@@ -8,8 +8,8 @@ namespace ModularEventArchitecture
         /// модуль создаст окна и установит их в нужный канвас
         [Tools.Information("Этот модуль представляет из себя систему окон в игре, он отвечает за отображение и управление окнами. Модуль произведет (Instantiate) окон и установит их в нужный канвас", Tools.InformationAttribute.InformationType.Info, false)]
         [SerializeField] private Canvas canvas;
-        [SerializeField] private UIHelpMenu helpMenuPrefab;
-        private UIHelpMenu helpMenu;
+        [SerializeField] private UIWindow helpMenuPrefab;
+        private UIWindow helpMenu;
         // Добавьте другие окна по мере необходимости
 
         public override void Initialize()

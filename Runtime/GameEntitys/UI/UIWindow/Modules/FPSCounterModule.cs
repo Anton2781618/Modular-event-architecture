@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace ModularEventArchitecture
 {
-    [CompatibleUnit(typeof(UIHelpMenu))]
+    [CompatibleUnit(typeof(UIWindow))]
     public class FPSCounterModule : ModuleBase
     {
         [Tools.Information("Этот модуль отображает текущий и средний FPS", Tools.InformationAttribute.InformationType.Info, false)]

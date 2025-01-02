@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace ModularEventArchitecture
 {
-    [CompatibleUnit(typeof(UIHelpMenu))]
+    [CompatibleUnit(typeof(UIWindow))]
     public class NPCSpawnerModule : ModuleBase
     {
         public override void Initialize()
