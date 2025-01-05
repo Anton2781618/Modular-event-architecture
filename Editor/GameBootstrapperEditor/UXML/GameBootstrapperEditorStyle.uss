@@ -10,7 +10,7 @@
     margin: 5px;
     padding: 5px;
     border-radius: 3px;
-    background-color: rgb(56, 56, 56);
+    background-color: rgb(113, 68, 68);
 }
 
 .manager-button {
