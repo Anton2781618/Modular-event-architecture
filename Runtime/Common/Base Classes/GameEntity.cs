@@ -4,15 +4,19 @@ using UnityEngine;
 
 namespace ModularEventArchitecture
 {
+    //Класс представляющий игровую сущность (юнит, предмет и т.д.)
+    //Содержит в себе модули, которые реализуют функционал
     public abstract class GameEntity : MonoEventBus
     {
-        [HideInInspector] public List<ModuleBase> modules = new List<ModuleBase>();
+        //todo: наддо продумать глубже....не нравится что модули публичные
+        [HideInInspector] public List<ModuleBase> Modules = new List<ModuleBase>();
+
         // Кэшируем часто используемые компоненты
-        private Dictionary<Type, Component> cachedComponents;
+        private Dictionary<Type, Component> _cachedComponents;
 
         public virtual void UpdateMe()
         {
-            foreach (var module in modules)
+            foreach (var module in Modules)
             {
                 if (module == null) throw new NullReferenceException($"Обнаружена пустая ячейка в списке модульей! На объекте {transform.name}");
                     
@@ -36,8 +40,6 @@ namespace ModularEventArchitecture
             GlobalEventBus.Instance.Publish(BasicActionsTypes.Commands.Unit_Die, new DieEvent { Unit = this });
         }
 
-        public virtual void Deactivate() => gameObject.SetActive(false);
-        public virtual void Reactivate() => gameObject.SetActive(true);
         public virtual void Use(){}
 
         public void AddModule(ModuleBase module)
@@ -48,28 +50,26 @@ namespace ModularEventArchitecture
                 return;
             }
 
-            if (modules.Contains(module)) return;
+            if (Modules.Contains(module)) return;
 
-            modules.Add(module);
+            Modules.Add(module);
 
             module.Setup(this);
-
-            // module.SetLocalEventBus(LocalEvents);
         }
 
-        public void InitializeModules()
+        private void InitializeModules()
         {
-            for (int i = 0; i < modules.Count; i++)
+            for (int i = 0; i < Modules.Count; i++)
             {
-                modules[i].Initialize();
+                Modules[i].Initialize();
             }
         }
 
-        public void RemoveModule(ModuleBase module) => modules.Remove(module);
+        public void RemoveModule(ModuleBase module) => Modules.Remove(module);
 
         public T GetModule<T>() where T : class
         {
-            foreach (var module in modules)
+            foreach (var module in Modules)
             {
                 if (module is T result)
                 {
@@ -82,9 +82,9 @@ namespace ModularEventArchitecture
 
         public T GetCachedComponent<T>() where T : Component
         {
-            if(cachedComponents == null) cachedComponents = new Dictionary<Type, Component>();
+            if(_cachedComponents == null) _cachedComponents = new Dictionary<Type, Component>();
 
-            if (cachedComponents.TryGetValue(typeof(T), out var component))
+            if (_cachedComponents.TryGetValue(typeof(T), out var component))
             {
                 return component as T;
             }
@@ -93,7 +93,7 @@ namespace ModularEventArchitecture
             var newComponent = GetComponent<T>();
             if (newComponent != null)
             {
-                cachedComponents[typeof(T)] = newComponent;
+                _cachedComponents[typeof(T)] = newComponent;
             }
             return newComponent;
         }
@@ -102,10 +102,10 @@ namespace ModularEventArchitecture
         public void LogModules()
         {
             // Удаляем пустые модули из списка
-            modules.RemoveAll(module => module == null);
+            Modules.RemoveAll(module => module == null);
             
-            Debug.Log($"У объектка {transform.name} {modules.Count} модулей");
-            foreach (var item in modules)
+            Debug.Log($"У объектка {transform.name} {Modules.Count} модулей");
+            foreach (var item in Modules)
             {
                 Debug.Log(item.GetType().Name);
             }

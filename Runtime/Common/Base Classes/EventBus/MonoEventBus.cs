@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace ModularEventArchitecture
 {
+    // Класс, который реализует шину событий
     public abstract class MonoEventBus : MonoBehaviour
     {
         private List<(IEventType type, Action<IEventData> action)> _globalEvents;

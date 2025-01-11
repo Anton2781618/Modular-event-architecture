@@ -84,7 +84,6 @@ namespace ModularEventArchitecture
                 }
             }
         }
-
         public void Dispose() => UnsubscribeAll();
     }
 }

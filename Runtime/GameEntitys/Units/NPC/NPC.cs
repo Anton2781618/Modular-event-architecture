@@ -6,8 +6,6 @@ namespace ModularEventArchitecture
     [RequireComponent(typeof(NavMeshAgent))] 
     public class NPC : UnitEntity
     {
-        public int ModulesCount { get => modules.Count; }
-        
         protected override void Initialize()
         {
 
