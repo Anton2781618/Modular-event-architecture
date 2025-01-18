@@ -16,6 +16,7 @@ namespace ModularEventArchitecture
         {
             public static readonly IEventType Is_UI_Open = new BasicActionsTypes(ActionsTypeEnum.IsUIOpen);
             public static readonly IEventType Show_Help_Window = new BasicActionsTypes(ActionsTypeEnum.ShowHelpWindow);
+            public static readonly IEventType Update_UI = new BasicActionsTypes(ActionsTypeEnum.UpdateUI);
         }
 
         public static class SystemRequirements
@@ -41,6 +42,7 @@ namespace ModularEventArchitecture
             ShowHelpWindow,
             System_RestartScene,
             SpawnMob,
+            UpdateUI,
         }
     }
 }
