@@ -9,7 +9,7 @@ namespace ModularEventArchitecture
     public abstract class GameEntity : MonoEventBus
     {
         //todo: наддо продумать глубже....не нравится что модули публичные
-        [HideInInspector] public List<ModuleBase> Modules = new List<ModuleBase>();
+        public List<ModuleBase> Modules = new List<ModuleBase>();
 
         // Кэшируем часто используемые компоненты
         private Dictionary<Type, Component> _cachedComponents;
@@ -123,6 +123,13 @@ namespace ModularEventArchitecture
         {
             Debug.Log($"У объектка {transform.name} глобальные события ");
             GlobalEventBus.Instance.ShowAllEvents();
+        }
+
+        [ContextMenu("Провести поиск модулей на объекте")]
+        private void FindModules()
+        {
+            Modules.Clear();
+            Modules.AddRange(GetComponents<ModuleBase>());
         }
     }
 }
