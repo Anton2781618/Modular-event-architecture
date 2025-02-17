@@ -13,10 +13,13 @@ namespace ModularEventArchitecture
     [CustomEditor(typeof(ModuleBase), true)]
     public class ModulesEditor : Editor
     {
+        //-------------------------------------------------------------------------------------
         private ModuleBase _targetModule;
         public VisualTreeAsset treeAsset;
         private VisualElement _buttonsContainer;
         private Button _buttonDeleteModule;
+
+        //!-------------------------------------------------------------------------------------
 
         private void OnEnable()
         {

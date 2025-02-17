@@ -8,11 +8,15 @@ namespace ModularEventArchitecture
     //Содержит в себе модули, которые реализуют функционал
     public abstract class GameEntity : MonoEventBus
     {
+        //-------------------------------------------------------------------------------------
         //todo: наддо продумать глубже....не нравится что модули публичные
         public List<ModuleBase> Modules = new List<ModuleBase>();
 
+        //-------------------------------------------------------------------------------------
         // Кэшируем часто используемые компоненты
         private Dictionary<Type, Component> _cachedComponents;
+
+        //!-------------------------------------------------------------------------------------
 
         public virtual void UpdateMe()
         {

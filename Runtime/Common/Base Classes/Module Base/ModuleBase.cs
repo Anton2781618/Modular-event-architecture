@@ -4,8 +4,11 @@ namespace ModularEventArchitecture
 {
     public abstract class ModuleBase : MonoBehaviour
     {
+        //-------------------------------------------------------------------------------------
         //todo: наддо продумать глубже....не нравится что свойство публичное....возможно стоит сделать защищеннымы
         [field: SerializeField, HideInInspector] public GameEntity Entity{get; set;}
+
+        //!-------------------------------------------------------------------------------------
 
         public void Setup(GameEntity character)
         {

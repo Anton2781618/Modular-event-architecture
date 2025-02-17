@@ -7,6 +7,8 @@ namespace ModularEventArchitecture
     // Класс, который реализует шину событий
     public abstract class MonoEventBus : MonoBehaviour
     {
+        //-------------------------------------------------------------------------------------
+        //список глоабльные события
         private List<(IEventType type, Action<IEventData> action)> _globalEvents;
         public List<(IEventType type, Action<IEventData> action)> Globalevents
         {
@@ -20,7 +22,8 @@ namespace ModularEventArchitecture
             }
             private set => _globalEvents = value;
         }
-
+        //-------------------------------------------------------------------------------------
+        //список локальных событий
         private LocalEventBus _localEvents;
         public LocalEventBus LocalEvents
         {
@@ -34,6 +37,9 @@ namespace ModularEventArchitecture
             }
             private set => _localEvents = value;
         }
+
+        //!-------------------------------------------------------------------------------------
+
         
         public void SetLocalEventBus(LocalEventBus localEventBus)
         {

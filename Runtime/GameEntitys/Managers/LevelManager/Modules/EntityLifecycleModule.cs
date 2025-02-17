@@ -6,8 +6,13 @@ namespace ModularEventArchitecture
     [CompatibleUnit(typeof(LevelManager))] [DefaultExecutionOrder(-148)]
     public class EntityLifecycleModule : ModuleBase
     {
+        //-------------------------------------------------------------------------------------
+        //список всех сущностей на уровне
         private Dictionary<GameObject, GameEntity> _dictEntities = new Dictionary<GameObject, GameEntity>();
         private List<GameEntity> _entities = new List<GameEntity>(); 
+
+        //!-------------------------------------------------------------------------------------
+
 
         public override void Initialize()
         {

@@ -13,6 +13,8 @@ namespace ModularEventArchitecture
     [CustomEditor(typeof(GameEntity), true)]
     public class GameEntityEditor : Editor
     {
+        //-------------------------------------------------------------------------------------
+
         public VisualTreeAsset treeAsset;
 
         private Button _ADDModule;
@@ -21,6 +23,8 @@ namespace ModularEventArchitecture
         private GameEntity _targetEntity;
 
         private List<Type> availableModules;
+        //!-------------------------------------------------------------------------------------
+
 
         protected virtual void OnEnable()
         {
