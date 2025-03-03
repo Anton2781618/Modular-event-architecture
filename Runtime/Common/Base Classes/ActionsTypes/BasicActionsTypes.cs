@@ -1,48 +1,47 @@
+using System;
+
 namespace ModularEventArchitecture
 {
     public class BasicActionsTypes : IEventType
     {
-        private ActionsTypeEnum _type;
+        public int Id { get; }
+        public string EventName {get;}
 
-        private BasicActionsTypes(ActionsTypeEnum type)
+        private BasicActionsTypes(string eventName)
         {
-            _type = type;
+             EventName = eventName;
+            // Получаем хеш-код имени события, который будет уникален
+            // Добавляем префикс чтобы еще больше избежать коллизий
+            Id = ("BasicActionsTypes_" + eventName).GetHashCode();
         }
 
-        public int GetEventId() => (int)_type;
-        public string GetEventName() => _type.ToString();
-        
         public static class UI
         {
-            public static readonly IEventType Is_UI_Open = new BasicActionsTypes(ActionsTypeEnum.IsUIOpen);
-            public static readonly IEventType Show_Help_Window = new BasicActionsTypes(ActionsTypeEnum.ShowHelpWindow);
-            public static readonly IEventType Update_UI = new BasicActionsTypes(ActionsTypeEnum.UpdateUI);
+            public static readonly IEventType Is_UI_Open = new BasicActionsTypes("IsUIOpen");
+            public static readonly IEventType Show_Help_Window = new BasicActionsTypes("ShowHelpWindow");
         }
 
         public static class SystemRequirements
         {
-            public static readonly IEventType System_RestartScene = new BasicActionsTypes(ActionsTypeEnum.System_RestartScene);
+            public static readonly IEventType System_Restart_Scene = new BasicActionsTypes("System_RestartScene");
+            public static readonly IEventType Test_Event = new BasicActionsTypes("TestEvent");
         }
         public static class Commands
         {
-            public static readonly IEventType Spawn_Mob = new BasicActionsTypes(ActionsTypeEnum.SpawnMob);
-            public static readonly IEventType Unit_Die = new BasicActionsTypes(ActionsTypeEnum.Unit_Die);
-            public static readonly IEventType Unit_Created = new BasicActionsTypes(ActionsTypeEnum.Unit_Created);
+            public static readonly IEventType Unit_Die = new BasicActionsTypes("Unit_Die");
+            public static readonly IEventType Unit_Created = new BasicActionsTypes("Unit_Created");
         }
+    }
 
-        public static IEventType Test_Event => new BasicActionsTypes(ActionsTypeEnum.TestEvent);
-        
+    [Serializable]
+    public struct DieEvent : IEventData
+    {    
+        public GameEntity Unit;
+    }
 
-        private enum ActionsTypeEnum
-        {
-            Unit_Die,
-            Unit_Created,
-            TestEvent,
-            IsUIOpen,
-            ShowHelpWindow,
-            System_RestartScene,
-            SpawnMob,
-            UpdateUI,
-        }
+    [Serializable]
+    public struct CreateUnitEvent : IEventData
+    {
+        public GameEntity Unit;
     }
 }

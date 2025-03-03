@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace ModularEventArchitecture
@@ -8,14 +6,9 @@ namespace ModularEventArchitecture
     {
         public override void Initialize()
         {
-            Entity.LocalEvents.Subscribe<EventBase>(BasicActionsTypes.Test_Event, TestLocal);
+            Entity.LocalEvents.Subscribe<EventBase>(BasicActionsTypes.SystemRequirements.Test_Event, TestLocal);
 
-            Entity.Globalevents.Add((BasicActionsTypes.Test_Event, (data) => TestGlobal((EventBase)data)));
-        }
-
-        public override void UpdateMe()
-        {
-            
+            Entity.Globalevents.Add((BasicActionsTypes.SystemRequirements.Test_Event, (data) => TestGlobal((EventBase)data)));
         }
 
         private void TestLocal(EventBase eventBase)

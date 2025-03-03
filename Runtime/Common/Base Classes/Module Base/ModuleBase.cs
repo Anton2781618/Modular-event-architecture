@@ -18,6 +18,9 @@ namespace ModularEventArchitecture
         public abstract void Initialize();
 
         //todo: наддо продумать глубже....не нравится что метод абстрактынй, возможно стоит сделать виртуальным 
-        public abstract void UpdateMe();
+        public virtual void UpdateMe()
+        {
+            
+        }
     }
 }

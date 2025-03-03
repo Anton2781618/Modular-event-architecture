@@ -8,8 +8,8 @@ namespace ModularEventArchitecture
     
     public interface IEventType
     {
-        int GetEventId();
-        string GetEventName();
+        int Id { get; }
+        string EventName { get; }
     }
 
     public abstract class EventBus : IDisposable
@@ -21,8 +21,8 @@ namespace ModularEventArchitecture
 
         public void Subscribe<T>(IEventType eventType, Action<T> handler) where T : IEventData
         {
-            int eventId = eventType.GetEventId();
-            Debug.Log($"Подписаться на событие {eventType.GetEventName()}");
+            int eventId = eventType.Id;
+            Debug.Log($"Подписаться на событие {eventType.EventName}");
 
             Action<IEventData> wrapper = (data) => handler((T)data);
             
@@ -41,8 +41,8 @@ namespace ModularEventArchitecture
 
         public void Unsubscribe<T>(IEventType eventType, Action<T> handler) where T : IEventData
         {
-            int eventId = eventType.GetEventId();
-            Debug.Log($"Отписаться от события {eventType.GetEventName()}");
+            int eventId = eventType.Id;
+            Debug.Log($"Отписаться от события {eventType.EventName}");
             
             if (!_events.ContainsKey(eventId)) return;
 
@@ -67,10 +67,10 @@ namespace ModularEventArchitecture
 
         public void Publish<T>(IEventType eventType, T data) where T : IEventData
         {
-            int eventId = eventType.GetEventId();
+            int eventId = eventType.Id;
             if (!_events.ContainsKey(eventId)) return;
 
-            Debug.Log($"Publish {eventType.GetEventName()}");
+            Debug.Log($"Publish {eventType.EventName}");
             _events[eventId]?.Invoke(data);
         }
 

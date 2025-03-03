@@ -11,11 +11,6 @@ namespace ModularEventArchitecture
 
         }
 
-        public override void UpdateMe()
-        {
-            
-        }
-
         [Tools.Button("Вывести в консоль события LocalEventBus")]
         private void DebugLocalEventBus()
         {
@@ -31,12 +26,12 @@ namespace ModularEventArchitecture
         [Tools.Button("Вызвать тестовое ЛОКАЛЬНОЕ событие")]
         private void TestLocalEvent()
         {
-            Entity.LocalEvents.Publish(BasicActionsTypes.Test_Event, new EventBase());
+            Entity.LocalEvents.Publish(BasicActionsTypes.SystemRequirements.Test_Event, new EventBase());
         }
         [Tools.Button("Вызвать тестовое ГЛОБАЛЬНОЕ событие")]
         private void TestGlobalEvent()
         {
-            GlobalEventBus.Instance.Publish(BasicActionsTypes.Test_Event, new EventBase());
+            GlobalEventBus.Instance.Publish(BasicActionsTypes.SystemRequirements.Test_Event, new EventBase());
         }
     }
 }

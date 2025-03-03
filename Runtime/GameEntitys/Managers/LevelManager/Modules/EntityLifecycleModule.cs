@@ -13,18 +13,13 @@ namespace ModularEventArchitecture
 
         //!-------------------------------------------------------------------------------------
 
-
         public override void Initialize()
         {
-
             Entity.Globalevents.Add((BasicActionsTypes.Commands.Unit_Created, (data) => AddEntity((CreateUnitEvent)data)));
 
             Entity.Globalevents.Add((BasicActionsTypes.Commands.Unit_Die, (data) => RemoveEntity((DieEvent)data)));
         }
 
-        public override void UpdateMe()
-        {
-        }
         private void Update()
         {
             for (int i = 0; i < _entities.Count; i++)

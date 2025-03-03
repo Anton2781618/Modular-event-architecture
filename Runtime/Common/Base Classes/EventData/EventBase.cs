@@ -3,33 +3,10 @@ using UnityEngine;
 
 namespace ModularEventArchitecture
 {
-
     [Serializable]
     public class EventBase : IEventData 
     {
         public Sprite sprite;
-        public bool Enabled;
-    }
-
-
-    
-
-    [Serializable]
-    public struct DieEvent : IEventData
-    {    
-        public GameEntity Unit;
-    }
-
-    [Serializable]
-    public struct CreateUnitEvent : IEventData
-    {
-        public GameEntity Unit;
-    }
-
-    [Serializable]
-    public struct ShowTextEvent : IEventData
-    {
-        public Vector3 Point;
         public bool Enabled;
     }
 
@@ -88,12 +65,5 @@ namespace ModularEventArchitecture
     {
         public float MaxHealth;
         public float CurrentHealth;
-    }
-
-    // Добавляем структуру для системных событий
-    [Serializable]
-    public struct SpawnEvent : IEventData 
-    {
-        string id;
     }
 }
