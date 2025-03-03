@@ -134,6 +134,7 @@ namespace ModularEventArchitecture
         {
             Modules.Clear();
             Modules.AddRange(GetComponents<ModuleBase>());
+            Modules.ForEach(t=>t.Setup(this));
         }
     }
 }
