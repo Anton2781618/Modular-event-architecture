@@ -1,16 +1,14 @@
 {
-  "name": "com.gamedevlab.modular-event-architecture.EventsTemplateForRPG",
+  "name": "com.gamedevlab.modular-event-architecture.inventory",
   "version": "1.0.0",
-  "displayName": "Events Template For RPG",
-  "description": "Шаблое событий для игры RPG",
+  "displayName": "Game Managers",
+  "description": "Набор стандартных менеджеров для любой игры",
   "unity": "2022.3",
   "dependencies": {
     "com.gamedevlab.modular-event-architecture": "1.0.1"
   },
   "keywords": [
-    "RPG",
-    "module",
-    "mea"
+    "Managers"
   ],
   "author": {
     "name": "GameDevLab",
