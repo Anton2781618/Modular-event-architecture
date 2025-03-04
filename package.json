@@ -26,19 +26,9 @@
   },
   "samples": [
     {
-      "displayName": "Модуль инвентаря",
-      "description": "Добавляет базовую систему инвентаря с настраиваемым количеством слотов",
-      "path": "Samples~/InventoryModule"
-    },
-    {
-      "displayName": "Модуль диалогов",
-      "description": "Добавляет систему диалогов с поддержкой автопропуска",
-      "path": "Samples~/DialogModule"
-    },
-    {
-      "displayName": "События для RPG",
-      "description": "Добавляет список событий для RPG проекта",
-      "path": "Samples~/EventsTemplateForRPG"
+      "displayName": "Менеджеры",
+      "description": "Набор стандартных менеджеров для любой игры",
+      "path": "Samples~/Managers"
     }
     
   ],
