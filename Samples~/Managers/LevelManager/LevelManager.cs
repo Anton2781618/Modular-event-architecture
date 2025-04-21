@@ -35,8 +35,6 @@ namespace ModularEventArchitecture
             Заниматься конкретной игровой логикой сущностей
             Обрабатывать ввод игрока */
             
-        [SerializeField] private GameObject text;
-        
         protected override void Initialize()
         {
         }

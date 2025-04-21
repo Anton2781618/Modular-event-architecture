@@ -26,7 +26,7 @@
   },
   "samples": [
     {
-      "displayName": "Менеджеры",
+      "displayName": "Managers",
       "description": "Набор стандартных менеджеров для любой игры",
       "path": "Samples~/Managers"
     }

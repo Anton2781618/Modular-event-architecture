@@ -9,8 +9,20 @@ namespace ModularEventArchitecture
     public abstract class GameEntity : MonoEventBus
     {
         //-------------------------------------------------------------------------------------
-        //todo: наддо продумать глубже....не нравится что модули публичные
-        public List<ModuleBase> Modules = new List<ModuleBase>();
+        [SerializeField] private List<ModuleBase> _modules = new List<ModuleBase>();
+        public List<ModuleBase> Modules
+        {
+            get
+            {
+                if (_modules == null)
+                {
+                    _modules = new List<ModuleBase>();
+                }
+                return _modules;
+            }
+
+            private set => _modules = value; 
+        }
 
         //-------------------------------------------------------------------------------------
         // Кэшируем часто используемые компоненты
