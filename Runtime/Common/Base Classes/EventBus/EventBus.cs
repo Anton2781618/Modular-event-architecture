@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UniRx;
 
 namespace ModularEventArchitecture
 {
@@ -14,76 +15,53 @@ namespace ModularEventArchitecture
 
     public abstract class EventBus : IDisposable
     {
-        private Dictionary<int, Action<IEventData>> _events = new Dictionary<int, Action<IEventData>>();
-        private Dictionary<Delegate, Action<IEventData>> _handlerWrappers = new Dictionary<Delegate, Action<IEventData>>();
+        // Для каждого типа события храним Subject<T>
+        private readonly Dictionary<int, object> _subjects = new Dictionary<int, object>();
 
         protected EventBus() { }
 
-        public void Subscribe<T>(IEventType eventType, Action<T> handler) where T : IEventData
+        // Получить поток событий определённого типа
+        public IObservable<T> Observe<T>(IEventType eventType) where T : IEventData
         {
             int eventId = eventType.Id;
-            Debug.Log($"Подписаться на событие {eventType.EventName}");
-
-            Action<IEventData> wrapper = (data) => handler((T)data);
-            
-            if (!_handlerWrappers.ContainsKey(handler))
+            if (!_subjects.TryGetValue(eventId, out var subject))
             {
-                _handlerWrappers[handler] = wrapper;
+                subject = new Subject<T>();
+                _subjects[eventId] = subject;
             }
-
-            if (!_events.ContainsKey(eventId))
-            {
-                _events[eventId] = null;
-            }
-            
-            _events[eventId] += wrapper;
+            return (Subject<T>)subject;
         }
 
-        public void Unsubscribe<T>(IEventType eventType, Action<T> handler) where T : IEventData
-        {
-            int eventId = eventType.Id;
-            Debug.Log($"Отписаться от события {eventType.EventName}");
-            
-            if (!_events.ContainsKey(eventId)) return;
-
-            if (_handlerWrappers.TryGetValue(handler, out var wrapper))
-            {
-                _events[eventId] -= wrapper;
-                _handlerWrappers.Remove(handler);
-                
-                if (_events[eventId] == null)
-                {
-                    _events.Remove(eventId);
-                }
-            }
-        }
-
-        public void UnsubscribeAll()
-        {
-            Debug.Log("Отписаться от всех событий");
-            _events.Clear();
-            _handlerWrappers.Clear();
-        }
-
+        // Публикация события
         public void Publish<T>(IEventType eventType, T data) where T : IEventData
         {
             int eventId = eventType.Id;
-            if (!_events.ContainsKey(eventId)) return;
+            if (_subjects.TryGetValue(eventId, out var subject))
+            {
+                ((Subject<T>)subject).OnNext(data);
+                // Debug.Log($"Publish {eventType.EventName}");
+            }
+        }
 
-            Debug.Log($"Publish {eventType.EventName}");
-            _events[eventId]?.Invoke(data);
+        // Отписка происходит автоматически через Disposable
+        public void Dispose()
+        {
+            foreach (var subject in _subjects.Values)
+            {
+                (subject as IDisposable)?.Dispose();
+            }
+            _subjects.Clear();
+
+            Debug.Log("EventBus disposed");
         }
 
         public void ShowAllEvents()
         {
-            foreach (var eventPair in _events)
+            foreach (var kvp in _subjects)
             {
-                if (eventPair.Value != null)
-                {
-                    Debug.Log($"Событие {eventPair.Key} имеет {eventPair.Value.GetInvocationList().Length} подписчиков");
-                }
+                var type = kvp.Value.GetType();
+                Debug.Log($"Событие {kvp.Key} Subject: {type.Name}");
             }
         }
-        public void Dispose() => UnsubscribeAll();
     }
 }

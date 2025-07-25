@@ -1,15 +1,16 @@
 {
   "name": "com.gamedevlab.modular-event-architecture",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "displayName": "Modular-event-architecture",
-  "description": "Модульно-событийная архитектура для Unity проектов с поддержкой EventBus, GameEntity и системой модулей. Простая интеграция - используйте namespace ModularEventArchitecture и наследуйтесь от GameEntity для использования готовых модулей в любом месте проекта.",
+  "description": "Модульно-событийная архитектура для Unity с поддержкой UniRx, EventBus, GameEntity и системой модулей. Реактивные события, автоматическая отписка, простая интеграция. Используйте namespace ModularEventArchitecture и наследуйтесь от GameEntity для использования готовых модулей в любом месте проекта.",
   "unity": "2022.3",
   "author": {
     "name": "GameDevLab",
     "url": "https://github.com/Anton2781618"
   },
   "dependencies": {
-    "com.unity.textmeshpro": "3.0.6"
+    "com.unity.textmeshpro": "3.0.6",
+    "com.neuecc.unirx": "7.1.0"
   },
   "keywords": [
     "gameentity",
@@ -18,7 +19,11 @@
     "architecture",
     "modular",
     "events",
-    "game-framework"
+    "game-framework",
+    "unirx",
+    "reactive",
+    "rx",
+    "async"
   ],
   "repository": {
     "type": "git",

@@ -23,8 +23,8 @@ namespace ModularEventArchitecture
 
         public static class SystemRequirements
         {
-            public static readonly IEventType System_Restart_Scene = new BasicActionsTypes("System_RestartScene");
             public static readonly IEventType Test_Event = new BasicActionsTypes("TestEvent");
+            public static readonly IEventType System_Restart_Scene = new BasicActionsTypes("System_RestartScene");
         }
         public static class Commands
         {

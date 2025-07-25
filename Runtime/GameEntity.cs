@@ -1,14 +1,41 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UniRx;
 
 namespace ModularEventArchitecture
 {
+    [Flags]
+    public enum EntityTag
+    {
+        None = 0,
+        Unit = 1 << 0,
+        UI = 1 << 1,
+        Enemy = 1 << 2,
+        Player = 1 << 3,
+        // Добавляйте свои теги по необходимости
+    }
     //Класс представляющий игровую сущность (юнит, предмет и т.д.)
     //Содержит в себе модули, которые реализуют функционал
-    public abstract class GameEntity : MonoEventBus
+    public class GameEntity : MonoBehaviour
     {
+        [Header("Теги сущности")]
+        public EntityTag EntityTag = EntityTag.None;
+        private IDisposable _updateSubscription;
         //-------------------------------------------------------------------------------------
+        private LocalEventBus _localEvents;
+        public LocalEventBus LocalEvents
+        {
+            get
+            {
+                if (_localEvents == null)
+                {
+                    _localEvents = new LocalEventBus();
+                }
+                return _localEvents;
+            }
+            private set => _localEvents = value;
+        }
         [SerializeField] private List<ModuleBase> _modules = new List<ModuleBase>();
         public List<ModuleBase> Modules
         {
@@ -29,7 +56,7 @@ namespace ModularEventArchitecture
         private Dictionary<Type, Component> _cachedComponents;
 
         //!-------------------------------------------------------------------------------------
-
+      
         public virtual void UpdateMe()
         {
             foreach (var module in Modules)
@@ -40,23 +67,50 @@ namespace ModularEventArchitecture
             }
         }
 
-        protected override void OnEnable()
+        protected virtual void OnEnable()
         {
             InitializeModules();
-
-            base.OnEnable();
-
             GlobalEventBus.Instance.Publish(BasicActionsTypes.Commands.Unit_Created, new CreateUnitEvent {Unit = this});
+
+            // Реактивный Update через UniRx
+            _updateSubscription = Observable.EveryUpdate()
+                .Subscribe(_ => UpdateMe())
+                .AddTo(this);
         }
 
-        protected override void OnDisable()
+        protected virtual void OnDisable()
         {
-            base.OnDisable();
-
             GlobalEventBus.Instance.Publish(BasicActionsTypes.Commands.Unit_Die, new DieEvent { Unit = this });
+            // Отписка от реактивного Update
+            _updateSubscription?.Dispose();
+        }
+        // Подписка на глобальные события через UniRx
+        public void SubscribeGlobalEvent<T>(IEventType eventType, System.Action<T> handler) where T : IEventData
+        {
+            GlobalEventBus.Instance.Observe<T>(eventType)
+                .Subscribe(handler)
+                .AddTo(this);
         }
 
-        public virtual void Use(){}
+        // Подписка на локальные события через UniRx
+        public void SubscribeLocalEvent<T>(IEventType eventType, System.Action<T> handler) where T : IEventData
+        {
+            LocalEvents.Observe<T>(eventType)
+                .Subscribe(handler)
+                .AddTo(this);
+        }
+
+        // Вызов глобального события
+        public void PublishGlobalEvent<T>(IEventType eventType, T data) where T : IEventData
+        {
+            GlobalEventBus.Instance.Publish(eventType, data);
+        }
+
+        // Вызов локального события
+        public void PublishLocalEvent<T>(IEventType eventType, T data) where T : IEventData
+        {
+            LocalEvents.Publish(eventType, data);
+        }
 
         public void AddModule(ModuleBase module)
         {
@@ -131,7 +185,7 @@ namespace ModularEventArchitecture
         public void LogLocalEvents()
         {
             Debug.Log($"У объектка {transform.name} локальные события ");
-            LocalEvents?.ShowAllEvents();
+            LocalEvents.ShowAllEvents();
         }
 
         [ContextMenu("Вывести в консоль Глобальные события")]

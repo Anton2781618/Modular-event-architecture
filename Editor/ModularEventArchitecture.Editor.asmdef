@@ -2,7 +2,8 @@
     "name": "ModularEventArchitecture.Editor",
     "rootNamespace": "",
     "references": [
-        "ModularEventArchitecture"
+        "ModularEventArchitecture",
+        "UniRx"
     ],
     "includePlatforms": [
         "Editor"

@@ -1,13 +1,16 @@
 using System;
 
-//включает тип и все производные
-[AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
-public class CompatibleUnitAttribute : Attribute
+namespace ModularEventArchitecture
 {
-    public Type UnitType { get; }
-
-    public CompatibleUnitAttribute(Type unitType)
+    // Атрибут совместимости по тегу сущности
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
+    public class CompatibleUnitAttribute : Attribute
     {
-        UnitType = unitType;
+        public EntityTag Tag { get; }
+
+        public CompatibleUnitAttribute(EntityTag tag)
+        {
+            Tag = tag;
+        }
     }
 }

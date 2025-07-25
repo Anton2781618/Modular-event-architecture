@@ -34,25 +34,25 @@ namespace ModularEventArchitecture
 
             if (assemblyCSharp != null)
             {
-                var csharpManagers = assemblyCSharp.GetTypes()
-                    .Where(t => typeof(ManagerEntity).IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract);
-                foreach (var type in csharpManagers)
-                {
-                    managerTypes.Add(type);
-                }
+                // var csharpManagers = assemblyCSharp.GetTypes()
+                //     .Where(t => typeof(ManagerEntity).IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract);
+                // foreach (var type in csharpManagers)
+                // {
+                //     managerTypes.Add(type);
+                // }
             }
 
             // Поиск в текущей сборке ModularEventArchitecture
-            var currentAssembly = Assembly.GetAssembly(typeof(ManagerEntity));
-            if (currentAssembly != null)
-            {
-                var assemblyManagers = currentAssembly.GetTypes()
-                    .Where(t => typeof(ManagerEntity).IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract);
-                foreach (var type in assemblyManagers)
-                {
-                    managerTypes.Add(type);
-                }
-            }
+            // var currentAssembly = Assembly.GetAssembly(typeof(ManagerEntity));
+            // if (currentAssembly != null)
+            // {
+            //     var assemblyManagers = currentAssembly.GetTypes()
+            //         .Where(t => typeof(ManagerEntity).IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract);
+            //     foreach (var type in assemblyManagers)
+            //     {
+            //         managerTypes.Add(type);
+            //     }
+            // }
 
             availableManagers = managerTypes.ToList();
         }
@@ -112,28 +112,28 @@ namespace ModularEventArchitecture
 
             managersContainer.Clear();
 
-            var existingManagerTypes = targetBootstrapper.GetComponentsInChildren<ManagerEntity>()
-                .Where(m => m != null)
-                .Select(m => m.GetType())
-                .ToList();
+            // var existingManagerTypes = targetBootstrapper.GetComponentsInChildren<ManagerEntity>()
+            //     .Where(m => m != null)
+            //     .Select(m => m.GetType())
+            //     .ToList();
 
-            foreach (var managerType in availableManagers)
-            {
-                // Пропускаем типы менеджеров, которые уже существуют
-                if (existingManagerTypes.Any(t => t == managerType))
-                    continue;
+            // foreach (var managerType in availableManagers)
+            // {
+            //     // Пропускаем типы менеджеров, которые уже существуют
+            //     if (existingManagerTypes.Any(t => t == managerType))
+            //         continue;
 
-                string managerName = managerType.Name;
-                Button managerButton = new Button(() => AddManager(managerType)) { text = managerName };
-                managersContainer.Add(managerButton);
-            }
+            //     string managerName = managerType.Name;
+            //     Button managerButton = new Button(() => AddManager(managerType)) { text = managerName };
+            //     managersContainer.Add(managerButton);
+            // }
 
-            // Если нет доступных менеджеров для добавления, показываем сообщение
-            if (managersContainer.childCount == 0)
-            {
-                var label = new Label("Все менеджеры уже добавлены");
-                managersContainer.Add(label);
-            }
+            // // Если нет доступных менеджеров для добавления, показываем сообщение
+            // if (managersContainer.childCount == 0)
+            // {
+            //     var label = new Label("Все менеджеры уже добавлены");
+            //     managersContainer.Add(label);
+            // }
         }
 
         private void AddManager(Type managerType)

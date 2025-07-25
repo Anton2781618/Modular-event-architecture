@@ -1,9 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 namespace ModularEventArchitecture
 {
+    [CompatibleUnit(EntityTag.UI)] 
     public class DebugModule : ModuleBase
     {
         public override void Initialize()
@@ -14,24 +11,24 @@ namespace ModularEventArchitecture
         [Tools.Button("Вывести в консоль события LocalEventBus")]
         private void DebugLocalEventBus()
         {
-            Entity.LocalEvents.ShowAllEvents();
+            Entity.LogLocalEvents();
         }
 
         [Tools.Button("Вывести в консоль события GlobalEventBus")]
         private void DebugGlobalEventBus()
         {
-            GlobalEventBus.Instance.ShowAllEvents();
+            Entity.LogGlobalEvents();
         }
 
         [Tools.Button("Вызвать тестовое ЛОКАЛЬНОЕ событие")]
         private void TestLocalEvent()
         {
-            Entity.LocalEvents.Publish(BasicActionsTypes.SystemRequirements.Test_Event, new EventBase());
+            Entity.PublishLocalEvent(BasicActionsTypes.SystemRequirements.Test_Event, new EventBase());
         }
         [Tools.Button("Вызвать тестовое ГЛОБАЛЬНОЕ событие")]
         private void TestGlobalEvent()
         {
-            GlobalEventBus.Instance.Publish(BasicActionsTypes.SystemRequirements.Test_Event, new EventBase());
+            Entity.PublishGlobalEvent(BasicActionsTypes.SystemRequirements.Test_Event, new EventBase());
         }
     }
 }

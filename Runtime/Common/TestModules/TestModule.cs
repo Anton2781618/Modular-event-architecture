@@ -1,14 +1,18 @@
 using UnityEngine;
 
+
 namespace ModularEventArchitecture
 {
+    [CompatibleUnit(EntityTag.Unit)]
     public class TestModule : ModuleBase
     {
         public override void Initialize()
         {
-            Entity.LocalEvents.Subscribe<EventBase>(BasicActionsTypes.SystemRequirements.Test_Event, TestLocal);
+            Entity.SubscribeLocalEvent<EventBase>(BasicActionsTypes.SystemRequirements.Test_Event, TestLocal);
 
-            Entity.Globalevents.Add((BasicActionsTypes.SystemRequirements.Test_Event, (data) => TestGlobal((EventBase)data)));
+
+            Entity.SubscribeGlobalEvent<EventBase>(BasicActionsTypes.SystemRequirements.Test_Event, TestGlobal);
+
         }
 
         private void TestLocal(EventBase eventBase)
@@ -18,6 +22,12 @@ namespace ModularEventArchitecture
         private void TestGlobal(EventBase eventBase)
         {
             Debug.Log($"<color=red>Тестовое ГЛОБАЛЬНОЕ событие</color> на объекте {Entity.name}");
+        }
+
+        public override void UpdateMe()
+        {
+            // Здесь можно реализовать логику обновления модуля, если требуется
+            Debug.Log($"<color=blue>Обновление модуля {GetType().Name} на объекте {Entity.name}</color>");
         }
     }
 }

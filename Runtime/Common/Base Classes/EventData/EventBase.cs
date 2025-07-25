@@ -6,8 +6,6 @@ namespace ModularEventArchitecture
     [Serializable]
     public class EventBase : IEventData 
     {
-        public Sprite sprite;
-        public bool Enabled;
     }
 
     [Serializable]

@@ -14,7 +14,6 @@ namespace ModularEventArchitecture
     public class GameEntityEditor : Editor
     {
         //-------------------------------------------------------------------------------------
-
         public VisualTreeAsset treeAsset;
 
         private Button _ADDModule;
@@ -22,7 +21,7 @@ namespace ModularEventArchitecture
         private bool _isMenuOpen = false;
         private GameEntity _targetEntity;
 
-        private List<Type> availableModules;
+        // private List<Type> availableModules; // больше не нужен, фильтрация будет происходить динамически
         //!-------------------------------------------------------------------------------------
 
 
@@ -60,41 +59,12 @@ namespace ModularEventArchitecture
                     }
                 }
 
-                // Фильтруем модули с учетом обоих атрибутов
-                availableModules = moduleTypes.Where(moduleType =>
-                {
-                    try
-                    {
-                        // Проверяем исключения
-                        var incompatibleAttributes = moduleType.GetCustomAttributes<IncompatibleUnitAttribute>();
-                        if (incompatibleAttributes == null || incompatibleAttributes.Any(attr => attr.UnitType.IsAssignableFrom(_targetEntity.GetType())))
-                        {
-                            return false; // Модуль исключен для данного типа
-                        }
-
-                        // Проверяем совместимость
-                        var compatibleAttributes = moduleType.GetCustomAttributes<CompatibleUnitAttribute>();
-                        
-                        // Если нет атрибутов совместимости, считаем модуль совместимым
-                        if (compatibleAttributes == null || !compatibleAttributes.Any())
-                        {
-                            return true;
-                        }
-
-                        return compatibleAttributes.Any(attr => attr.UnitType.IsAssignableFrom(_targetEntity.GetType()));
-                    }
-                    catch (NullReferenceException)
-                    {
-                        // Если произошла ошибка при проверке атрибутов, считаем модуль совместимым
-                        Debug.LogWarning($"Null reference while checking attributes for module {moduleType.Name}");
-                        return true;
-                    }
-                }).ToList();
+                // Удаляем фильтрацию из OnEnable, переносим в CreateModuleButtons
             }
             catch (Exception e)
             {
                 Debug.LogError($"Error in GameEntityEditor.OnEnable: {e}");
-                availableModules = new List<Type>();
+                // availableModules = new List<Type>();
             }
         }
 
@@ -161,14 +131,53 @@ namespace ModularEventArchitecture
 
             _modulesContainer.Clear();
 
-            foreach (var moduleType in availableModules)
+            // Получаем все типы модулей
+            var moduleTypes = new HashSet<Type>();
+
+            var assemblyCSharp = AppDomain.CurrentDomain.GetAssemblies()
+                .FirstOrDefault(assembly => assembly.GetName().Name == "Assembly-CSharp");
+            if (assemblyCSharp != null)
+            {
+                var csharpModules = assemblyCSharp.GetTypes()
+                    .Where(t => typeof(ModuleBase).IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract);
+                foreach (var type in csharpModules)
+                {
+                    moduleTypes.Add(type);
+                }
+            }
+
+            var currentAssembly = Assembly.GetAssembly(typeof(ModuleBase));
+            if (currentAssembly != null)
+            {
+                var assemblyModules = currentAssembly.GetTypes()
+                    .Where(t => typeof(ModuleBase).IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract);
+                foreach (var type in assemblyModules)
+                {
+                    moduleTypes.Add(type);
+                }
+            }
+
+            // Получаем актуальный EntityTag
+            var tagField = _targetEntity.GetType().GetField("EntityTag");
+            var entityTag = tagField != null ? (EntityTag)tagField.GetValue(_targetEntity) : EntityTag.None;
+
+            // Фильтруем модули по атрибуту совместимости
+            var compatibleModules = moduleTypes.Where(moduleType =>
+            {
+                var attr = moduleType.GetCustomAttribute<CompatibleUnitAttribute>();
+                if (attr == null)
+                    return true;
+                return (attr.Tag & entityTag) != 0;
+            });
+
+            foreach (var moduleType in compatibleModules)
             {
                 if (_targetEntity.GetComponent(moduleType) != null) continue;
-                
+
                 string moduleName = moduleType.Name;
-                
+
                 Button moduleButton = new Button(() => AddModule(moduleType)) { text = moduleName };
-                
+
                 _modulesContainer.Add(moduleButton);
             }
         }
