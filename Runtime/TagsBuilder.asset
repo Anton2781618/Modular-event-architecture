@@ -32,4 +32,4 @@ MonoBehaviour:
   - ModuleReference: DebugModule
     CompatibleTag: Managers/Level Manager
   - ModuleReference: TestModule
-    CompatibleTag: Managers/Level Manager
+    CompatibleTag: Unit/Player
