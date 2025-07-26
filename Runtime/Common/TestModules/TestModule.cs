@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace ModularEventArchitecture
 {
-    [CompatibleUnit(EntityTag.Unit)]
+    [CompatibleUnit(EntityTag.Interactive)]
     public class TestModule : ModuleBase
     {
         public override void Initialize()

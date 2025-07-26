@@ -157,17 +157,53 @@ namespace ModularEventArchitecture
                 }
             }
 
-            // Получаем актуальный EntityTag
-            var tagField = _targetEntity.GetType().GetField("EntityTag");
-            var entityTag = tagField != null ? (EntityTag)tagField.GetValue(_targetEntity) : EntityTag.None;
+            // Получаем ScriptableObject TagsBuilder
+            var tagsBuilder = UnityEditor.AssetDatabase.FindAssets("t:TagsBuilder")
+                .Select(guid => UnityEditor.AssetDatabase.GUIDToAssetPath(guid))
+                .Select(path => UnityEditor.AssetDatabase.LoadAssetAtPath<UnityEngine.ScriptableObject>(path))
+                .OfType<ModularEventArchitecture.TagsBuilder>()
+                .FirstOrDefault();
 
-            // Фильтруем модули по атрибуту совместимости
+            // Получаем текущие теги сущности (массив строк)
+            string[] entityTags = null;
+            var tagField = _targetEntity.GetType().GetField("EntityTag");
+            if (tagField != null)
+            {
+                var tagValue = tagField.GetValue(_targetEntity);
+                if (tagValue is Array tagArray)
+                {
+                    entityTags = new string[tagArray.Length];
+                    for (int i = 0; i < tagArray.Length; i++)
+                    {
+                        entityTags[i] = tagArray.GetValue(i)?.ToString();
+                    }
+                }
+                else if (tagValue != null)
+                {
+                    entityTags = new string[] { tagValue.ToString() };
+                }
+            }
+
+            // Фильтруем модули по TagsBuilder.ModuleTagPairs
             var compatibleModules = moduleTypes.Where(moduleType =>
             {
-                var attr = moduleType.GetCustomAttribute<CompatibleUnitAttribute>();
-                if (attr == null)
+                if (tagsBuilder == null || tagsBuilder.ModuleTagPairs == null)
+                    return true; // если нет ScriptableObject — показываем все
+
+                var pair = tagsBuilder.ModuleTagPairs.FirstOrDefault(p => p.ModuleReference == moduleType.Name);
+                if (pair == null || string.IsNullOrEmpty(pair.CompatibleTag))
                     return true;
-                return (attr.Tag & entityTag) != 0;
+
+                // Сравниваем каждый тег
+                if (entityTags == null || entityTags.Length == 0)
+                    return false;
+
+                foreach (var tag in entityTags)
+                {
+                    if (pair.CompatibleTag == tag)
+                        return true;
+                }
+                return false;
             });
 
             foreach (var moduleType in compatibleModules)
