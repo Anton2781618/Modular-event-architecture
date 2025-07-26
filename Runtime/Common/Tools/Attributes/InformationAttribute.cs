@@ -4,7 +4,7 @@
 using UnityEditor;
 #endif
 
-namespace Tools
+namespace ModularEventArchitecture
 {
     public class InformationAttribute : PropertyAttribute 
 	{

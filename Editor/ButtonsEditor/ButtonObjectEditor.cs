@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEditor;
 using System.Reflection;
 using System.Linq;
-using Tools;
+using ModularEventArchitecture;
 
 [CustomEditor(typeof(MonoBehaviour), true)] // Изменили с Object на MonoBehaviour
 public class ButtonObjectEditor : Editor 

@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.Events;
 
 
-namespace Tools
+namespace ModularEventArchitecture
 {
 
     [Serializable]

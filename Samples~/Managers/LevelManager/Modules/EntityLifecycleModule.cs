@@ -81,7 +81,7 @@ namespace ModularEventArchitecture
 
         public int GetEntityCount() => _dictEntities.Count;
 
-        [Tools.Button("Вывести списки в консоль")]
+        [Button("Вывести списки в консоль")]
         public void ShowEntetys()
         {
             Debug.Log($"В СЛОВАРЕ <color=green> {_dictEntities.Values.Count}</color>");

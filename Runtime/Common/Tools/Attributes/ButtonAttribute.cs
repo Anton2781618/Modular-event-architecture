@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Tools
+namespace ModularEventArchitecture
 {
     public enum ButtonMode
     {

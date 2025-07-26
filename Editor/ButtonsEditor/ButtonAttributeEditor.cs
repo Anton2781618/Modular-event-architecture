@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEditor;
 using System.Reflection;
 
-namespace Tools
+namespace ModularEventArchitecture
 {
     [CustomEditor(typeof(ScriptableObject), true)]
     public class ButtonAttributeEditor : Editor

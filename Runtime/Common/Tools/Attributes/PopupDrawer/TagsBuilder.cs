@@ -18,7 +18,7 @@ namespace ModularEventArchitecture
         public List<ModuleTagPair> ModuleTagPairs = new List<ModuleTagPair>();
 
 
-        [Tools.Button("Построить иерархию тегов")]
+        [Button("Построить иерархию тегов")]
         public void BuildHierarchy()
         {
             HierarchyItemsTypes.Clear();
@@ -32,7 +32,7 @@ namespace ModularEventArchitecture
             }
         }
 
-        [Tools.Button("Дозаполнить модули")]
+        [Button("Дозаполнить модули")]
         public void FillModules()
         {
             // Получаем все типы-наследники ModuleBase

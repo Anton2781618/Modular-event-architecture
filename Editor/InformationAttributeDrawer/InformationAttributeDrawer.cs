@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEditor;
 
 
-namespace Tools
+namespace ModularEventArchitecture
 {
     [CustomPropertyDrawer (typeof(InformationAttribute))]
 	/// <summary>

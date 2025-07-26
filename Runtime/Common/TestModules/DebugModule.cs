@@ -8,24 +8,24 @@ namespace ModularEventArchitecture
 
         }
 
-        [Tools.Button("Вывести в консоль события LocalEventBus")]
+        [Button("Вывести в консоль события LocalEventBus")]
         private void DebugLocalEventBus()
         {
             Entity.LogLocalEvents();
         }
 
-        [Tools.Button("Вывести в консоль события GlobalEventBus")]
+        [Button("Вывести в консоль события GlobalEventBus")]
         private void DebugGlobalEventBus()
         {
             Entity.LogGlobalEvents();
         }
 
-        [Tools.Button("Вызвать тестовое ЛОКАЛЬНОЕ событие")]
+        [Button("Вызвать тестовое ЛОКАЛЬНОЕ событие")]
         private void TestLocalEvent()
         {
             Entity.PublishLocalEvent(BasicActionsTypes.SystemRequirements.Test_Event, new EventBase());
         }
-        [Tools.Button("Вызвать тестовое ГЛОБАЛЬНОЕ событие")]
+        [Button("Вызвать тестовое ГЛОБАЛЬНОЕ событие")]
         private void TestGlobalEvent()
         {
             Entity.PublishGlobalEvent(BasicActionsTypes.SystemRequirements.Test_Event, new EventBase());
