@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "com.unity.textmeshpro": "3.0.6",
-    "com.neuecc.unirx": "https://github.com/neuecc/UniRx.git#7.1.0"
+    "com.neuecc.unirx": "7.1.0"
   },
   "keywords": [
     "gameentity",
