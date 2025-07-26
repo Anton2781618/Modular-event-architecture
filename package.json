@@ -9,8 +9,7 @@
     "url": "https://github.com/Anton2781618"
   },
   "dependencies": {
-    "com.unity.textmeshpro": "3.0.6",
-    "com.neuecc.unirx": "7.1.0"
+    "com.unity.textmeshpro": "3.0.6"
   },
   "keywords": [
     "gameentity",
