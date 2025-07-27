@@ -6,7 +6,7 @@ namespace ModularEventArchitecture
     {
         //-------------------------------------------------------------------------------------
         //todo: наддо продумать глубже....не нравится что свойство публичное....возможно стоит сделать защищеннымы
-        [field: SerializeField, HideInInspector] public GameEntity Entity{get; set;}
+        [field: SerializeField/* , HideInInspector */] public GameEntity Entity{get; set;}
 
         //!-------------------------------------------------------------------------------------
 
