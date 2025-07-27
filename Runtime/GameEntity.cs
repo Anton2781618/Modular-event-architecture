@@ -5,24 +5,12 @@ using UniRx;
 
 namespace ModularEventArchitecture
 {
-    [Flags]
-    public enum EntityTag
-    {
-        None = 0,
-        Interactive = 1 << 0,
-        UI = 1 << 1,
-        NPC = 1 << 2,
-        Player = 1 << 3,
-        Service = 1 << 4,
-        Manager = 1 << 5,
-        // Добавляйте свои теги по необходимости
-    }
     //Класс представляющий игровую сущность (юнит, предмет и т.д.)
     //Содержит в себе модули, которые реализуют функционал
     public class GameEntity : MonoBehaviour
     {
         //-------------------------------------------------------------------------------------
-        /* [Dropdown] */ public string[] EntityTag;
+        [Drop] public string[] EntityTag;
         //-------------------------------------------------------------------------------------
         private IDisposable _updateSubscription;
         //-------------------------------------------------------------------------------------
