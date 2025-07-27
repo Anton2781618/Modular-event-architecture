@@ -3,10 +3,11 @@ using UnityEngine;
 
 namespace ModularEventArchitecture
 {
-    /// Интерфейс для данных событий
     [Serializable]
-    public class EventBase : IEventData 
+    public class EventBase : IEventData
     {
+        public Sprite sprite;
+        public bool Enabled;
     }
 
     [Serializable]
