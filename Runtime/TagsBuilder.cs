@@ -13,7 +13,7 @@ namespace ModularEventArchitecture
         private Dictionary<string, ModuleTagPair> _moduleTagDict = new Dictionary<string, ModuleTagPair>();
         [Header("Список тегов (расширяемый)")]
         [ReadOnly] public List<string> HierarchyTags;
-        [SerializeField] private HierarchyItem[] hierarchyBuilder;
+        [SerializeField] private HierarchyItemTag[] hierarchyBuilder;
 
 
         [Header("Список модулей и их совместимых тегов")]
@@ -95,7 +95,7 @@ namespace ModularEventArchitecture
     }
 
     [Serializable]
-    public class HierarchyItem
+    public class HierarchyItemTag
     {
         public string NameHierarchy = "";
         public string[] HierarchyItemtype;
