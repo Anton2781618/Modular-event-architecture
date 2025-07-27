@@ -108,6 +108,6 @@ namespace ModularEventArchitecture
         [ReadOnly] public string ModuleReference;
 
         [Tooltip("Совместимый тег для этого модуля")]
-        [Dropdown] public string CompatibleTag = "/None";
+        /* [Dropdown] */ public string CompatibleTag = "/None";
     }
 }

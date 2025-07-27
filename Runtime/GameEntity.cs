@@ -22,7 +22,7 @@ namespace ModularEventArchitecture
     public class GameEntity : MonoBehaviour
     {
         //-------------------------------------------------------------------------------------
-        [Dropdown] public string[] EntityTag;
+        /* [Dropdown] */ public string[] EntityTag;
         //-------------------------------------------------------------------------------------
         private IDisposable _updateSubscription;
         //-------------------------------------------------------------------------------------
