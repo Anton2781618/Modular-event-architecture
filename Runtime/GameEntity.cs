@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UniRx;
-using MyScripts.Architecture.Attributes.PopupDrawer;
 
 namespace ModularEventArchitecture
 {
@@ -74,7 +73,7 @@ namespace ModularEventArchitecture
         protected virtual void OnEnable()
         {
             InitializeModules();
-            GlobalEventBus.Instance.Publish(BasicActionsTypes.Commands.Unit_Created, new CreateUnitEvent {Unit = this});
+            GlobalEventBus.Instance.Publish(BasicActionsTypes.Unit_Created, new CreateUnitEvent {Unit = this});
 
             // Реактивный Update через UniRx
             _updateSubscription = Observable.EveryUpdate()
@@ -84,7 +83,7 @@ namespace ModularEventArchitecture
 
         protected virtual void OnDisable()
         {
-            GlobalEventBus.Instance.Publish(BasicActionsTypes.Commands.Unit_Die, new DieEvent { Unit = this });
+            GlobalEventBus.Instance.Publish(BasicActionsTypes.Unit_Die, new DieEvent { Unit = this });
             // Отписка от реактивного Update
             _updateSubscription?.Dispose();
         }

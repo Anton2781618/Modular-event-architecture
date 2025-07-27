@@ -3,7 +3,7 @@ using ModularEventArchitecture;
 using UnityEditor;
 using UnityEngine;
 
-namespace MyScripts.Architecture.Attributes.PopupDrawer
+namespace ModularEventArchitecture
 {
     [CustomPropertyDrawer(typeof(PopupAttribute))]
     public class PopupDrawer : PropertyDrawer
@@ -33,19 +33,19 @@ namespace MyScripts.Architecture.Attributes.PopupDrawer
             // Получаем атрибут
             PopupAttribute popupAttribute = attribute as PopupAttribute;
             
-            if (Asset != null && Asset.HierarchyItemsTypes != null)
+            if (Asset != null && Asset.HierarchyTags != null)
             {
                 // Получаем текущий индекс из property
-                int currentIndex =  Asset.HierarchyItemsTypes.IndexOf(property.stringValue);
+                int currentIndex =  Asset.HierarchyTags.IndexOf(property.stringValue);
                 if (currentIndex == -1) currentIndex = 0;
                 
                 // Отрисовываем popup и получаем новый индекс
-                int newIndex = EditorGUI.Popup(position, label.text, currentIndex, Asset.HierarchyItemsTypes.ToArray());
+                int newIndex = EditorGUI.Popup(position, label.text, currentIndex, Asset.HierarchyTags.ToArray());
                 
                 // Если индекс изменился, обновляем значение в property
                 if (newIndex != currentIndex)
                 {
-                    property.stringValue = Asset.HierarchyItemsTypes[newIndex];
+                    property.stringValue = Asset.HierarchyTags[newIndex];
                     property.serializedObject.ApplyModifiedProperties();
                 }
             }

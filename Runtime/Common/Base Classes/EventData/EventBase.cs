@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace ModularEventArchitecture
 {
+    /// Интерфейс для данных событий
     [Serializable]
     public class EventBase : IEventData 
     {

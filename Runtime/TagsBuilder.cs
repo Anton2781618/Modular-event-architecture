@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using MyScripts.Architecture.Attributes.PopupDrawer;
 using UnityEngine;
 
 namespace ModularEventArchitecture
@@ -9,25 +8,47 @@ namespace ModularEventArchitecture
     [CreateAssetMenu(fileName = "TagsBuilder", menuName = "TagsBuilder")] [Serializable]
     public class TagsBuilder : ScriptableObject
     {
+
+        // Кэш для быстрого доступа к парам модуль/тег
+        private Dictionary<string, ModuleTagPair> _moduleTagDict = new Dictionary<string, ModuleTagPair>();
         [Header("Список тегов (расширяемый)")]
-        public List<string> HierarchyItemsTypes;
-        public HierarchyItem[] hierarchyItems;
+        [ReadOnly] public List<string> HierarchyTags;
+        [SerializeField] private HierarchyItem[] hierarchyBuilder;
 
 
         [Header("Список модулей и их совместимых тегов")]
         public List<ModuleTagPair> ModuleTagPairs = new List<ModuleTagPair>();
 
+        // Обновление кэша при изменении списка
+        private void UpdateModuleTagDict()
+        {
+            _moduleTagDict.Clear();
+            foreach (var pair in ModuleTagPairs)
+            {
+                if (!string.IsNullOrEmpty(pair.ModuleReference))
+                    _moduleTagDict[pair.ModuleReference] = pair;
+            }
+        }
+
+        // Быстрый доступ к паре по имени модуля
+        public ModuleTagPair GetModuleTagPair(string moduleName)
+        {
+            if (_moduleTagDict.Count != ModuleTagPairs.Count)
+                UpdateModuleTagDict();
+            return _moduleTagDict.TryGetValue(moduleName, out var pair) ? pair : null;
+        }
+
 
         [Button("Построить иерархию тегов")]
         public void BuildHierarchy()
         {
-            HierarchyItemsTypes.Clear();
+            HierarchyTags.Clear();
 
-            foreach (var hierarchyUnit in hierarchyItems)
+            foreach (var hierarchyUnit in hierarchyBuilder)
             {
                 foreach (var item in hierarchyUnit.HierarchyItemtype)
                 {
-                    HierarchyItemsTypes.Add(hierarchyUnit.NameHierarchy + "/" + item);
+                    HierarchyTags.Add(hierarchyUnit.NameHierarchy + "/" + item);
                 }
             }
         }
@@ -68,6 +89,7 @@ namespace ModularEventArchitecture
                     CompatibleTag = "/None" // или другой дефолтный тег
                 });
             }
+            UpdateModuleTagDict();
         }
         
     }
@@ -83,7 +105,7 @@ namespace ModularEventArchitecture
     public class ModuleTagPair
     {
         [Tooltip("Класс модуля (наследник ModuleBase)")]
-        public string ModuleReference;
+        [ReadOnly] public string ModuleReference;
 
         [Tooltip("Совместимый тег для этого модуля")]
         [Popup] public string CompatibleTag = "/None";

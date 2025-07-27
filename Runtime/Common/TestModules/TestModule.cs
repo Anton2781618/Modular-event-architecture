@@ -3,15 +3,14 @@ using UnityEngine;
 
 namespace ModularEventArchitecture
 {
-    [CompatibleUnit(EntityTag.Interactive)]
     public class TestModule : ModuleBase
     {
         public override void Initialize()
         {
-            Entity.SubscribeLocalEvent<EventBase>(BasicActionsTypes.SystemRequirements.Test_Event, TestLocal);
+            Entity.SubscribeLocalEvent<EventBase>(BasicActionsTypes.Test_Event, TestLocal);
 
 
-            Entity.SubscribeGlobalEvent<EventBase>(BasicActionsTypes.SystemRequirements.Test_Event, TestGlobal);
+            Entity.SubscribeGlobalEvent<EventBase>(BasicActionsTypes.Test_Event, TestGlobal);
 
         }
 

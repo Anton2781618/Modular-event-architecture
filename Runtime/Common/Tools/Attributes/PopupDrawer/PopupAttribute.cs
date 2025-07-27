@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace MyScripts.Architecture.Attributes.PopupDrawer
+namespace ModularEventArchitecture
 {
     /// <summary>
     /// Атрибут для отображения массива или списка строк как выпадающего списка
