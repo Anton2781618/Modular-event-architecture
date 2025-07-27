@@ -3,8 +3,8 @@ using UnityEngine;
 
 namespace ModularEventArchitecture
 {
-    [CustomPropertyDrawer(typeof(PopupAttribute))]
-    public class PopupDrawer : PropertyDrawer
+    [CustomPropertyDrawer(typeof(DropdownAttribute))]
+    public class DropdownAttributeDrawer : PropertyDrawer
     {
         private TagsBuilder _asset;
         private TagsBuilder Asset
@@ -29,7 +29,7 @@ namespace ModularEventArchitecture
             EditorGUI.BeginProperty(position, label, property);
 
             // Получаем атрибут
-            PopupAttribute popupAttribute = attribute as PopupAttribute;
+            DropdownAttribute popupAttribute = attribute as DropdownAttribute;
             
             if (Asset != null && Asset.HierarchyTags != null)
             {
