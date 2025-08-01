@@ -27,8 +27,8 @@ namespace ModularEventArchitecture
             }
             private set => _localEvents = value;
         }
-        [SerializeField] private List<ModuleBase> _modules = new List<ModuleBase>();
-        public List<ModuleBase> Modules
+        [SerializeField] [ReadOnly] private List<ModuleBase> _modules = new List<ModuleBase>();
+         public List<ModuleBase> Modules
         {
             get
             {
