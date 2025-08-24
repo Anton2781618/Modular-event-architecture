@@ -75,22 +75,47 @@ namespace ModularEventArchitecture
             // Отписка от реактивного Update
             _updateSubscription?.Dispose();
         }
+        // Подписка -----------------------------------------------------------------------------
+
         // Подписка на глобальные события через UniRx
         public void SubscribeGlobalEvent<T>(IEventType eventType, System.Action<T> handler) where T : IEventData
         {
-            GlobalEventBus.Instance.Observe<T>(eventType)
-                .Subscribe(handler)
-                .AddTo(this);
+            GlobalEventBus.Instance.Observe<T>(eventType).Subscribe(handler).AddTo(this);
+        }
+        public void SubscribeGlobalEvent<TRequest, TResponse>(IEventType eventType, Func<TRequest, TResponse> handler)
+        where TRequest : IEventData where TResponse : IEventData
+        {
+            GlobalEventBus.Instance.SubscribeRequest<TRequest, TResponse>(eventType, handler);
         }
 
         // Подписка на локальные события через UniRx
         public void SubscribeLocalEvent<T>(IEventType eventType, System.Action<T> handler) where T : IEventData
         {
-            LocalEvents.Observe<T>(eventType)
-                .Subscribe(handler)
-                .AddTo(this);
+            LocalEvents.Observe<T>(eventType).Subscribe(handler).AddTo(this);
         }
 
+        public void SubscribeLocalEvent<TRequest, TResponse>(IEventType eventType, Func<TRequest, TResponse> handler)
+        where TRequest : IEventData where TResponse : IEventData
+        {
+            LocalEvents.SubscribeRequest<TRequest, TResponse>(eventType, handler);
+        }
+
+        //публикация --------------------------------------------------------
+
+
+        // Вызов глобального события
+        public TResponse PublishGlobalEvent<TRequest, TResponse>(IEventType eventType, TRequest request)
+        where TRequest : IEventData where TResponse : IEventData
+        {
+            TResponse callback = default;
+            GlobalEventBus.Instance.PublishRequest<TRequest, TResponse>(eventType, request).Subscribe(response =>
+            {
+                // Обработка ответа
+                callback = response;
+            });
+
+            return callback;           
+        }
         // Вызов глобального события
         public void PublishGlobalEvent<T>(IEventType eventType, T data) where T : IEventData
         {
@@ -102,6 +127,21 @@ namespace ModularEventArchitecture
         {
             LocalEvents.Publish(eventType, data);
         }
+
+        public TResponse PublishLocalEvent<TRequest, TResponse>(IEventType eventType, TRequest request)
+        where TRequest : IEventData where TResponse : IEventData
+        {
+            TResponse callback = default;
+            LocalEvents.PublishRequest<TRequest, TResponse>(eventType, request).Subscribe(response =>
+            {
+                // Обработка ответа
+                callback = response;
+            });
+
+            return callback;
+        }
+
+        //-----------------------------------------------------------------------------
 
         public void AddModule(ModuleBase module)
         {

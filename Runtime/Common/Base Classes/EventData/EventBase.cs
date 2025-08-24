@@ -38,7 +38,7 @@ namespace ModularEventArchitecture
     {
         [SerializeField] private float damage;
         [SerializeField] private Vector3 hitDirection;
-        
+
         public float Damage { get => damage; set => damage = value; }
         public Vector3 HitDirection { get => hitDirection; set => hitDirection = value; }
     }
@@ -54,16 +54,21 @@ namespace ModularEventArchitecture
     }
 
     [Serializable]
-    public struct StaminaChangedEvent : IEventData 
+    public struct StaminaChangedEvent : IEventData
     {
         public float MaxStamina;
         public float CurrentStamina;
     }
 
     [Serializable]
-    public struct HealthChangedEvent : IEventData 
+    public struct HealthChangedEvent : IEventData
     {
         public float MaxHealth;
         public float CurrentHealth;
+    }
+    
+    public class ResponseEvent : IEventData
+    {
+        public string Result;
     }
 }

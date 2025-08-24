@@ -11,8 +11,10 @@ namespace ModularEventArchitecture
 
         // Кэш для быстрого доступа к парам модуль/тег
         private Dictionary<string, ModuleTagPair> _moduleTagDict = new Dictionary<string, ModuleTagPair>();
-        [Header("Список тегов (расширяемый)")]
+        [Header("Список тегов (расширяется по кнопке)")]
         [ReadOnly] public List<string> HierarchyTags;
+
+        [Header("Структура иерархии тегов")]
         [SerializeField] private HierarchyItemTag[] hierarchyBuilder;
 
 
@@ -53,12 +55,11 @@ namespace ModularEventArchitecture
             }
         }
 
-        [Button("Дозаполнить модули")]
+        [Button("Перезаполнить модули")]
         public void FillModules()
         {
             // Получаем все типы-наследники ModuleBase
             var moduleTypes = new List<Type>();
-
             foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
             {
                 try
@@ -74,6 +75,12 @@ namespace ModularEventArchitecture
                 }
                 catch { /* некоторые сборки могут выбрасывать ошибки */ }
             }
+
+            // Собираем имена актуальных модулей
+            var actualNames = new HashSet<string>(moduleTypes.ConvertAll(type => type.Name));
+
+            // Удаляем устаревшие модули
+            ModuleTagPairs.RemoveAll(pair => !actualNames.Contains(pair.ModuleReference));
 
             // Собираем имена уже добавленных модулей
             var existingNames = new HashSet<string>(ModuleTagPairs.ConvertAll(pair => pair.ModuleReference));
