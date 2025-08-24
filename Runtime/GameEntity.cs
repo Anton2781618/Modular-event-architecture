@@ -102,42 +102,43 @@ namespace ModularEventArchitecture
 
         //публикация --------------------------------------------------------
 
-
         // Вызов глобального события
         public TResponse PublishGlobalEvent<TRequest, TResponse>(IEventType eventType, TRequest request)
         where TRequest : IEventData where TResponse : IEventData
         {
             TResponse callback = default;
-            GlobalEventBus.Instance.PublishRequest<TRequest, TResponse>(eventType, request).Subscribe(response =>
+            Observable.NextFrame().Subscribe(_ =>
             {
-                // Обработка ответа
-                callback = response;
+                GlobalEventBus.Instance.PublishRequest<TRequest, TResponse>(eventType, request).Subscribe(response =>
+                {
+                    callback = response;
+                });
             });
-
-            return callback;           
+            return callback;
         }
         // Вызов глобального события
         public void PublishGlobalEvent<T>(IEventType eventType, T data) where T : IEventData
         {
-            GlobalEventBus.Instance.Publish(eventType, data);
+            Observable.NextFrame().Subscribe(_ => GlobalEventBus.Instance.Publish(eventType, data));
         }
 
         // Вызов локального события
         public void PublishLocalEvent<T>(IEventType eventType, T data) where T : IEventData
         {
-            LocalEvents.Publish(eventType, data);
+            Observable.NextFrame().Subscribe(_ => LocalEvents.Publish(eventType, data));
         }
 
         public TResponse PublishLocalEvent<TRequest, TResponse>(IEventType eventType, TRequest request)
         where TRequest : IEventData where TResponse : IEventData
         {
             TResponse callback = default;
-            LocalEvents.PublishRequest<TRequest, TResponse>(eventType, request).Subscribe(response =>
+            Observable.NextFrame().Subscribe(_ =>
             {
-                // Обработка ответа
-                callback = response;
+                LocalEvents.PublishRequest<TRequest, TResponse>(eventType, request).Subscribe(response =>
+                {
+                    callback = response;
+                });
             });
-
             return callback;
         }
 
