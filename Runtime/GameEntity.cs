@@ -107,38 +107,35 @@ namespace ModularEventArchitecture
         where TRequest : IEventData where TResponse : IEventData
         {
             TResponse callback = default;
-            Observable.NextFrame().Subscribe(_ =>
+            
+            GlobalEventBus.Instance.PublishRequest<TRequest, TResponse>(eventType, request).Subscribe(response =>
             {
-                GlobalEventBus.Instance.PublishRequest<TRequest, TResponse>(eventType, request).Subscribe(response =>
-                {
-                    callback = response;
-                });
+                callback = response;
             });
+
             return callback;
         }
         // Вызов глобального события
         public void PublishGlobalEvent<T>(IEventType eventType, T data) where T : IEventData
         {
-            Observable.NextFrame().Subscribe(_ => GlobalEventBus.Instance.Publish(eventType, data));
+            GlobalEventBus.Instance.Publish(eventType, data);
         }
 
         // Вызов локального события
         public void PublishLocalEvent<T>(IEventType eventType, T data) where T : IEventData
         {
-            Observable.NextFrame().Subscribe(_ => LocalEvents.Publish(eventType, data));
+            LocalEvents.Publish(eventType, data);
         }
 
         public TResponse PublishLocalEvent<TRequest, TResponse>(IEventType eventType, TRequest request)
         where TRequest : IEventData where TResponse : IEventData
         {
             TResponse callback = default;
-            Observable.NextFrame().Subscribe(_ =>
+            LocalEvents.PublishRequest<TRequest, TResponse>(eventType, request).Subscribe(response =>
             {
-                LocalEvents.PublishRequest<TRequest, TResponse>(eventType, request).Subscribe(response =>
-                {
-                    callback = response;
-                });
+                callback = response;
             });
+
             return callback;
         }
 
